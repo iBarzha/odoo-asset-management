@@ -1,0 +1,287 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data noupdate="1">
+
+        <!-- Asset Assignment Notification Email Template -->
+        <record id="email_template_asset_assignment" model="mail.template">
+            <field name="name">Asset Assignment Notification</field>
+            <field name="model_id" ref="model_it_asset_assignment"/>
+            <field name="subject">Asset Assigned: {{ object.asset_id.name }}</field>
+            <field name="email_from">{{ (object.assigned_by_id.email_formatted or user.email_formatted) }}</field>
+            <field name="email_to">{{ object.user_id.email_formatted }}</field>
+            <field name="body_html" type="html">
+                <div style="margin: 0px; padding: 0px;">
+                    <p>Dear {{ object.user_id.name }},</p>
+
+                    <p>The following IT asset has been assigned to you:</p>
+
+                    <table border="1" cellpadding="5" cellspacing="0" style="border-collapse: collapse; width: 100%;">
+                        <tr>
+                            <td><strong>Asset Name:</strong></td>
+                            <td>{{ object.asset_id.name }}</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Asset Code:</strong></td>
+                            <td>{{ object.asset_id.code }}</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Category:</strong></td>
+                            <td>{{ object.asset_id.category_id.name }}</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Brand/Model:</strong></td>
+                            <td>{{ object.asset_id.brand }} {{ object.asset_id.model }}</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Serial Number:</strong></td>
+                            <td>{{ object.asset_id.serial_number or 'N/A' }}</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Assignment Date:</strong></td>
+                            <td>{{ object.assignment_date.strftime('%Y-%m-%d %H:%M') if object.assignment_date else 'N/A' }}</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Expected Return Date:</strong></td>
+                            <td>{{ object.expected_return_date.strftime('%Y-%m-%d') if object.expected_return_date else 'Not specified' }}</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Assigned By:</strong></td>
+                            <td>{{ object.assigned_by_id.name }}</td>
+                        </tr>
+                    </table>
+
+                    {% if object.assignment_reason %}
+                    <p><strong>Assignment Reason:</strong><br/>
+                    {{ object.assignment_reason }}</p>
+                    {% endif %}
+
+                    {% if object.assignment_notes %}
+                    <p><strong>Notes:</strong><br/>
+                    {{ object.assignment_notes }}</p>
+                    {% endif %}
+
+                    <p><strong>Important:</strong></p>
+                    <ul>
+                        <li>Please take care of this asset and report any issues immediately</li>
+                        <li>Do not share, lend, or transfer this asset to others without authorization</li>
+                        <li>Return the asset in good condition when requested</li>
+                        <li>Contact IT support for any technical issues</li>
+                    </ul>
+
+                    <p>You can view your assigned assets and submit requests through the employee portal.</p>
+
+                    <p>Best regards,<br/>
+                    IT Asset Management Team</p>
+                </div>
+            </field>
+        </record>
+
+        <!-- Asset Return Notification Email Template -->
+        <record id="email_template_asset_return" model="mail.template">
+            <field name="name">Asset Return Confirmation</field>
+            <field name="model_id" ref="model_it_asset_assignment"/>
+            <field name="subject">Asset Returned: {{ object.asset_id.name }}</field>
+            <field name="email_from">{{ (object.returned_by_id.email_formatted or user.email_formatted) }}</field>
+            <field name="email_to">{{ object.user_id.email_formatted }}</field>
+            <field name="body_html" type="html">
+                <div style="margin: 0px; padding: 0px;">
+                    <p>Dear {{ object.user_id.name }},</p>
+
+                    <p>This email confirms that the following IT asset has been returned:</p>
+
+                    <table border="1" cellpadding="5" cellspacing="0" style="border-collapse: collapse; width: 100%;">
+                        <tr>
+                            <td><strong>Asset Name:</strong></td>
+                            <td>{{ object.asset_id.name }}</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Asset Code:</strong></td>
+                            <td>{{ object.asset_id.code }}</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Assignment Date:</strong></td>
+                            <td>{{ object.assignment_date.strftime('%Y-%m-%d') if object.assignment_date else 'N/A' }}</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Return Date:</strong></td>
+                            <td>{{ object.return_date.strftime('%Y-%m-%d %H:%M') if object.return_date else 'N/A' }}</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Condition on Return:</strong></td>
+                            <td>{{ dict(object._fields['condition_on_return'].selection)[object.condition_on_return] if object.condition_on_return else 'Not specified' }}</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Processed By:</strong></td>
+                            <td>{{ object.returned_by_id.name if object.returned_by_id else 'N/A' }}</td>
+                        </tr>
+                    </table>
+
+                    {% if object.return_reason %}
+                    <p><strong>Return Reason:</strong><br/>
+                    {{ object.return_reason }}</p>
+                    {% endif %}
+
+                    {% if object.return_notes %}
+                    <p><strong>Return Notes:</strong><br/>
+                    {{ object.return_notes }}</p>
+                    {% endif %}
+
+                    <p>Thank you for taking good care of the asset during the assignment period.</p>
+
+                    <p>Best regards,<br/>
+                    IT Asset Management Team</p>
+                </div>
+            </field>
+        </record>
+
+        <!-- Request Approval Notification Email Template -->
+        <record id="email_template_request_approval" model="mail.template">
+            <field name="name">Request Approval Notification</field>
+            <field name="model_id" ref="model_it_asset_request"/>
+            <field name="subject">Request Approved: {{ object.name }}</field>
+            <field name="email_from">{{ (object.approver_id.email_formatted or user.email_formatted) }}</field>
+            <field name="email_to">{{ object.user_id.email_formatted }}</field>
+            <field name="body_html" type="html">
+                <div style="margin: 0px; padding: 0px;">
+                    <p>Dear {{ object.user_id.name }},</p>
+
+                    <p>Your asset request has been <strong>approved</strong>!</p>
+
+                    <table border="1" cellpadding="5" cellspacing="0" style="border-collapse: collapse; width: 100%;">
+                        <tr>
+                            <td><strong>Request Number:</strong></td>
+                            <td>{{ object.name }}</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Request Type:</strong></td>
+                            <td>{{ dict(object._fields['request_type'].selection)[object.request_type] }}</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Approval Date:</strong></td>
+                            <td>{{ object.approval_date.strftime('%Y-%m-%d %H:%M') if object.approval_date else 'N/A' }}</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Approved By:</strong></td>
+                            <td>{{ object.approver_id.name if object.approver_id else 'N/A' }}</td>
+                        </tr>
+                        {% if object.assigned_to_id %}
+                        <tr>
+                            <td><strong>Assigned To:</strong></td>
+                            <td>{{ object.assigned_to_id.name }}</td>
+                        </tr>
+                        {% endif %}
+                        {% if object.deadline %}
+                        <tr>
+                            <td><strong>Target Completion:</strong></td>
+                            <td>{{ object.deadline.strftime('%Y-%m-%d') }}</td>
+                        </tr>
+                        {% endif %}
+                    </table>
+
+                    {% if object.approval_notes %}
+                    <p><strong>Approval Notes:</strong><br/>
+                    {{ object.approval_notes }}</p>
+                    {% endif %}
+
+                    <p>Your request is now in progress. You will be notified when it's completed.</p>
+
+                    <p>You can track the status of your request through the employee portal.</p>
+
+                    <p>Best regards,<br/>
+                    IT Asset Management Team</p>
+                </div>
+            </field>
+        </record>
+
+        <!-- Request Rejection Notification Email Template -->
+        <record id="email_template_request_rejection" model="mail.template">
+            <field name="name">Request Rejection Notification</field>
+            <field name="model_id" ref="model_it_asset_request"/>
+            <field name="subject">Request Rejected: {{ object.name }}</field>
+            <field name="email_from">{{ (object.approver_id.email_formatted or user.email_formatted) }}</field>
+            <field name="email_to">{{ object.user_id.email_formatted }}</field>
+            <field name="body_html" type="html">
+                <div style="margin: 0px; padding: 0px;">
+                    <p>Dear {{ object.user_id.name }},</p>
+
+                    <p>Unfortunately, your asset request has been <strong>rejected</strong>.</p>
+
+                    <table border="1" cellpadding="5" cellspacing="0" style="border-collapse: collapse; width: 100%;">
+                        <tr>
+                            <td><strong>Request Number:</strong></td>
+                            <td>{{ object.name }}</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Request Type:</strong></td>
+                            <td>{{ dict(object._fields['request_type'].selection)[object.request_type] }}</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Rejection Date:</strong></td>
+                            <td>{{ fields.Datetime.now().strftime('%Y-%m-%d %H:%M') }}</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Reviewed By:</strong></td>
+                            <td>{{ object.approver_id.name if object.approver_id else user.name }}</td>
+                        </tr>
+                    </table>
+
+                    {% if object.rejection_reason %}
+                    <p><strong>Rejection Reason:</strong><br/>
+                    {{ object.rejection_reason }}</p>
+                    {% endif %}
+
+                    <p>If you have questions about this decision or would like to submit a revised request, please contact the IT Asset Management team.</p>
+
+                    <p>Best regards,<br/>
+                    IT Asset Management Team</p>
+                </div>
+            </field>
+        </record>
+
+        <!-- Request Completion Notification Email Template -->
+        <record id="email_template_request_completion" model="mail.template">
+            <field name="name">Request Completion Notification</field>
+            <field name="model_id" ref="model_it_asset_request"/>
+            <field name="subject">Request Completed: {{ object.name }}</field>
+            <field name="email_from">{{ (object.assigned_to_id.email_formatted or user.email_formatted) }}</field>
+            <field name="email_to">{{ object.user_id.email_formatted }}</field>
+            <field name="body_html" type="html">
+                <div style="margin: 0px; padding: 0px;">
+                    <p>Dear {{ object.user_id.name }},</p>
+
+                    <p>Your asset request has been <strong>completed</strong>!</p>
+
+                    <table border="1" cellpadding="5" cellspacing="0" style="border-collapse: collapse; width: 100%;">
+                        <tr>
+                            <td><strong>Request Number:</strong></td>
+                            <td>{{ object.name }}</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Request Type:</strong></td>
+                            <td>{{ dict(object._fields['request_type'].selection)[object.request_type] }}</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Completion Date:</strong></td>
+                            <td>{{ object.completion_date.strftime('%Y-%m-%d %H:%M') if object.completion_date else 'N/A' }}</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Completed By:</strong></td>
+                            <td>{{ object.assigned_to_id.name if object.assigned_to_id else 'N/A' }}</td>
+                        </tr>
+                    </table>
+
+                    {% if object.completion_notes %}
+                    <p><strong>Completion Notes:</strong><br/>
+                    {{ object.completion_notes }}</p>
+                    {% endif %}
+
+                    <p>Thank you for using the IT Asset Management system. If you have any questions or feedback, please don't hesitate to contact us.</p>
+
+                    <p>Best regards,<br/>
+                    IT Asset Management Team</p>
+                </div>
+            </field>
+        </record>
+
+    </data>
+</odoo>

@@ -1,0 +1,1217 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+
+        <!-- Portal Layout Modifications -->
+        <template id="portal_layout" name="Portal layout: IT Assets menu" inherit_id="portal.portal_breadcrumbs" priority="40">
+            <xpath expr="//ol[hasclass('o_portal_submenu')]" position="inside">
+                <li t-if="page_name == 'asset'" t-attf-class="breadcrumb-item #{'active ' if not assignment else ''}">
+                    <a t-if="assignment" t-attf-href="/my/assets?{{ keep_query() }}">My IT Assets</a>
+                    <t t-else="">My IT Assets</t>
+                </li>
+                <li t-if="page_name == 'request'" t-attf-class="breadcrumb-item #{'active ' if not request else ''}">
+                    <a t-if="request" t-attf-href="/my/requests?{{ keep_query() }}">My Requests</a>
+                    <t t-else="">My Requests</t>
+                </li>
+                <li t-if="page_name == 'new_request'" class="breadcrumb-item active">
+                    New Request
+                </li>
+                <li t-if="page_name == 'scanner'" class="breadcrumb-item active">
+                    QR/Barcode Scanner
+                </li>
+                <li t-if="page_name == 'asset_info'" class="breadcrumb-item active">
+                    Asset Information
+                </li>
+                <li t-if="assignment and page_name == 'asset'" class="breadcrumb-item active">
+                    <t t-esc="assignment.asset_id.name"/>
+                </li>
+                <li t-if="request and page_name == 'request'" class="breadcrumb-item active">
+                    <t t-esc="request.name"/>
+                </li>
+            </xpath>
+        </template>
+
+        <!-- Portal Home Page Integration -->
+        <template id="portal_my_home_assets" name="Portal My Home: IT Assets" inherit_id="portal.portal_my_home" priority="40">
+            <xpath expr="//div[hasclass('o_portal_docs')]" position="inside">
+                <t t-call="portal.portal_docs_entry">
+                    <t t-set="title">IT Assets</t>
+                    <t t-set="url" t-value="'/my/assets'"/>
+                    <t t-set="placeholder_count" t-value="'asset_count'"/>
+                </t>
+                <t t-call="portal.portal_docs_entry">
+                    <t t-set="title">My Requests</t>
+                    <t t-set="url" t-value="'/my/requests'"/>
+                    <t t-set="placeholder_count" t-value="'request_count'"/>
+                </t>
+                <t t-call="portal.portal_docs_entry">
+                    <t t-set="title">QR/Barcode Scanner</t>
+                    <t t-set="url" t-value="'/my/scanner'"/>
+                    <t t-set="placeholder_count" t-value="''"/>
+                </t>
+            </xpath>
+        </template>
+
+        <!-- My Assets List Template -->
+        <template id="portal_my_assets" name="My Assets">
+            <t t-call="portal.portal_layout">
+                <t t-set="breadcrumbs_searchbar" t-value="True"/>
+
+                <t t-call="portal.portal_searchbar">
+                    <t t-set="title">My IT Assets</t>
+                </t>
+
+                <t t-if="not assignments">
+                    <div class="alert alert-info text-center" role="alert">
+                        <h4>No Assets Assigned</h4>
+                        <p>You don't have any IT assets assigned to you currently.</p>
+                        <a href="/my/request/new" class="btn btn-primary">
+                            <i class="fa fa-plus" title="Add"></i> Request an Asset
+                        </a>
+                    </div>
+                </t>
+
+                <t t-if="assignments" t-call="portal.portal_table">
+                    <thead>
+                        <tr class="active">
+                            <th class="text-start">Asset</th>
+                            <th class="text-center">Category</th>
+                            <th class="text-center">Brand/Model</th>
+                            <th class="text-center">Assignment Date</th>
+                            <th class="text-center">Expected Return</th>
+                            <th class="text-center">Status</th>
+                            <th class="text-center">Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr t-foreach="assignments" t-as="assignment">
+                            <td class="text-start">
+                                <a t-attf-href="/my/asset/{{ assignment.id }}{{ '?access_token=%s' % assignment.access_token if assignment.access_token else '' }}">
+                                    <strong t-field="assignment.asset_id.name"/>
+                                </a>
+                                <br/>
+                                <small class="text-muted" t-field="assignment.asset_id.code"/>
+                                <t t-if="assignment.asset_id.serial_number">
+                                    <br/>
+                                    <small class="text-muted">SN: <t t-field="assignment.asset_id.serial_number"/></small>
+                                </t>
+                            </td>
+                            <td class="text-center">
+                                <span t-field="assignment.asset_id.category_id.name"/>
+                            </td>
+                            <td class="text-center">
+                                <t t-if="assignment.asset_id.brand or assignment.asset_id.model">
+                                    <t t-field="assignment.asset_id.brand"/>
+                                    <t t-if="assignment.asset_id.brand and assignment.asset_id.model"> </t>
+                                    <t t-field="assignment.asset_id.model"/>
+                                </t>
+                                <t t-else="">
+                                    <span class="text-muted">-</span>
+                                </t>
+                            </td>
+                            <td class="text-center">
+                                <span t-field="assignment.assignment_date" t-options='{"widget": "date"}'/>
+                            </td>
+                            <td class="text-center">
+                                <t t-if="assignment.expected_return_date">
+                                    <span t-field="assignment.expected_return_date" t-options='{"widget": "date"}'
+                                          t-attf-class="#{assignment.is_overdue and 'text-danger fw-bold' or ''}"/>
+                                    <t t-if="assignment.is_overdue">
+                                        <br/><small class="badge text-bg-danger">Overdue</small>
+                                    </t>
+                                </t>
+                                <t t-else="">
+                                    <span class="text-muted">Not specified</span>
+                                </t>
+                            </td>
+                            <td class="text-center">
+                                <t t-if="assignment.state == 'active'">
+                                    <span class="badge text-bg-success">Active</span>
+                                </t>
+                                <t t-elif="assignment.state == 'returned'">
+                                    <span class="badge text-bg-info">Returned</span>
+                                </t>
+                                <t t-elif="assignment.state == 'lost'">
+                                    <span class="badge text-bg-danger">Lost</span>
+                                </t>
+                                <t t-elif="assignment.state == 'damaged'">
+                                    <span class="badge text-bg-warning">Damaged</span>
+                                </t>
+                            </td>
+                            <td class="text-center">
+                                <div class="btn-group" role="group">
+                                    <a t-attf-href="/my/asset/{{ assignment.id }}" class="btn btn-sm btn-outline-primary">
+                                        <i class="fa fa-eye"/> View
+                                    </a>
+                                    <a href="/my/request/new?asset_id={{ assignment.asset_id.id }}&amp;request_type=repair"
+                                       class="btn btn-sm btn-outline-warning">
+                                        <i class="fa fa-wrench"/> Report Issue
+                                    </a>
+                                </div>
+                            </td>
+                        </tr>
+                    </tbody>
+                </t>
+            </t>
+        </template>
+
+        <!-- Asset Detail Template -->
+        <template id="portal_my_asset_detail" name="My Asset Detail">
+            <t t-call="portal.portal_layout">
+                <div class="row">
+                    <div class="col-12">
+                        <div class="card">
+                            <div class="card-header">
+                                <div class="row align-items-center">
+                                    <div class="col-8">
+                                        <h4 class="mb-0">
+                                            <t t-field="assignment.asset_id.name"/>
+                                        </h4>
+                                        <small class="text-muted">
+                                            Asset Code: <t t-field="assignment.asset_id.code"/>
+                                        </small>
+                                    </div>
+                                    <div class="col-4 text-end">
+                                        <t t-if="assignment.state == 'active'">
+                                            <span class="badge text-bg-success fs-6">Active Assignment</span>
+                                        </t>
+                                        <t t-else="">
+                                            <span class="badge text-bg-secondary fs-6" t-field="assignment.state"/>
+                                        </t>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="card-body">
+                                <div class="row">
+                                    <!-- Asset Information -->
+                                    <div class="col-lg-6">
+                                        <h5>Asset Information</h5>
+                                        <table class="table table-sm">
+                                            <tr>
+                                                <td><strong>Category:</strong></td>
+                                                <td t-field="assignment.asset_id.category_id.name"/>
+                                            </tr>
+                                            <tr t-if="assignment.asset_id.brand">
+                                                <td><strong>Brand:</strong></td>
+                                                <td t-field="assignment.asset_id.brand"/>
+                                            </tr>
+                                            <tr t-if="assignment.asset_id.model">
+                                                <td><strong>Model:</strong></td>
+                                                <td t-field="assignment.asset_id.model"/>
+                                            </tr>
+                                            <tr t-if="assignment.asset_id.serial_number">
+                                                <td><strong>Serial Number:</strong></td>
+                                                <td t-field="assignment.asset_id.serial_number"/>
+                                            </tr>
+                                            <tr t-if="assignment.asset_id.location">
+                                                <td><strong>Location:</strong></td>
+                                                <td t-field="assignment.asset_id.location"/>
+                                            </tr>
+                                        </table>
+                                    </div>
+
+                                    <!-- Assignment Information -->
+                                    <div class="col-lg-6">
+                                        <h5>Assignment Details</h5>
+                                        <table class="table table-sm">
+                                            <tr>
+                                                <td><strong>Assignment Date:</strong></td>
+                                                <td t-field="assignment.assignment_date" t-options='{"widget": "datetime"}'/>
+                                            </tr>
+                                            <tr t-if="assignment.expected_return_date">
+                                                <td><strong>Expected Return:</strong></td>
+                                                <td>
+                                                    <span t-field="assignment.expected_return_date" t-options='{"widget": "date"}'
+                                                          t-attf-class="#{assignment.is_overdue and 'text-danger fw-bold' or ''}"/>
+                                                    <t t-if="assignment.is_overdue">
+                                                        <span class="badge text-bg-danger ms-2">Overdue</span>
+                                                    </t>
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td><strong>Assigned By:</strong></td>
+                                                <td t-field="assignment.assigned_by_id.name"/>
+                                            </tr>
+                                            <tr>
+                                                <td><strong>Condition on Assignment:</strong></td>
+                                                <td>
+                                                    <span class="badge text-bg-info" t-field="assignment.condition_on_assignment"/>
+                                                </td>
+                                            </tr>
+                                            <tr t-if="assignment.assignment_reason">
+                                                <td><strong>Assignment Reason:</strong></td>
+                                                <td t-field="assignment.assignment_reason"/>
+                                            </tr>
+                                        </table>
+                                    </div>
+                                </div>
+
+                                <!-- Technical Specifications -->
+                                <t t-if="assignment.asset_id.specifications or assignment.asset_id.operating_system or assignment.asset_id.processor">
+                                    <div class="row mt-4">
+                                        <div class="col-12">
+                                            <h5>Technical Specifications</h5>
+                                            <table class="table table-sm">
+                                                <tr t-if="assignment.asset_id.operating_system">
+                                                    <td><strong>Operating System:</strong></td>
+                                                    <td t-field="assignment.asset_id.operating_system"/>
+                                                </tr>
+                                                <tr t-if="assignment.asset_id.processor">
+                                                    <td><strong>Processor:</strong></td>
+                                                    <td t-field="assignment.asset_id.processor"/>
+                                                </tr>
+                                                <tr t-if="assignment.asset_id.memory_ram">
+                                                    <td><strong>RAM:</strong></td>
+                                                    <td t-field="assignment.asset_id.memory_ram"/>
+                                                </tr>
+                                                <tr t-if="assignment.asset_id.storage">
+                                                    <td><strong>Storage:</strong></td>
+                                                    <td t-field="assignment.asset_id.storage"/>
+                                                </tr>
+                                                <tr t-if="assignment.asset_id.network_name">
+                                                    <td><strong>Network Name:</strong></td>
+                                                    <td t-field="assignment.asset_id.network_name"/>
+                                                </tr>
+                                                <tr t-if="assignment.asset_id.ip_address">
+                                                    <td><strong>IP Address:</strong></td>
+                                                    <td t-field="assignment.asset_id.ip_address"/>
+                                                </tr>
+                                            </table>
+                                        </div>
+                                    </div>
+                                </t>
+
+                                <!-- Detailed Specifications -->
+                                <t t-if="assignment.asset_id.specifications">
+                                    <div class="row mt-4">
+                                        <div class="col-12">
+                                            <h5>Detailed Specifications</h5>
+                                            <div class="border p-3 bg-light">
+                                                <t t-field="assignment.asset_id.specifications"/>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </t>
+
+                                <!-- Quick Actions -->
+                                <div class="row mt-4">
+                                    <div class="col-12">
+                                        <h5>Quick Actions</h5>
+                                        <div class="btn-group" role="group">
+                                            <a t-attf-href="/my/request/new?asset_id={{ assignment.asset_id.id }}&amp;request_type=repair"
+                                               class="btn btn-warning">
+                                                <i class="fa fa-wrench"/> Report Issue
+                                            </a>
+                                            <a t-attf-href="/my/request/new?asset_id={{ assignment.asset_id.id }}&amp;request_type=replacement"
+                                               class="btn btn-info">
+                                                <i class="fa fa-exchange"/> Request Replacement
+                                            </a>
+                                            <a href="/my/request/new" class="btn btn-primary">
+                                                <i class="fa fa-plus"/> New Request
+                                            </a>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </t>
+        </template>
+
+        <!-- My Requests List Template -->
+        <template id="portal_my_requests" name="My Requests">
+            <t t-call="portal.portal_layout">
+                <t t-set="breadcrumbs_searchbar" t-value="True"/>
+
+                <t t-call="portal.portal_searchbar">
+                    <t t-set="title">My Requests</t>
+                </t>
+
+                <div class="row mb-3">
+                    <div class="col-12 text-end">
+                        <a href="/my/request/new" class="btn btn-primary">
+                            <i class="fa fa-plus"/> New Request
+                        </a>
+                    </div>
+                </div>
+
+                <t t-if="not requests">
+                    <div class="alert alert-info text-center" role="alert">
+                        <h4>No Requests Found</h4>
+                        <p>You haven't submitted any asset requests yet.</p>
+                        <a href="/my/request/new" class="btn btn-primary">
+                            <i class="fa fa-plus"/> Submit Your First Request
+                        </a>
+                    </div>
+                </t>
+
+                <t t-if="requests" t-call="portal.portal_table">
+                    <thead>
+                        <tr class="active">
+                            <th class="text-start">Request #</th>
+                            <th class="text-center">Type</th>
+                            <th class="text-center">Priority</th>
+                            <th class="text-center">Status</th>
+                            <th class="text-center">Request Date</th>
+                            <th class="text-center">Required By</th>
+                            <th class="text-center">Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr t-foreach="requests" t-as="request">
+                            <td class="text-start">
+                                <a t-attf-href="/my/request/{{ request.id }}{{ '?access_token=%s' % request.access_token if request.access_token else '' }}">
+                                    <strong t-field="request.name"/>
+                                </a>
+                                <t t-if="request.asset_id">
+                                    <br/>
+                                    <small class="text-muted">Asset: <t t-field="request.asset_id.name"/></small>
+                                </t>
+                            </td>
+                            <td class="text-center">
+                                <span class="badge text-bg-secondary" t-field="request.request_type"/>
+                            </td>
+                            <td class="text-center">
+                                <t t-if="request.priority == 'urgent'">
+                                    <span class="badge text-bg-danger">Urgent</span>
+                                </t>
+                                <t t-elif="request.priority == 'high'">
+                                    <span class="badge text-bg-warning">High</span>
+                                </t>
+                                <t t-elif="request.priority == 'medium'">
+                                    <span class="badge text-bg-info">Medium</span>
+                                </t>
+                                <t t-else="">
+                                    <span class="badge text-bg-secondary">Low</span>
+                                </t>
+                            </td>
+                            <td class="text-center">
+                                <t t-if="request.state == 'draft'">
+                                    <span class="badge text-bg-secondary">Draft</span>
+                                </t>
+                                <t t-elif="request.state == 'submitted'">
+                                    <span class="badge text-bg-primary">Submitted</span>
+                                </t>
+                                <t t-elif="request.state == 'under_review'">
+                                    <span class="badge text-bg-info">Under Review</span>
+                                </t>
+                                <t t-elif="request.state == 'approved'">
+                                    <span class="badge text-bg-success">Approved</span>
+                                </t>
+                                <t t-elif="request.state == 'in_progress'">
+                                    <span class="badge text-bg-warning">In Progress</span>
+                                </t>
+                                <t t-elif="request.state == 'completed'">
+                                    <span class="badge text-bg-success">Completed</span>
+                                </t>
+                                <t t-elif="request.state == 'rejected'">
+                                    <span class="badge text-bg-danger">Rejected</span>
+                                </t>
+                                <t t-elif="request.state == 'cancelled'">
+                                    <span class="badge text-bg-dark">Cancelled</span>
+                                </t>
+                            </td>
+                            <td class="text-center">
+                                <span t-field="request.request_date" t-options='{"widget": "date"}'/>
+                            </td>
+                            <td class="text-center">
+                                <t t-if="request.required_date">
+                                    <span t-field="request.required_date" t-options='{"widget": "date"}'
+                                          t-attf-class="#{request.is_overdue and 'text-danger fw-bold' or ''}"/>
+                                    <t t-if="request.is_overdue">
+                                        <br/><small class="badge text-bg-danger">Overdue</small>
+                                    </t>
+                                </t>
+                                <t t-else="">
+                                    <span class="text-muted">Not specified</span>
+                                </t>
+                            </td>
+                            <td class="text-center">
+                                <div class="btn-group" role="group">
+                                    <a t-attf-href="/my/request/{{ request.id }}" class="btn btn-sm btn-outline-primary">
+                                        <i class="fa fa-eye"/> View
+                                    </a>
+                                    <t t-if="request.state in ['draft', 'submitted', 'under_review']">
+                                        <form method="post" t-attf-action="/my/request/{{ request.id }}/cancel" class="d-inline">
+                                            <input type="hidden" name="csrf_token" t-att-value="request.csrf_token()"/>
+                                            <button type="submit" class="btn btn-sm btn-outline-danger"
+                                                    onclick="return confirm('Are you sure you want to cancel this request?')">
+                                                <i class="fa fa-times"/> Cancel
+                                            </button>
+                                        </form>
+                                    </t>
+                                </div>
+                            </td>
+                        </tr>
+                    </tbody>
+                </t>
+            </t>
+        </template>
+
+        <!-- Request Detail Template -->
+        <template id="portal_my_request_detail" name="My Request Detail">
+            <t t-call="portal.portal_layout">
+                <div class="row">
+                    <div class="col-12">
+                        <div class="card">
+                            <div class="card-header">
+                                <div class="row align-items-center">
+                                    <div class="col-8">
+                                        <h4 class="mb-0">
+                                            <t t-field="request.name"/>
+                                        </h4>
+                                        <small class="text-muted">
+                                            Request Type: <t t-field="request.request_type"/>
+                                        </small>
+                                    </div>
+                                    <div class="col-4 text-end">
+                                        <t t-if="request.state == 'submitted'">
+                                            <span class="badge text-bg-primary fs-6">Submitted</span>
+                                        </t>
+                                        <t t-elif="request.state == 'approved'">
+                                            <span class="badge text-bg-success fs-6">Approved</span>
+                                        </t>
+                                        <t t-elif="request.state == 'in_progress'">
+                                            <span class="badge text-bg-warning fs-6">In Progress</span>
+                                        </t>
+                                        <t t-elif="request.state == 'completed'">
+                                            <span class="badge text-bg-success fs-6">Completed</span>
+                                        </t>
+                                        <t t-elif="request.state == 'rejected'">
+                                            <span class="badge text-bg-danger fs-6">Rejected</span>
+                                        </t>
+                                        <t t-else="">
+                                            <span class="badge text-bg-secondary fs-6" t-field="request.state"/>
+                                        </t>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="card-body">
+                                <div class="row">
+                                    <!-- Request Information -->
+                                    <div class="col-lg-6">
+                                        <h5>Request Information</h5>
+                                        <table class="table table-sm">
+                                            <tr>
+                                                <td><strong>Request Type:</strong></td>
+                                                <td t-field="request.request_type"/>
+                                            </tr>
+                                            <tr>
+                                                <td><strong>Priority:</strong></td>
+                                                <td>
+                                                    <t t-if="request.priority == 'urgent'">
+                                                        <span class="badge text-bg-danger">Urgent</span>
+                                                    </t>
+                                                    <t t-elif="request.priority == 'high'">
+                                                        <span class="badge text-bg-warning">High</span>
+                                                    </t>
+                                                    <t t-elif="request.priority == 'medium'">
+                                                        <span class="badge text-bg-info">Medium</span>
+                                                    </t>
+                                                    <t t-else="">
+                                                        <span class="badge text-bg-secondary">Low</span>
+                                                    </t>
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td><strong>Request Date:</strong></td>
+                                                <td t-field="request.request_date" t-options='{"widget": "datetime"}'/>
+                                            </tr>
+                                            <tr t-if="request.required_date">
+                                                <td><strong>Required By:</strong></td>
+                                                <td>
+                                                    <span t-field="request.required_date" t-options='{"widget": "date"}'
+                                                          t-attf-class="#{request.is_overdue and 'text-danger fw-bold' or ''}"/>
+                                                    <t t-if="request.is_overdue">
+                                                        <span class="badge text-bg-danger ms-2">Overdue</span>
+                                                    </t>
+                                                </td>
+                                            </tr>
+                                            <tr t-if="request.asset_id">
+                                                <td><strong>Related Asset:</strong></td>
+                                                <td t-field="request.asset_id.name"/>
+                                            </tr>
+                                            <tr t-if="request.category_id">
+                                                <td><strong>Category:</strong></td>
+                                                <td t-field="request.category_id.name"/>
+                                            </tr>
+                                        </table>
+                                    </div>
+
+                                    <!-- Status and Progress -->
+                                    <div class="col-lg-6">
+                                        <h5>Status &amp; Progress</h5>
+                                        <table class="table table-sm">
+                                            <tr>
+                                                <td><strong>Status:</strong></td>
+                                                <td t-field="request.state"/>
+                                            </tr>
+                                            <tr t-if="request.approver_id">
+                                                <td><strong>Approved By:</strong></td>
+                                                <td t-field="request.approver_id.name"/>
+                                            </tr>
+                                            <tr t-if="request.approval_date">
+                                                <td><strong>Approval Date:</strong></td>
+                                                <td t-field="request.approval_date" t-options='{"widget": "datetime"}'/>
+                                            </tr>
+                                            <tr t-if="request.assigned_to_id">
+                                                <td><strong>Assigned To:</strong></td>
+                                                <td t-field="request.assigned_to_id.name"/>
+                                            </tr>
+                                            <tr t-if="request.completion_date">
+                                                <td><strong>Completion Date:</strong></td>
+                                                <td t-field="request.completion_date" t-options='{"widget": "datetime"}'/>
+                                            </tr>
+                                            <tr>
+                                                <td><strong>Days Open:</strong></td>
+                                                <td t-field="request.days_open"/>
+                                            </tr>
+                                        </table>
+                                    </div>
+                                </div>
+
+                                <!-- Description -->
+                                <div class="row mt-4">
+                                    <div class="col-12">
+                                        <h5>Description</h5>
+                                        <div class="border p-3 bg-light">
+                                            <t t-field="request.description"/>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <!-- Justification -->
+                                <t t-if="request.justification">
+                                    <div class="row mt-4">
+                                        <div class="col-12">
+                                            <h5>Business Justification</h5>
+                                            <div class="border p-3 bg-light">
+                                                <t t-field="request.justification"/>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </t>
+
+                                <!-- Technical Specifications -->
+                                <t t-if="request.specifications or request.preferred_brand or request.preferred_model">
+                                    <div class="row mt-4">
+                                        <div class="col-12">
+                                            <h5>Technical Specifications</h5>
+                                            <table class="table table-sm">
+                                                <tr t-if="request.preferred_brand">
+                                                    <td><strong>Preferred Brand:</strong></td>
+                                                    <td t-field="request.preferred_brand"/>
+                                                </tr>
+                                                <tr t-if="request.preferred_model">
+                                                    <td><strong>Preferred Model:</strong></td>
+                                                    <td t-field="request.preferred_model"/>
+                                                </tr>
+                                            </table>
+                                            <t t-if="request.specifications">
+                                                <div class="border p-3 bg-light">
+                                                    <t t-field="request.specifications"/>
+                                                </div>
+                                            </t>
+                                        </div>
+                                    </div>
+                                </t>
+
+                                <!-- Notes and Comments -->
+                                <t t-if="request.approval_notes or request.rejection_reason or request.completion_notes">
+                                    <div class="row mt-4">
+                                        <div class="col-12">
+                                            <h5>Notes &amp; Comments</h5>
+
+                                            <t t-if="request.approval_notes">
+                                                <div class="alert alert-success">
+                                                    <strong>Approval Notes:</strong>
+                                                    <div t-field="request.approval_notes"/>
+                                                </div>
+                                            </t>
+
+                                            <t t-if="request.rejection_reason">
+                                                <div class="alert alert-danger">
+                                                    <strong>Rejection Reason:</strong>
+                                                    <div t-field="request.rejection_reason"/>
+                                                </div>
+                                            </t>
+
+                                            <t t-if="request.completion_notes">
+                                                <div class="alert alert-info">
+                                                    <strong>Completion Notes:</strong>
+                                                    <div t-field="request.completion_notes"/>
+                                                </div>
+                                            </t>
+                                        </div>
+                                    </div>
+                                </t>
+
+                                <!-- Quick Actions -->
+                                <div class="row mt-4">
+                                    <div class="col-12">
+                                        <h5>Actions</h5>
+                                        <div class="btn-group" role="group">
+                                            <a href="/my/requests" class="btn btn-secondary">
+                                                <i class="fa fa-arrow-left"/> Back to Requests
+                                            </a>
+                                            <t t-if="request.state in ['draft', 'submitted', 'under_review']">
+                                                <form method="post" t-attf-action="/my/request/{{ request.id }}/cancel" class="d-inline">
+                                                    <input type="hidden" name="csrf_token" t-att-value="request.csrf_token()"/>
+                                                    <button type="submit" class="btn btn-danger"
+                                                            onclick="return confirm('Are you sure you want to cancel this request?')">
+                                                        <i class="fa fa-times"/> Cancel Request
+                                                    </button>
+                                                </form>
+                                            </t>
+                                            <a href="/my/request/new" class="btn btn-primary">
+                                                <i class="fa fa-plus"/> New Request
+                                            </a>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </t>
+        </template>
+
+        <!-- Create Request Template -->
+        <template id="portal_create_request" name="Create Request">
+            <t t-call="portal.portal_layout">
+                <div class="row">
+                    <div class="col-12">
+                        <div class="card">
+                            <div class="card-header">
+                                <h4 class="mb-0">
+                                    <i class="fa fa-plus text-primary me-2"/>
+                                    Submit New Request
+                                </h4>
+                            </div>
+                            <div class="card-body">
+                                <!-- Success/Error Messages -->
+                                <t t-if="error_message">
+                                    <div class="alert alert-danger" role="alert">
+                                        <strong>Error:</strong> <t t-esc="error_message"/>
+                                    </div>
+                                </t>
+
+                                <form method="POST" enctype="multipart/form-data" class="s_website_form">
+                                    <input type="hidden" name="csrf_token" t-att-value="request.csrf_token()"/>
+
+                                    <div class="row">
+                                        <div class="col-md-6 mb-3">
+                                            <label for="request_type" class="form-label">Request Type *</label>
+                                            <select name="request_type" id="request_type" class="form-select" required="required">
+                                                <option value="">Select Type</option>
+                                                <option t-foreach="request_types" t-as="req_type"
+                                                        t-att-value="req_type[0]"
+                                                        t-att-selected="form_data and form_data.get('request_type') == req_type[0] and 'selected' or None"
+                                                        t-esc="req_type[1]"/>
+                                            </select>
+                                        </div>
+
+                                        <div class="col-md-6 mb-3">
+                                            <label for="priority" class="form-label">Priority *</label>
+                                            <select name="priority" id="priority" class="form-select" required="required">
+                                                <option t-foreach="priorities" t-as="priority_opt"
+                                                        t-att-value="priority_opt[0]"
+                                                        t-att-selected="(form_data and form_data.get('priority') == priority_opt[0]) or (not form_data and priority_opt[0] == 'medium') and 'selected' or None"
+                                                        t-esc="priority_opt[1]"/>
+                                            </select>
+                                        </div>
+                                    </div>
+
+                                    <div class="row">
+                                        <div class="col-md-6 mb-3">
+                                            <label for="category_id" class="form-label">Asset Category</label>
+                                            <select name="category_id" id="category_id" class="form-select">
+                                                <option value="">Select Category</option>
+                                                <option t-foreach="categories" t-as="category"
+                                                        t-att-value="category.id"
+                                                        t-att-selected="form_data and str(form_data.get('category_id')) == str(category.id) and 'selected' or None"
+                                                        t-esc="category.name"/>
+                                            </select>
+                                        </div>
+
+                                        <div class="col-md-6 mb-3">
+                                            <label for="asset_id" class="form-label">Related Asset (for repairs/returns)</label>
+                                            <select name="asset_id" id="asset_id" class="form-select">
+                                                <option value="">Select Asset</option>
+                                                <option t-foreach="user_assets" t-as="asset"
+                                                        t-att-value="asset.id"
+                                                        t-att-selected="form_data and str(form_data.get('asset_id')) == str(asset.id) and 'selected' or None">
+                                                    <t t-esc="asset.name"/> (<t t-esc="asset.code"/>)
+                                                </option>
+                                            </select>
+                                        </div>
+                                    </div>
+
+                                    <div class="row">
+                                        <div class="col-md-6 mb-3">
+                                            <label for="required_date" class="form-label">Required By Date</label>
+                                            <input type="date" name="required_date" id="required_date"
+                                                   class="form-control"
+                                                   t-att-value="form_data and form_data.get('required_date') or ''"/>
+                                        </div>
+                                    </div>
+
+                                    <div class="mb-3">
+                                        <label for="description" class="form-label">Description *</label>
+                                        <textarea name="description" id="description" class="form-control" rows="4"
+                                                  required="required"
+                                                  placeholder="Describe your request in detail...">
+                                            <t t-if="form_data and form_data.get('description')" t-esc="form_data.get('description')"/>
+                                        </textarea>
+                                    </div>
+
+                                    <div class="mb-3">
+                                        <label for="justification" class="form-label">Business Justification</label>
+                                        <textarea name="justification" id="justification" class="form-control" rows="3"
+                                                  placeholder="Explain why this request is needed...">
+                                            <t t-if="form_data and form_data.get('justification')" t-esc="form_data.get('justification')"/>
+                                        </textarea>
+                                    </div>
+
+                                    <!-- Technical Specifications Section -->
+                                    <div id="specs_section" style="display: none;">
+                                        <h5>Technical Specifications</h5>
+                                        <div class="row">
+                                            <div class="col-md-6 mb-3">
+                                                <label for="preferred_brand" class="form-label">Preferred Brand</label>
+                                                <input type="text" name="preferred_brand" id="preferred_brand"
+                                                       class="form-control"
+                                                       t-att-value="form_data and form_data.get('preferred_brand') or ''"/>
+                                            </div>
+                                            <div class="col-md-6 mb-3">
+                                                <label for="preferred_model" class="form-label">Preferred Model</label>
+                                                <input type="text" name="preferred_model" id="preferred_model"
+                                                       class="form-control"
+                                                       t-att-value="form_data and form_data.get('preferred_model') or ''"/>
+                                            </div>
+                                        </div>
+                                        <div class="mb-3">
+                                            <label for="specifications" class="form-label">Detailed Specifications</label>
+                                            <textarea name="specifications" id="specifications" class="form-control" rows="3"
+                                                      placeholder="Specify technical requirements...">
+                                                <t t-if="form_data and form_data.get('specifications')" t-esc="form_data.get('specifications')"/>
+                                            </textarea>
+                                        </div>
+                                    </div>
+
+                                    <div class="mb-3">
+                                        <label for="attachments" class="form-label">Attachments</label>
+                                        <input type="file" name="attachments" id="attachments" class="form-control" multiple="multiple"/>
+                                        <small class="form-text text-muted">You can attach multiple files to support your request.</small>
+                                    </div>
+
+                                    <div class="row">
+                                        <div class="col-12">
+                                            <button type="submit" class="btn btn-primary">
+                                                <i class="fa fa-check"/> Submit Request
+                                            </button>
+                                            <a href="/my/requests" class="btn btn-secondary ms-2">
+                                                <i class="fa fa-times"/> Cancel
+                                            </a>
+                                        </div>
+                                    </div>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- JavaScript for dynamic form behavior -->
+                <script type="text/javascript">
+                    document.addEventListener('DOMContentLoaded', function() {
+                        const requestTypeSelect = document.getElementById('request_type');
+                        const specsSection = document.getElementById('specs_section');
+                        const assetSelect = document.getElementById('asset_id');
+                        const categorySelect = document.getElementById('category_id');
+
+                        function toggleSpecsSection() {
+                            const requestType = requestTypeSelect.value;
+                            if (requestType === 'new_asset' || requestType === 'replacement' || requestType === 'upgrade') {
+                                specsSection.style.display = 'block';
+                            } else {
+                                specsSection.style.display = 'none';
+                            }
+                        }
+
+                        function toggleAssetRequirement() {
+                            const requestType = requestTypeSelect.value;
+                            if (requestType === 'repair' || requestType === 'replacement' || requestType === 'return') {
+                                assetSelect.required = true;
+                                assetSelect.parentElement.querySelector('label').innerHTML = 'Related Asset *';
+                            } else {
+                                assetSelect.required = false;
+                                assetSelect.parentElement.querySelector('label').innerHTML = 'Related Asset (for repairs/returns)';
+                            }
+                        }
+
+                        requestTypeSelect.addEventListener('change', function() {
+                            toggleSpecsSection();
+                            toggleAssetRequirement();
+                        });
+
+                        // Initialize on page load
+                        toggleSpecsSection();
+                        toggleAssetRequirement();
+
+                        // Filter assets by category
+                        categorySelect.addEventListener('change', function() {
+                            const categoryId = this.value;
+                            if (categoryId) {
+                                // Here you could add AJAX call to filter assets by category
+                                // For now, we'll keep it simple
+                            }
+                        });
+                    });
+                </script>
+            </t>
+        </template>
+
+        <!-- QR/Barcode Scanner Template -->
+        <template id="portal_scanner" name="QR/Barcode Scanner">
+            <t t-call="portal.portal_layout">
+                <t t-set="breadcrumbs_searchbar" t-value="True"/>
+
+                <div class="container-fluid">
+                    <div class="row">
+                        <div class="col-lg-8 offset-lg-2">
+                            <div class="card">
+                                <div class="card-header">
+                                    <h3 class="card-title">
+                                        <i class="fa fa-qrcode"/> QR Code &amp; Barcode Scanner
+                                    </h3>
+                                </div>
+                                <div class="card-body">
+                                    <!-- Scanner Interface -->
+                                    <div id="scanner-container" class="text-center mb-4">
+                                        <div id="reader" style="width: 100%; max-width: 500px; margin: 0 auto;"></div>
+
+                                        <div class="mt-3">
+                                            <button id="start-scanner" class="btn btn-primary">
+                                                <i class="fa fa-camera"/> Start Scanner
+                                            </button>
+                                            <button id="stop-scanner" class="btn btn-secondary" style="display: none;">
+                                                <i class="fa fa-stop"/> Stop Scanner
+                                            </button>
+                                        </div>
+
+                                        <div class="mt-3">
+                                            <div class="form-group">
+                                                <label for="manual-input">Or enter code manually:</label>
+                                                <div class="input-group">
+                                                    <input type="text" id="manual-input" class="form-control"
+                                                           placeholder="Enter QR code data or barcode"/>
+                                                    <button id="manual-submit" class="btn btn-outline-primary">
+                                                        <i class="fa fa-search"/> Search
+                                                    </button>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <!-- Results Area -->
+                                    <div id="scan-results" style="display: none;">
+                                        <div class="card border-success">
+                                            <div class="card-header bg-success text-white">
+                                                <h5 class="mb-0">Asset Found</h5>
+                                            </div>
+                                            <div class="card-body" id="asset-info">
+                                                <!-- Asset info will be populated here -->
+                                            </div>
+                                            <div class="card-footer">
+                                                <button id="view-asset" class="btn btn-primary">
+                                                    <i class="fa fa-eye"/> View Asset Details
+                                                </button>
+                                                <button id="scan-another" class="btn btn-secondary">
+                                                    <i class="fa fa-qrcode"/> Scan Another
+                                                </button>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <!-- Error Area -->
+                                    <div id="scan-error" class="alert alert-danger" style="display: none;">
+                                        <i class="fa fa-exclamation-triangle"/>
+                                        <span id="error-message"></span>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- Instructions -->
+                            <div class="card mt-3">
+                                <div class="card-header">
+                                    <h5 class="card-title">Instructions</h5>
+                                </div>
+                                <div class="card-body">
+                                    <ul>
+                                        <li>Click "Start Scanner" to activate your camera</li>
+                                        <li>Point your camera at a QR code or barcode</li>
+                                        <li>The system will automatically detect and process the code</li>
+                                        <li>You can also manually enter code data in the text field</li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Include QR Code Scanner Library -->
+                <script src="https://unpkg.com/html5-qrcode@2.3.8/minified/html5-qrcode.min.js"></script>
+                <script>
+                    document.addEventListener('DOMContentLoaded', function() {
+                        let html5QrcodeScanner = null;
+
+                        const startButton = document.getElementById('start-scanner');
+                        const stopButton = document.getElementById('stop-scanner');
+                        const manualInput = document.getElementById('manual-input');
+                        const manualSubmit = document.getElementById('manual-submit');
+                        const resultsDiv = document.getElementById('scan-results');
+                        const errorDiv = document.getElementById('scan-error');
+
+                        function onScanSuccess(decodedText, decodedResult) {
+                            processScanData(decodedText);
+                        }
+
+                        function onScanFailure(error) {
+                            // Handle scan failure - usually too many to log
+                        }
+
+                        function processScanData(scanData) {
+                            fetch('/my/scan/api/process', {
+                                method: 'POST',
+                                headers: {
+                                    'Content-Type': 'application/json',
+                                    'X-Requested-With': 'XMLHttpRequest'
+                                },
+                                body: JSON.stringify({
+                                    params: {
+                                        scan_data: scanData,
+                                        scan_type: 'auto'
+                                    }
+                                })
+                            })
+                            .then(response => response.json())
+                            .then(data => {
+                                if (data.result.status === 'success') {
+                                    showAssetResult(data.result.asset, data.result.redirect_url);
+                                } else {
+                                    showError(data.result.message);
+                                }
+                            })
+                            .catch(error => {
+                                showError('Network error: ' + error.message);
+                            });
+                        }
+
+                        function showAssetResult(asset, redirectUrl) {
+                            hideError();
+                            stopScanner();
+
+                            const assetInfo = document.getElementById('asset-info');
+                            assetInfo.innerHTML = `
+                                <div class="row">
+                                    <div class="col-md-6">
+                                        <strong>Name:</strong> ${asset.name}<br/>
+                                        <strong>Code:</strong> ${asset.code}<br/>
+                                        <strong>Category:</strong> ${asset.category}<br/>
+                                        <strong>Brand:</strong> ${asset.brand}<br/>
+                                        <strong>Model:</strong> ${asset.model}
+                                    </div>
+                                    <div class="col-md-6">
+                                        <strong>State:</strong> <span class="badge bg-info">${asset.state}</span><br/>
+                                        <strong>Location:</strong> ${asset.location}<br/>
+                                        <strong>Assigned to:</strong> ${asset.assigned_user || 'Unassigned'}<br/>
+                                        ${asset.is_assigned_to_user ? '<span class="badge bg-success">Assigned to you</span>' : ''}
+                                    </div>
+                                </div>
+                            `;
+
+                            document.getElementById('view-asset').onclick = function() {
+                                window.location.href = redirectUrl;
+                            };
+
+                            resultsDiv.style.display = 'block';
+                        }
+
+                        function showError(message) {
+                            hideResults();
+                            document.getElementById('error-message').textContent = message;
+                            errorDiv.style.display = 'block';
+                        }
+
+                        function hideError() {
+                            errorDiv.style.display = 'none';
+                        }
+
+                        function hideResults() {
+                            resultsDiv.style.display = 'none';
+                        }
+
+                        function startScanner() {
+                            html5QrcodeScanner = new Html5QrcodeScanner(
+                                "reader",
+                                {
+                                    fps: 10,
+                                    qrbox: { width: 300, height: 300 },
+                                    aspectRatio: 1.0
+                                }
+                            );
+                            html5QrcodeScanner.render(onScanSuccess, onScanFailure);
+
+                            startButton.style.display = 'none';
+                            stopButton.style.display = 'inline-block';
+                        }
+
+                        function stopScanner() {
+                            if (html5QrcodeScanner) {
+                                html5QrcodeScanner.clear();
+                                html5QrcodeScanner = null;
+                            }
+
+                            startButton.style.display = 'inline-block';
+                            stopButton.style.display = 'none';
+                        }
+
+                        startButton.addEventListener('click', startScanner);
+                        stopButton.addEventListener('click', stopScanner);
+
+                        manualSubmit.addEventListener('click', function() {
+                            const inputValue = manualInput.value.trim();
+                            if (inputValue) {
+                                processScanData(inputValue);
+                            }
+                        });
+
+                        manualInput.addEventListener('keypress', function(e) {
+                            if (e.key === 'Enter') {
+                                manualSubmit.click();
+                            }
+                        });
+
+                        document.getElementById('scan-another').addEventListener('click', function() {
+                            hideResults();
+                            hideError();
+                            manualInput.value = '';
+                        });
+                    });
+                </script>
+            </t>
+        </template>
+
+        <!-- Asset Info Template (for non-assigned assets) -->
+        <template id="portal_asset_info" name="Asset Information">
+            <t t-call="portal.portal_layout">
+                <div class="container-fluid">
+                    <div class="row">
+                        <div class="col-lg-8 offset-lg-2">
+                            <div class="card">
+                                <div class="card-header">
+                                    <h3 class="card-title">
+                                        <i class="fa fa-laptop"/> Asset Information
+                                    </h3>
+                                    <t t-if="not is_assigned">
+                                        <span class="badge bg-warning float-end">Not assigned to you</span>
+                                    </t>
+                                    <t t-else="">
+                                        <span class="badge bg-success float-end">Assigned to you</span>
+                                    </t>
+                                </div>
+                                <div class="card-body">
+                                    <div class="row">
+                                        <div class="col-md-6">
+                                            <table class="table table-borderless">
+                                                <tr>
+                                                    <td><strong>Asset Name:</strong></td>
+                                                    <td t-field="asset.name"/>
+                                                </tr>
+                                                <tr>
+                                                    <td><strong>Asset Code:</strong></td>
+                                                    <td t-field="asset.code"/>
+                                                </tr>
+                                                <tr>
+                                                    <td><strong>Category:</strong></td>
+                                                    <td t-field="asset.category_id.name"/>
+                                                </tr>
+                                                <tr>
+                                                    <td><strong>Brand:</strong></td>
+                                                    <td t-field="asset.brand"/>
+                                                </tr>
+                                                <tr>
+                                                    <td><strong>Model:</strong></td>
+                                                    <td t-field="asset.model"/>
+                                                </tr>
+                                                <tr>
+                                                    <td><strong>Serial Number:</strong></td>
+                                                    <td t-field="asset.serial_number"/>
+                                                </tr>
+                                            </table>
+                                        </div>
+                                        <div class="col-md-6">
+                                            <table class="table table-borderless">
+                                                <tr>
+                                                    <td><strong>State:</strong></td>
+                                                    <td>
+                                                        <span t-field="asset.state" class="badge bg-info"/>
+                                                    </td>
+                                                </tr>
+                                                <tr>
+                                                    <td><strong>Location:</strong></td>
+                                                    <td t-field="asset.location"/>
+                                                </tr>
+                                                <tr>
+                                                    <td><strong>Assigned To:</strong></td>
+                                                    <td t-field="asset.assigned_user_id.name"/>
+                                                </tr>
+                                                <tr>
+                                                    <td><strong>Department:</strong></td>
+                                                    <td t-field="asset.department_id.name"/>
+                                                </tr>
+                                            </table>
+                                        </div>
+                                    </div>
+
+                                    <!-- QR Code and Barcode Display -->
+                                    <t t-if="asset.qr_code or asset.barcode_image">
+                                        <hr/>
+                                        <div class="row">
+                                            <t t-if="asset.qr_code">
+                                                <div class="col-md-6 text-center">
+                                                    <h5>QR Code</h5>
+                                                    <img t-att-src="'data:image/png;base64,' + asset.qr_code.decode('utf-8')"
+                                                         alt="QR Code" style="max-width: 200px;"/>
+                                                </div>
+                                            </t>
+                                            <t t-if="asset.barcode_image">
+                                                <div class="col-md-6 text-center">
+                                                    <h5>Barcode</h5>
+                                                    <img t-att-src="'data:image/png;base64,' + asset.barcode_image.decode('utf-8')"
+                                                         alt="Barcode" style="max-width: 300px;"/>
+                                                    <br/>
+                                                    <small t-field="asset.barcode" class="text-muted"/>
+                                                </div>
+                                            </t>
+                                        </div>
+                                    </t>
+                                </div>
+                                <div class="card-footer">
+                                    <a href="/my/assets" class="btn btn-secondary">
+                                        <i class="fa fa-arrow-left"/> Back to Assets
+                                    </a>
+                                    <a href="/my/scanner" class="btn btn-primary">
+                                        <i class="fa fa-qrcode"/> Scan Another
+                                    </a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </t>
+        </template>
+
+    </data>
+</odoo>

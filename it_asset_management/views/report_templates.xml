@@ -1,0 +1,427 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+
+        <!-- Asset List Report Template -->
+        <template id="report_asset_list">
+            <t t-call="web.html_container">
+                <t t-foreach="docs" t-as="o">
+                    <t t-call="web.external_layout">
+                        <div class="page">
+                            <div class="oe_structure"/>
+
+                            <div class="row">
+                                <div class="col-12">
+                                    <h2>IT Assets Report</h2>
+                                    <p>Generated on: <span t-esc="context_timestamp(datetime.datetime.now()).strftime('%Y-%m-%d %H:%M:%S')"/></p>
+                                </div>
+                            </div>
+
+                            <table class="table table-sm table-bordered">
+                                <thead>
+                                    <tr class="table-active">
+                                        <th>Asset Code</th>
+                                        <th>Name</th>
+                                        <th>Category</th>
+                                        <th>Brand/Model</th>
+                                        <th>Status</th>
+                                        <th>Location</th>
+                                        <th>Purchase Date</th>
+                                        <th>Value</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr t-foreach="docs" t-as="asset">
+                                        <td><span t-field="asset.code"/></td>
+                                        <td><span t-field="asset.name"/></td>
+                                        <td><span t-field="asset.category_id.name"/></td>
+                                        <td>
+                                            <span t-field="asset.brand"/>
+                                            <span t-if="asset.model"> <span t-field="asset.model"/></span>
+                                        </td>
+                                        <td><span t-field="asset.state"/></td>
+                                        <td><span t-field="asset.location"/></td>
+                                        <td><span t-field="asset.purchase_date" t-options='{"widget": "date"}'/></td>
+                                        <td><span t-field="asset.purchase_price" t-options='{"widget": "monetary", "display_currency": asset.currency_id}'/></td>
+                                    </tr>
+                                </tbody>
+                            </table>
+
+                            <div class="row mt-4">
+                                <div class="col-12">
+                                    <h5>Summary</h5>
+                                    <p><strong>Total Assets:</strong> <span t-esc="len(docs)"/></p>
+                                    <p><strong>Total Value:</strong> <span t-esc="sum(asset.purchase_price for asset in docs)"/> <span t-esc="docs[0].currency_id.symbol if docs else ''"/></p>
+                                </div>
+                            </div>
+                        </div>
+                    </t>
+                </t>
+            </t>
+        </template>
+
+        <!-- Asset Detail Report Template -->
+        <template id="report_asset_detail">
+            <t t-call="web.html_container">
+                <t t-foreach="docs" t-as="asset">
+                    <t t-call="web.external_layout">
+                        <div class="page">
+                            <div class="oe_structure"/>
+
+                            <div class="row mb-4">
+                                <div class="col-8">
+                                    <h2><span t-field="asset.name"/></h2>
+                                    <h4 class="text-muted">Asset Code: <span t-field="asset.code"/></h4>
+                                </div>
+                                <div class="col-4 text-end">
+                                    <div t-if="asset.image" class="d-inline-block">
+                                        <img t-att-src="image_data_uri(asset.image)" style="max-height: 100px; max-width: 150px;" alt="Asset Image"/>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="row">
+                                <div class="col-6">
+                                    <h5>Basic Information</h5>
+                                    <table class="table table-sm">
+                                        <tr>
+                                            <td><strong>Category:</strong></td>
+                                            <td><span t-field="asset.category_id.name"/></td>
+                                        </tr>
+                                        <tr>
+                                            <td><strong>Brand:</strong></td>
+                                            <td><span t-field="asset.brand"/></td>
+                                        </tr>
+                                        <tr>
+                                            <td><strong>Model:</strong></td>
+                                            <td><span t-field="asset.model"/></td>
+                                        </tr>
+                                        <tr>
+                                            <td><strong>Serial Number:</strong></td>
+                                            <td><span t-field="asset.serial_number"/></td>
+                                        </tr>
+                                        <tr>
+                                            <td><strong>Asset Tag:</strong></td>
+                                            <td><span t-field="asset.asset_tag"/></td>
+                                        </tr>
+                                        <tr>
+                                            <td><strong>Status:</strong></td>
+                                            <td><span t-field="asset.state"/></td>
+                                        </tr>
+                                        <tr>
+                                            <td><strong>Location:</strong></td>
+                                            <td><span t-field="asset.location"/></td>
+                                        </tr>
+                                    </table>
+                                </div>
+                                <div class="col-6">
+                                    <h5>Financial Information</h5>
+                                    <table class="table table-sm">
+                                        <tr>
+                                            <td><strong>Purchase Date:</strong></td>
+                                            <td><span t-field="asset.purchase_date" t-options='{"widget": "date"}'/></td>
+                                        </tr>
+                                        <tr>
+                                            <td><strong>Purchase Price:</strong></td>
+                                            <td><span t-field="asset.purchase_price" t-options='{"widget": "monetary", "display_currency": asset.currency_id}'/></td>
+                                        </tr>
+                                        <tr>
+                                            <td><strong>Supplier:</strong></td>
+                                            <td><span t-field="asset.supplier_id.name"/></td>
+                                        </tr>
+                                        <tr>
+                                            <td><strong>Warranty Start:</strong></td>
+                                            <td><span t-field="asset.warranty_start" t-options='{"widget": "date"}'/></td>
+                                        </tr>
+                                        <tr>
+                                            <td><strong>Warranty End:</strong></td>
+                                            <td><span t-field="asset.warranty_end" t-options='{"widget": "date"}'/></td>
+                                        </tr>
+                                    </table>
+                                </div>
+                            </div>
+
+                            <div class="row mt-4" t-if="asset.specifications">
+                                <div class="col-12">
+                                    <h5>Technical Specifications</h5>
+                                    <div class="border p-3">
+                                        <span t-field="asset.specifications"/>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="row mt-4" t-if="asset.notes">
+                                <div class="col-12">
+                                    <h5>Additional Notes</h5>
+                                    <div class="border p-3">
+                                        <span t-field="asset.notes"/>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </t>
+                </t>
+            </t>
+        </template>
+
+        <!-- Assignment List Report Template -->
+        <template id="report_assignment_list">
+            <t t-call="web.html_container">
+                <t t-foreach="docs" t-as="o">
+                    <t t-call="web.external_layout">
+                        <div class="page">
+                            <div class="oe_structure"/>
+
+                            <div class="row">
+                                <div class="col-12">
+                                    <h2>Asset Assignments Report</h2>
+                                    <p>Generated on: <span t-esc="context_timestamp(datetime.datetime.now()).strftime('%Y-%m-%d %H:%M:%S')"/></p>
+                                </div>
+                            </div>
+
+                            <table class="table table-sm table-bordered">
+                                <thead>
+                                    <tr class="table-active">
+                                        <th>Asset</th>
+                                        <th>User</th>
+                                        <th>Assignment Date</th>
+                                        <th>Expected Return</th>
+                                        <th>Status</th>
+                                        <th>Location</th>
+                                        <th>Condition</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr t-foreach="docs" t-as="assignment">
+                                        <td><span t-field="assignment.asset_name"/></td>
+                                        <td><span t-field="assignment.user_name"/></td>
+                                        <td><span t-field="assignment.assignment_date" t-options='{"widget": "date"}'/></td>
+                                        <td><span t-field="assignment.expected_return_date" t-options='{"widget": "date"}'/></td>
+                                        <td><span t-field="assignment.state"/></td>
+                                        <td><span t-field="assignment.location"/></td>
+                                        <td><span t-field="assignment.condition_on_assignment"/></td>
+                                    </tr>
+                                </tbody>
+                            </table>
+
+                            <div class="row mt-4">
+                                <div class="col-12">
+                                    <h5>Summary</h5>
+                                    <p><strong>Total Assignments:</strong> <span t-esc="len(docs)"/></p>
+                                    <p><strong>Active Assignments:</strong> <span t-esc="len([a for a in docs if a.is_active])"/></p>
+                                    <p><strong>Overdue Assignments:</strong> <span t-esc="len([a for a in docs if a.is_overdue])"/></p>
+                                </div>
+                            </div>
+                        </div>
+                    </t>
+                </t>
+            </t>
+        </template>
+
+        <!-- Request List Report Template -->
+        <template id="report_request_list">
+            <t t-call="web.html_container">
+                <t t-foreach="docs" t-as="o">
+                    <t t-call="web.external_layout">
+                        <div class="page">
+                            <div class="oe_structure"/>
+
+                            <div class="row">
+                                <div class="col-12">
+                                    <h2>Asset Requests Report</h2>
+                                    <p>Generated on: <span t-esc="context_timestamp(datetime.datetime.now()).strftime('%Y-%m-%d %H:%M:%S')"/></p>
+                                </div>
+                            </div>
+
+                            <table class="table table-sm table-bordered">
+                                <thead>
+                                    <tr class="table-active">
+                                        <th>Request #</th>
+                                        <th>Type</th>
+                                        <th>Requested By</th>
+                                        <th>Priority</th>
+                                        <th>Status</th>
+                                        <th>Request Date</th>
+                                        <th>Required By</th>
+                                        <th>Estimated Cost</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr t-foreach="docs" t-as="request">
+                                        <td><span t-field="request.name"/></td>
+                                        <td><span t-field="request.request_type"/></td>
+                                        <td><span t-field="request.user_id.name"/></td>
+                                        <td><span t-field="request.priority"/></td>
+                                        <td><span t-field="request.state"/></td>
+                                        <td><span t-field="request.request_date" t-options='{"widget": "date"}'/></td>
+                                        <td><span t-field="request.required_date" t-options='{"widget": "date"}'/></td>
+                                        <td><span t-field="request.estimated_cost" t-options='{"widget": "monetary", "display_currency": request.currency_id}'/></td>
+                                    </tr>
+                                </tbody>
+                            </table>
+
+                            <div class="row mt-4">
+                                <div class="col-12">
+                                    <h5>Summary</h5>
+                                    <p><strong>Total Requests:</strong> <span t-esc="len(docs)"/></p>
+                                    <p><strong>Pending Requests:</strong> <span t-esc="len([r for r in docs if r.state in ['submitted', 'under_review']])"/></p>
+                                    <p><strong>Completed Requests:</strong> <span t-esc="len([r for r in docs if r.state == 'completed'])"/></p>
+                                    <p><strong>Total Estimated Cost:</strong> <span t-esc="sum(r.estimated_cost for r in docs)"/> <span t-esc="docs[0].currency_id.symbol if docs else ''"/></p>
+                                </div>
+                            </div>
+                        </div>
+                    </t>
+                </t>
+            </t>
+        </template>
+
+        <!-- Request Detail Report Template -->
+        <template id="report_request_detail">
+            <t t-call="web.html_container">
+                <t t-foreach="docs" t-as="request">
+                    <t t-call="web.external_layout">
+                        <div class="page">
+                            <div class="oe_structure"/>
+
+                            <div class="row mb-4">
+                                <div class="col-8">
+                                    <h2>Asset Request: <span t-field="request.name"/></h2>
+                                    <h4 class="text-muted">Type: <span t-field="request.request_type"/></h4>
+                                </div>
+                                <div class="col-4 text-end">
+                                    <div class="badge fs-6" t-attf-class="text-bg-#{request.state == 'completed' and 'success' or request.state == 'rejected' and 'danger' or request.state == 'approved' and 'success' or 'primary'}">
+                                        <span t-field="request.state"/>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="row">
+                                <div class="col-6">
+                                    <h5>Request Information</h5>
+                                    <table class="table table-sm">
+                                        <tr>
+                                            <td><strong>Requested By:</strong></td>
+                                            <td><span t-field="request.user_id.name"/></td>
+                                        </tr>
+                                        <tr>
+                                            <td><strong>Department:</strong></td>
+                                            <td><span t-field="request.department_id.name"/></td>
+                                        </tr>
+                                        <tr>
+                                            <td><strong>Priority:</strong></td>
+                                            <td><span t-field="request.priority"/></td>
+                                        </tr>
+                                        <tr>
+                                            <td><strong>Request Date:</strong></td>
+                                            <td><span t-field="request.request_date" t-options='{"widget": "datetime"}'/></td>
+                                        </tr>
+                                        <tr>
+                                            <td><strong>Required By:</strong></td>
+                                            <td><span t-field="request.required_date" t-options='{"widget": "date"}'/></td>
+                                        </tr>
+                                        <tr t-if="request.asset_id">
+                                            <td><strong>Related Asset:</strong></td>
+                                            <td><span t-field="request.asset_id.name"/></td>
+                                        </tr>
+                                        <tr t-if="request.category_id">
+                                            <td><strong>Category:</strong></td>
+                                            <td><span t-field="request.category_id.name"/></td>
+                                        </tr>
+                                    </table>
+                                </div>
+                                <div class="col-6">
+                                    <h5>Status &amp; Progress</h5>
+                                    <table class="table table-sm">
+                                        <tr>
+                                            <td><strong>Status:</strong></td>
+                                            <td><span t-field="request.state"/></td>
+                                        </tr>
+                                        <tr t-if="request.approver_id">
+                                            <td><strong>Approved By:</strong></td>
+                                            <td><span t-field="request.approver_id.name"/></td>
+                                        </tr>
+                                        <tr t-if="request.approval_date">
+                                            <td><strong>Approval Date:</strong></td>
+                                            <td><span t-field="request.approval_date" t-options='{"widget": "datetime"}'/></td>
+                                        </tr>
+                                        <tr t-if="request.assigned_to_id">
+                                            <td><strong>Assigned To:</strong></td>
+                                            <td><span t-field="request.assigned_to_id.name"/></td>
+                                        </tr>
+                                        <tr t-if="request.completion_date">
+                                            <td><strong>Completion Date:</strong></td>
+                                            <td><span t-field="request.completion_date" t-options='{"widget": "datetime"}'/></td>
+                                        </tr>
+                                        <tr>
+                                            <td><strong>Days Open:</strong></td>
+                                            <td><span t-field="request.days_open"/></td>
+                                        </tr>
+                                    </table>
+                                </div>
+                            </div>
+
+                            <div class="row mt-4">
+                                <div class="col-12">
+                                    <h5>Description</h5>
+                                    <div class="border p-3">
+                                        <span t-field="request.description"/>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="row mt-4" t-if="request.justification">
+                                <div class="col-12">
+                                    <h5>Business Justification</h5>
+                                    <div class="border p-3">
+                                        <span t-field="request.justification"/>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="row mt-4" t-if="request.specifications or request.preferred_brand or request.preferred_model">
+                                <div class="col-12">
+                                    <h5>Technical Specifications</h5>
+                                    <table class="table table-sm" t-if="request.preferred_brand or request.preferred_model">
+                                        <tr t-if="request.preferred_brand">
+                                            <td><strong>Preferred Brand:</strong></td>
+                                            <td><span t-field="request.preferred_brand"/></td>
+                                        </tr>
+                                        <tr t-if="request.preferred_model">
+                                            <td><strong>Preferred Model:</strong></td>
+                                            <td><span t-field="request.preferred_model"/></td>
+                                        </tr>
+                                    </table>
+                                    <div class="border p-3 mt-3" t-if="request.specifications">
+                                        <span t-field="request.specifications"/>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="row mt-4" t-if="request.approval_notes or request.rejection_reason or request.completion_notes">
+                                <div class="col-12">
+                                    <h5>Notes &amp; Comments</h5>
+
+                                    <div class="alert alert-success mt-3" t-if="request.approval_notes">
+                                        <strong>Approval Notes:</strong>
+                                        <div t-field="request.approval_notes"/>
+                                    </div>
+
+                                    <div class="alert alert-danger mt-3" t-if="request.rejection_reason">
+                                        <strong>Rejection Reason:</strong>
+                                        <div t-field="request.rejection_reason"/>
+                                    </div>
+
+                                    <div class="alert alert-info mt-3" t-if="request.completion_notes">
+                                        <strong>Completion Notes:</strong>
+                                        <div t-field="request.completion_notes"/>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </t>
+                </t>
+            </t>
+        </template>
+
+    </data>
+</odoo>

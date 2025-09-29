@@ -1,0 +1,143 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data noupdate="0">
+
+        <!-- Sample IT Assets -->
+        <record id="sample_laptop_001" model="it.asset">
+            <field name="name">Dell Latitude 7420 Laptop</field>
+            <field name="code">LAPTOP-001</field>
+            <field name="category_id" ref="category_laptop"/>
+            <field name="brand">Dell</field>
+            <field name="model">Latitude 7420</field>
+            <field name="serial_number">DL7420001</field>
+            <field name="asset_tag">IT-LT-001</field>
+            <field name="state">available</field>
+            <field name="location">IT Warehouse</field>
+            <field name="purchase_date">2023-01-15</field>
+            <field name="purchase_price">1200.00</field>
+            <field name="warranty_start">2023-01-15</field>
+            <field name="warranty_end">2026-01-15</field>
+            <field name="specifications">&lt;p&gt;Intel i7 processor, 16GB RAM, 512GB SSD, Windows 11 Pro&lt;/p&gt;</field>
+        </record>
+
+        <record id="sample_laptop_002" model="it.asset">
+            <field name="name">MacBook Pro 14 inch</field>
+            <field name="code">LAPTOP-002</field>
+            <field name="category_id" ref="category_laptop"/>
+            <field name="brand">Apple</field>
+            <field name="model">MacBook Pro 14-inch</field>
+            <field name="serial_number">MBP14002</field>
+            <field name="asset_tag">IT-LT-002</field>
+            <field name="state">available</field>
+            <field name="location">IT Storage</field>
+            <field name="purchase_date">2023-03-20</field>
+            <field name="purchase_price">2499.00</field>
+            <field name="warranty_start">2023-03-20</field>
+            <field name="warranty_end">2024-03-20</field>
+            <field name="specifications">&lt;p&gt;M2 Pro chip, 16GB unified memory, 1TB SSD, macOS Ventura&lt;/p&gt;</field>
+        </record>
+
+        <record id="sample_desktop_001" model="it.asset">
+            <field name="name">HP EliteDesk Desktop Computer</field>
+            <field name="code">DESKTOP-001</field>
+            <field name="category_id" ref="category_desktop"/>
+            <field name="brand">HP</field>
+            <field name="model">EliteDesk 800 G8</field>
+            <field name="serial_number">HPED800001</field>
+            <field name="asset_tag">IT-DT-001</field>
+            <field name="state">available</field>
+            <field name="location">HQ Building A</field>
+            <field name="purchase_date">2023-02-01</field>
+            <field name="purchase_price">950.00</field>
+            <field name="warranty_start">2023-02-01</field>
+            <field name="warranty_end">2026-02-01</field>
+            <field name="specifications">&lt;p&gt;Intel i5-11500, 16GB DDR4, 256GB SSD&lt;/p&gt;</field>
+        </record>
+
+        <record id="sample_monitor_001" model="it.asset">
+            <field name="name">Dell 27 inch 4K Monitor</field>
+            <field name="code">MONITOR-001</field>
+            <field name="category_id" ref="category_monitor"/>
+            <field name="brand">Dell</field>
+            <field name="model">U2720Q</field>
+            <field name="serial_number">DU2720Q001</field>
+            <field name="asset_tag">IT-MON-001</field>
+            <field name="state">available</field>
+            <field name="location">IT Storage</field>
+            <field name="purchase_date">2023-02-01</field>
+            <field name="purchase_price">320.00</field>
+            <field name="warranty_start">2023-02-01</field>
+            <field name="warranty_end">2026-02-01</field>
+            <field name="specifications">&lt;p&gt;27-inch 4K IPS display, USB-C connectivity&lt;/p&gt;</field>
+        </record>
+
+        <record id="sample_phone_001" model="it.asset">
+            <field name="name">iPhone 14 Pro Smartphone</field>
+            <field name="code">PHONE-001</field>
+            <field name="category_id" ref="category_smartphone"/>
+            <field name="brand">Apple</field>
+            <field name="model">iPhone 14 Pro</field>
+            <field name="serial_number">IP14P001</field>
+            <field name="asset_tag">IT-PH-001</field>
+            <field name="state">available</field>
+            <field name="location">IT Storage</field>
+            <field name="purchase_date">2023-05-10</field>
+            <field name="purchase_price">999.00</field>
+            <field name="warranty_start">2023-05-10</field>
+            <field name="warranty_end">2024-05-10</field>
+            <field name="specifications">&lt;p&gt;6.1-inch Super Retina XDR display, A16 Bionic chip&lt;/p&gt;</field>
+        </record>
+
+        <record id="sample_server_001" model="it.asset">
+            <field name="name">Dell PowerEdge Server</field>
+            <field name="code">SERVER-001</field>
+            <field name="category_id" ref="category_physical_server"/>
+            <field name="brand">Dell</field>
+            <field name="model">PowerEdge R740</field>
+            <field name="serial_number">DPE740001</field>
+            <field name="asset_tag">IT-SRV-001</field>
+            <field name="state">available</field>
+            <field name="location">Server Room</field>
+            <field name="purchase_date">2022-08-15</field>
+            <field name="purchase_price">8500.00</field>
+            <field name="warranty_start">2022-08-15</field>
+            <field name="warranty_end">2025-08-15</field>
+            <field name="specifications">&lt;p&gt;2x Intel Xeon Silver, 64GB DDR4, 4x 2TB SAS HDDs&lt;/p&gt;</field>
+        </record>
+
+        <record id="sample_printer_001" model="it.asset">
+            <field name="name">HP LaserJet Printer</field>
+            <field name="code">PRINTER-001</field>
+            <field name="category_id" ref="category_printer"/>
+            <field name="brand">HP</field>
+            <field name="model">LaserJet Pro MFP M428fdw</field>
+            <field name="serial_number">HPLJ428001</field>
+            <field name="asset_tag">IT-PR-001</field>
+            <field name="state">available</field>
+            <field name="location">Office Floor 2</field>
+            <field name="purchase_date">2023-01-10</field>
+            <field name="purchase_price">329.00</field>
+            <field name="warranty_start">2023-01-10</field>
+            <field name="warranty_end">2024-01-10</field>
+            <field name="specifications">&lt;p&gt;Monochrome laser printer, Print/Copy/Scan/Fax&lt;/p&gt;</field>
+        </record>
+
+        <record id="sample_router_001" model="it.asset">
+            <field name="name">Cisco Network Router</field>
+            <field name="code">ROUTER-001</field>
+            <field name="category_id" ref="category_router"/>
+            <field name="brand">Cisco</field>
+            <field name="model">ISR 4331</field>
+            <field name="serial_number">CSR4331001</field>
+            <field name="asset_tag">IT-RTR-001</field>
+            <field name="state">available</field>
+            <field name="location">Network Room</field>
+            <field name="purchase_date">2022-12-01</field>
+            <field name="purchase_price">2500.00</field>
+            <field name="warranty_start">2022-12-01</field>
+            <field name="warranty_end">2025-12-01</field>
+            <field name="specifications">&lt;p&gt;Integrated Services Router, 3 Gigabit Ethernet ports&lt;/p&gt;</field>
+        </record>
+
+    </data>
+</odoo>

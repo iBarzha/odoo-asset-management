@@ -1,0 +1,377 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data noupdate="0">
+
+        <!-- More Diverse IT Assets -->
+
+        <!-- Laptops -->
+        <record id="asset_laptop_003" model="it.asset">
+            <field name="name">MacBook Pro 16 inch M2 Pro</field>
+            <field name="code">LAPTOP-003</field>
+            <field name="category_id" ref="category_laptop"/>
+            <field name="brand">Apple</field>
+            <field name="model">MacBook Pro 16-inch M2 Pro</field>
+            <field name="serial_number">MBP16M2P003</field>
+            <field name="asset_tag">IT-LT-003</field>
+            <field name="state">available</field>
+            <field name="location">Design Department</field>
+            <field name="purchase_date">2023-08-15</field>
+            <field name="purchase_price">3299.00</field>
+            <field name="warranty_start">2023-08-15</field>
+            <field name="warranty_end">2024-08-15</field>
+            <field name="specifications">&lt;p&gt;M2 Pro chip, 32GB unified memory, 1TB SSD, macOS Ventura&lt;/p&gt;</field>
+        </record>
+
+        <record id="asset_laptop_004" model="it.asset">
+            <field name="name">ThinkPad X1 Carbon Gen 11</field>
+            <field name="code">LAPTOP-004</field>
+            <field name="category_id" ref="category_laptop"/>
+            <field name="brand">Lenovo</field>
+            <field name="model">ThinkPad X1 Carbon Gen 11</field>
+            <field name="serial_number">TPX1C11004</field>
+            <field name="asset_tag">IT-LT-004</field>
+            <field name="state">available</field>
+            <field name="location">IT Storage</field>
+            <field name="purchase_date">2023-05-20</field>
+            <field name="purchase_price">1899.00</field>
+            <field name="warranty_start">2023-05-20</field>
+            <field name="warranty_end">2026-05-20</field>
+            <field name="specifications">&lt;p&gt;Intel i7-1365U, 32GB LPDDR5, 1TB SSD, 14-inch 2.8K OLED&lt;/p&gt;</field>
+        </record>
+
+        <record id="asset_laptop_005" model="it.asset">
+            <field name="name">Gaming Laptop MSI Stealth 17</field>
+            <field name="code">LAPTOP-005</field>
+            <field name="category_id" ref="category_laptop"/>
+            <field name="brand">MSI</field>
+            <field name="model">Stealth 17 Studio A13VH</field>
+            <field name="serial_number">MSIS17A13VH005</field>
+            <field name="asset_tag">IT-LT-005</field>
+            <field name="state">available</field>
+            <field name="location">Development Team</field>
+            <field name="purchase_date">2023-09-10</field>
+            <field name="purchase_price">2799.00</field>
+            <field name="warranty_start">2023-09-10</field>
+            <field name="warranty_end">2025-09-10</field>
+            <field name="specifications">&lt;p&gt;Intel i9-13900H, 32GB DDR5, 2TB NVMe SSD, RTX 4080&lt;/p&gt;</field>
+        </record>
+
+        <!-- Desktop Computers -->
+        <record id="asset_desktop_002" model="it.asset">
+            <field name="name">Dell OptiPlex 7090 Micro</field>
+            <field name="code">DESKTOP-002</field>
+            <field name="category_id" ref="category_desktop"/>
+            <field name="brand">Dell</field>
+            <field name="model">OptiPlex 7090 Micro</field>
+            <field name="serial_number">DO7090M002</field>
+            <field name="asset_tag">IT-DT-002</field>
+            <field name="state">available</field>
+            <field name="location">Conference Room A</field>
+            <field name="purchase_date">2023-04-12</field>
+            <field name="purchase_price">899.00</field>
+            <field name="warranty_start">2023-04-12</field>
+            <field name="warranty_end">2026-04-12</field>
+            <field name="specifications">&lt;p&gt;Intel i5-11500T, 16GB DDR4, 512GB SSD&lt;/p&gt;</field>
+        </record>
+
+        <record id="asset_desktop_003" model="it.asset">
+            <field name="name">iMac 24-inch M2</field>
+            <field name="code">DESKTOP-003</field>
+            <field name="category_id" ref="category_desktop"/>
+            <field name="brand">Apple</field>
+            <field name="model">iMac 24-inch M2</field>
+            <field name="serial_number">IMAC24M2003</field>
+            <field name="asset_tag">IT-DT-003</field>
+            <field name="state">available</field>
+            <field name="location">Creative Studio</field>
+            <field name="purchase_date">2023-07-08</field>
+            <field name="purchase_price">1999.00</field>
+            <field name="warranty_start">2023-07-08</field>
+            <field name="warranty_end">2024-07-08</field>
+            <field name="specifications">&lt;p&gt;M2 chip, 16GB unified memory, 512GB SSD, 24-inch 4.5K Retina&lt;/p&gt;</field>
+        </record>
+
+        <!-- Monitors -->
+        <record id="asset_monitor_002" model="it.asset">
+            <field name="name">LG UltraWide 34 inch Monitor</field>
+            <field name="code">MONITOR-002</field>
+            <field name="category_id" ref="category_monitor"/>
+            <field name="brand">LG</field>
+            <field name="model">34WP65C-B</field>
+            <field name="serial_number">LG34WP65C002</field>
+            <field name="asset_tag">IT-MON-002</field>
+            <field name="state">available</field>
+            <field name="location">Development Area</field>
+            <field name="purchase_date">2023-03-15</field>
+            <field name="purchase_price">349.00</field>
+            <field name="warranty_start">2023-03-15</field>
+            <field name="warranty_end">2026-03-15</field>
+            <field name="specifications">&lt;p&gt;34-inch Curved UltraWide, 21:9 aspect ratio, USB-C&lt;/p&gt;</field>
+        </record>
+
+        <record id="asset_monitor_003" model="it.asset">
+            <field name="name">ASUS ProArt 32 inch 4K</field>
+            <field name="code">MONITOR-003</field>
+            <field name="category_id" ref="category_monitor"/>
+            <field name="brand">ASUS</field>
+            <field name="model">ProArt PA329CV</field>
+            <field name="serial_number">ASPA329CV003</field>
+            <field name="asset_tag">IT-MON-003</field>
+            <field name="state">available</field>
+            <field name="location">IT Storage</field>
+            <field name="purchase_date">2023-06-22</field>
+            <field name="purchase_price">699.00</field>
+            <field name="warranty_start">2023-06-22</field>
+            <field name="warranty_end">2026-06-22</field>
+            <field name="specifications">&lt;p&gt;32-inch 4K UHD, Professional color accuracy, USB-C&lt;/p&gt;</field>
+        </record>
+
+        <!-- Smartphones -->
+        <record id="asset_phone_002" model="it.asset">
+            <field name="name">Samsung Galaxy S23 Ultra</field>
+            <field name="code">PHONE-002</field>
+            <field name="category_id" ref="category_smartphone"/>
+            <field name="brand">Samsung</field>
+            <field name="model">Galaxy S23 Ultra</field>
+            <field name="serial_number">SGS23U002</field>
+            <field name="asset_tag">IT-PH-002</field>
+            <field name="state">available</field>
+            <field name="location">Sales Department</field>
+            <field name="purchase_date">2023-03-30</field>
+            <field name="purchase_price">1199.00</field>
+            <field name="warranty_start">2023-03-30</field>
+            <field name="warranty_end">2024-03-30</field>
+            <field name="specifications">&lt;p&gt;6.8-inch Dynamic AMOLED, Snapdragon 8 Gen 2, 256GB&lt;/p&gt;</field>
+        </record>
+
+        <record id="asset_phone_003" model="it.asset">
+            <field name="name">Google Pixel 7 Pro</field>
+            <field name="code">PHONE-003</field>
+            <field name="category_id" ref="category_smartphone"/>
+            <field name="brand">Google</field>
+            <field name="model">Pixel 7 Pro</field>
+            <field name="serial_number">GP7P003</field>
+            <field name="asset_tag">IT-PH-003</field>
+            <field name="state">repair</field>
+            <field name="location">IT Support</field>
+            <field name="purchase_date">2023-01-25</field>
+            <field name="purchase_price">899.00</field>
+            <field name="warranty_start">2023-01-25</field>
+            <field name="warranty_end">2024-01-25</field>
+            <field name="specifications">&lt;p&gt;6.7-inch LTPO OLED, Google Tensor G2, 128GB&lt;/p&gt;</field>
+        </record>
+
+        <!-- Tablets -->
+        <record id="asset_tablet_001" model="it.asset">
+            <field name="name">iPad Pro 12.9 inch M2</field>
+            <field name="code">TABLET-001</field>
+            <field name="category_id" ref="category_tablet"/>
+            <field name="brand">Apple</field>
+            <field name="model">iPad Pro 12.9-inch M2</field>
+            <field name="serial_number">IPADPROM2001</field>
+            <field name="asset_tag">IT-TAB-001</field>
+            <field name="state">available</field>
+            <field name="location">Design Department</field>
+            <field name="purchase_date">2023-02-14</field>
+            <field name="purchase_price">1399.00</field>
+            <field name="warranty_start">2023-02-14</field>
+            <field name="warranty_end">2024-02-14</field>
+            <field name="specifications">&lt;p&gt;M2 chip, 12.9-inch Liquid Retina XDR, 256GB, Wi-Fi + Cellular&lt;/p&gt;</field>
+        </record>
+
+        <record id="asset_tablet_002" model="it.asset">
+            <field name="name">Microsoft Surface Pro 9</field>
+            <field name="code">TABLET-002</field>
+            <field name="category_id" ref="category_tablet"/>
+            <field name="brand">Microsoft</field>
+            <field name="model">Surface Pro 9</field>
+            <field name="serial_number">MSP9002</field>
+            <field name="asset_tag">IT-TAB-002</field>
+            <field name="state">available</field>
+            <field name="location">HR Department</field>
+            <field name="purchase_date">2023-04-18</field>
+            <field name="purchase_price">1299.00</field>
+            <field name="warranty_start">2023-04-18</field>
+            <field name="warranty_end">2025-04-18</field>
+            <field name="specifications">&lt;p&gt;Intel i7, 16GB RAM, 512GB SSD, 13-inch PixelSense&lt;/p&gt;</field>
+        </record>
+
+        <!-- Printers -->
+        <record id="asset_printer_002" model="it.asset">
+            <field name="name">Canon imageRUNNER MFP</field>
+            <field name="code">PRINTER-002</field>
+            <field name="category_id" ref="category_printer"/>
+            <field name="brand">Canon</field>
+            <field name="model">imageRUNNER ADVANCE DX C3835i</field>
+            <field name="serial_number">CIRADXC3835i002</field>
+            <field name="asset_tag">IT-PR-002</field>
+            <field name="state">available</field>
+            <field name="location">Office Floor 3</field>
+            <field name="purchase_date">2023-05-05</field>
+            <field name="purchase_price">4599.00</field>
+            <field name="warranty_start">2023-05-05</field>
+            <field name="warranty_end">2025-05-05</field>
+            <field name="specifications">&lt;p&gt;Color MFP, Print/Copy/Scan/Fax, 35 ppm&lt;/p&gt;</field>
+        </record>
+
+        <record id="asset_printer_003" model="it.asset">
+            <field name="name">Epson EcoTank Photo Printer</field>
+            <field name="code">PRINTER-003</field>
+            <field name="category_id" ref="category_printer"/>
+            <field name="brand">Epson</field>
+            <field name="model">EcoTank ET-8550</field>
+            <field name="serial_number">EET8550003</field>
+            <field name="asset_tag">IT-PR-003</field>
+            <field name="state">available</field>
+            <field name="location">Marketing Department</field>
+            <field name="purchase_date">2023-07-12</field>
+            <field name="purchase_price">499.00</field>
+            <field name="warranty_start">2023-07-12</field>
+            <field name="warranty_end">2025-07-12</field>
+            <field name="specifications">&lt;p&gt;6-color photo printing, A3+ format, Cartridge-free&lt;/p&gt;</field>
+        </record>
+
+        <!-- Network Equipment -->
+        <record id="asset_switch_001" model="it.asset">
+            <field name="name">Cisco Catalyst 2960-X Switch</field>
+            <field name="code">SWITCH-001</field>
+            <field name="category_id" ref="category_switch"/>
+            <field name="brand">Cisco</field>
+            <field name="model">Catalyst 2960-X Series</field>
+            <field name="serial_number">CC2960X001</field>
+            <field name="asset_tag">IT-SW-001</field>
+            <field name="state">available</field>
+            <field name="location">Network Room</field>
+            <field name="purchase_date">2023-01-08</field>
+            <field name="purchase_price">1299.00</field>
+            <field name="warranty_start">2023-01-08</field>
+            <field name="warranty_end">2028-01-08</field>
+            <field name="specifications">&lt;p&gt;24-port Gigabit Ethernet, 4 SFP+ uplinks&lt;/p&gt;</field>
+        </record>
+
+        <record id="asset_firewall_001" model="it.asset">
+            <field name="name">SonicWall TZ570 Firewall</field>
+            <field name="code">FIREWALL-001</field>
+            <field name="category_id" ref="category_firewall"/>
+            <field name="brand">SonicWall</field>
+            <field name="model">TZ570</field>
+            <field name="serial_number">SWTZ570001</field>
+            <field name="asset_tag">IT-FW-001</field>
+            <field name="state">available</field>
+            <field name="location">Network Room</field>
+            <field name="purchase_date">2023-02-20</field>
+            <field name="purchase_price">649.00</field>
+            <field name="warranty_start">2023-02-20</field>
+            <field name="warranty_end">2026-02-20</field>
+            <field name="specifications">&lt;p&gt;5 Gigabit ports, 1.3 Gbps firewall throughput&lt;/p&gt;</field>
+        </record>
+
+        <!-- Storage -->
+        <record id="asset_nas_001" model="it.asset">
+            <field name="name">Synology NAS DS920+</field>
+            <field name="code">NAS-001</field>
+            <field name="category_id" ref="category_storage"/>
+            <field name="brand">Synology</field>
+            <field name="model">DiskStation DS920+</field>
+            <field name="serial_number">SDS920001</field>
+            <field name="asset_tag">IT-NAS-001</field>
+            <field name="state">available</field>
+            <field name="location">Server Room</field>
+            <field name="purchase_date">2023-03-10</field>
+            <field name="purchase_price">559.00</field>
+            <field name="warranty_start">2023-03-10</field>
+            <field name="warranty_end">2025-03-10</field>
+            <field name="specifications">&lt;p&gt;4-bay NAS, Intel Celeron J4125, 4GB DDR4&lt;/p&gt;</field>
+        </record>
+
+        <!-- Keyboards & Mice -->
+        <record id="asset_keyboard_001" model="it.asset">
+            <field name="name">Logitech MX Keys Keyboard</field>
+            <field name="code">KEYBOARD-001</field>
+            <field name="category_id" ref="category_keyboard"/>
+            <field name="brand">Logitech</field>
+            <field name="model">MX Keys</field>
+            <field name="serial_number">LMXK001</field>
+            <field name="asset_tag">IT-KB-001</field>
+            <field name="state">available</field>
+            <field name="location">Developer Workstation 1</field>
+            <field name="purchase_date">2023-04-05</field>
+            <field name="purchase_price">99.00</field>
+            <field name="warranty_start">2023-04-05</field>
+            <field name="warranty_end">2025-04-05</field>
+            <field name="specifications">&lt;p&gt;Wireless illuminated keyboard, USB-C charging&lt;/p&gt;</field>
+        </record>
+
+        <record id="asset_mouse_001" model="it.asset">
+            <field name="name">Logitech MX Master 3S Mouse</field>
+            <field name="code">MOUSE-001</field>
+            <field name="category_id" ref="category_mouse"/>
+            <field name="brand">Logitech</field>
+            <field name="model">MX Master 3S</field>
+            <field name="serial_number">LMXM3S001</field>
+            <field name="asset_tag">IT-MS-001</field>
+            <field name="state">available</field>
+            <field name="location">Designer Workstation</field>
+            <field name="purchase_date">2023-04-05</field>
+            <field name="purchase_price">99.00</field>
+            <field name="warranty_start">2023-04-05</field>
+            <field name="warranty_end">2025-04-05</field>
+            <field name="specifications">&lt;p&gt;Wireless mouse, 8000 DPI sensor, USB-C charging&lt;/p&gt;</field>
+        </record>
+
+        <!-- Headsets -->
+        <record id="asset_headset_001" model="it.asset">
+            <field name="name">Sony WH-1000XM5 Headphones</field>
+            <field name="code">HEADSET-001</field>
+            <field name="category_id" ref="category_headset"/>
+            <field name="brand">Sony</field>
+            <field name="model">WH-1000XM5</field>
+            <field name="serial_number">SWH1000XM5001</field>
+            <field name="asset_tag">IT-HS-001</field>
+            <field name="state">available</field>
+            <field name="location">Remote Worker</field>
+            <field name="purchase_date">2023-06-01</field>
+            <field name="purchase_price">399.00</field>
+            <field name="warranty_start">2023-06-01</field>
+            <field name="warranty_end">2024-06-01</field>
+            <field name="specifications">&lt;p&gt;Noise cancelling, 30h battery, Bluetooth 5.2&lt;/p&gt;</field>
+        </record>
+
+        <!-- Webcams -->
+        <record id="asset_webcam_001" model="it.asset">
+            <field name="name">Logitech Brio 4K Webcam</field>
+            <field name="code">WEBCAM-001</field>
+            <field name="category_id" ref="category_webcam"/>
+            <field name="brand">Logitech</field>
+            <field name="model">Brio</field>
+            <field name="serial_number">LBR4K001</field>
+            <field name="asset_tag">IT-WC-001</field>
+            <field name="state">available</field>
+            <field name="location">Conference Room B</field>
+            <field name="purchase_date">2023-05-15</field>
+            <field name="purchase_price">199.00</field>
+            <field name="warranty_start">2023-05-15</field>
+            <field name="warranty_end">2025-05-15</field>
+            <field name="specifications">&lt;p&gt;4K Ultra HD, HDR, USB 3.0&lt;/p&gt;</field>
+        </record>
+
+        <!-- Docking Stations -->
+        <record id="asset_dock_001" model="it.asset">
+            <field name="name">CalDigit TS4 Thunderbolt Dock</field>
+            <field name="code">DOCK-001</field>
+            <field name="category_id" ref="category_docking_station"/>
+            <field name="brand">CalDigit</field>
+            <field name="model">TS4</field>
+            <field name="serial_number">CDTS4001</field>
+            <field name="asset_tag">IT-DK-001</field>
+            <field name="state">available</field>
+            <field name="location">Hybrid Workstation 3</field>
+            <field name="purchase_date">2023-07-20</field>
+            <field name="purchase_price">379.00</field>
+            <field name="warranty_start">2023-07-20</field>
+            <field name="warranty_end">2025-07-20</field>
+            <field name="specifications">&lt;p&gt;Thunderbolt 4, 18 ports, 98W charging&lt;/p&gt;</field>
+        </record>
+
+    </data>
+</odoo>

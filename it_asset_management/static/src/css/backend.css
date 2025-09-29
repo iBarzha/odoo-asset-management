@@ -1,0 +1,150 @@
+/* IT Asset Management Backend Styles */
+
+/* Dashboard improvements */
+.asset_dashboard_card {
+    border-radius: 8px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.asset_dashboard_card:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 16px rgba(0, 0, 0, 0.15);
+}
+
+/* Status badges in tree views */
+.o_list_table .badge {
+    font-size: 0.75em;
+    padding: 0.25em 0.5em;
+}
+
+/* Asset state colors */
+.o_data_row.decoration-success {
+    background-color: #f8fff8 !important;
+}
+
+.o_data_row.decoration-info {
+    background-color: #f0f8ff !important;
+}
+
+.o_data_row.decoration-warning {
+    background-color: #fffbf0 !important;
+}
+
+.o_data_row.decoration-danger {
+    background-color: #fff5f5 !important;
+}
+
+/* Kanban card improvements */
+.o_kanban_record {
+    border-radius: 8px;
+    box-shadow: 0 1px 4px rgba(0, 0, 0, 0.1);
+    transition: box-shadow 0.2s ease;
+}
+
+.o_kanban_record:hover {
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
+}
+
+/* Form view improvements */
+.o_form_sheet {
+    border-radius: 8px;
+}
+
+.o_form_sheet .o_notebook .nav-tabs {
+    border-bottom: 2px solid #dee2e6;
+}
+
+.o_form_sheet .o_notebook .nav-tabs .nav-link {
+    border-radius: 4px 4px 0 0;
+    margin-right: 4px;
+}
+
+.o_form_sheet .o_notebook .nav-tabs .nav-link.active {
+    border-bottom-color: transparent;
+    background-color: #fff;
+    font-weight: 600;
+}
+
+/* Button enhancements */
+.btn-primary {
+    background: linear-gradient(45deg, #007bff, #0056b3);
+    border: none;
+}
+
+.btn-success {
+    background: linear-gradient(45deg, #28a745, #1e7e34);
+    border: none;
+}
+
+.btn-warning {
+    background: linear-gradient(45deg, #ffc107, #e0a800);
+    border: none;
+}
+
+.btn-danger {
+    background: linear-gradient(45deg, #dc3545, #c82333);
+    border: none;
+}
+
+/* Widget improvements */
+.o_field_widget {
+    border-radius: 4px;
+}
+
+/* Ribbon styling */
+.o_ribbon {
+    border-radius: 0 0 4px 4px;
+}
+
+/* Asset image styling */
+.o_field_image img {
+    border-radius: 8px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+}
+
+/* Dashboard specific styles */
+.asset_dashboard .row {
+    margin-bottom: 1rem;
+}
+
+.asset_dashboard .card {
+    border: none;
+    border-radius: 8px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+}
+
+.asset_dashboard .card-body {
+    padding: 1.5rem;
+}
+
+.asset_dashboard .btn {
+    border-radius: 6px;
+    font-weight: 500;
+}
+
+/* Status bar improvements */
+.o_statusbar_status .o_arrow_button {
+    border-radius: 4px;
+    margin-right: 2px;
+}
+
+/* Search view improvements */
+.o_searchview .o_searchview_facet {
+    border-radius: 4px;
+}
+
+.o_searchview .o_searchview_input {
+    border-radius: 4px;
+}
+
+/* Mobile responsive */
+@media (max-width: 768px) {
+    .o_form_sheet {
+        padding: 1rem;
+    }
+
+    .asset_dashboard .card-body {
+        padding: 1rem;
+    }
+}

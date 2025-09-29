@@ -1,0 +1,215 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data noupdate="0">
+
+        <!-- Extended Asset Requests with Various States and Types -->
+
+        <!-- New Asset Requests -->
+        <record id="request_new_monitor_marketing" model="it.asset.request">
+            <field name="name">REQ-004</field>
+            <field name="user_id" ref="user_marketing"/>
+            <field name="request_type">new_asset</field>
+            <field name="category_id" ref="category_monitor"/>
+            <field name="priority">medium</field>
+            <field name="urgency">low</field>
+            <field name="state">submitted</field>
+            <field name="request_date" eval="DateTime.now() - timedelta(days=5)"/>
+            <field name="required_date" eval="DateTime.now() + timedelta(days=20)"/>
+            <field name="description">&lt;p&gt;Request for a second monitor to improve productivity for marketing campaign design and content creation. Current single monitor setup is limiting workflow efficiency.&lt;/p&gt;</field>
+            <field name="justification">&lt;p&gt;A dual monitor setup would allow for better multitasking - having design software open on one screen while managing marketing materials on another. Industry studies show 25-35% productivity improvement with dual monitor setups.&lt;/p&gt;</field>
+            <field name="specifications">&lt;p&gt;Preferred specifications:&lt;br/&gt;- 27-inch or larger&lt;br/&gt;- 4K resolution minimum&lt;br/&gt;- IPS panel for color accuracy&lt;br/&gt;- USB-C connectivity&lt;br/&gt;- Height adjustable stand&lt;/p&gt;</field>
+            <field name="preferred_brand">Dell</field>
+            <field name="preferred_model">UltraSharp U2723QE</field>
+        </record>
+
+        <record id="request_new_tablet_hr" model="it.asset.request">
+            <field name="name">REQ-005</field>
+            <field name="user_id" ref="user_hr_manager"/>
+            <field name="request_type">new_asset</field>
+            <field name="category_id" ref="category_tablet"/>
+            <field name="priority">high</field>
+            <field name="urgency">medium</field>
+            <field name="state">under_review</field>
+            <field name="request_date" eval="DateTime.now() - timedelta(days=8)"/>
+            <field name="required_date" eval="DateTime.now() + timedelta(days=12)"/>
+            <field name="description">&lt;p&gt;Need a tablet for conducting mobile interviews, onboarding sessions, and employee surveys. Will be used for presentations during recruitment events and training sessions.&lt;/p&gt;</field>
+            <field name="justification">&lt;p&gt;HR team frequently conducts interviews and training sessions outside the office. A tablet would enable digital form completion, presentation of company materials, and efficient note-taking during mobile HR activities.&lt;/p&gt;</field>
+            <field name="specifications">&lt;p&gt;Requirements:&lt;br/&gt;- 11-inch screen minimum&lt;br/&gt;- Long battery life (8+ hours)&lt;br/&gt;- Supports stylus input&lt;br/&gt;- High-resolution display&lt;br/&gt;- Professional apps compatibility&lt;/p&gt;</field>
+            <field name="preferred_brand">Apple</field>
+            <field name="preferred_model">iPad Air</field>
+        </record>
+
+        <record id="request_new_laptop_developer" model="it.asset.request">
+            <field name="name">REQ-006</field>
+            <field name="user_id" ref="user_developer"/>
+            <field name="request_type">new_asset</field>
+            <field name="category_id" ref="category_laptop"/>
+            <field name="priority">high</field>
+            <field name="urgency">high</field>
+            <field name="state">submitted</field>
+            <field name="request_date" eval="DateTime.now() - timedelta(days=1)"/>
+            <field name="required_date" eval="DateTime.now() + timedelta(days=7)"/>
+            <field name="description">&lt;p&gt;Urgent request for a high-performance laptop for machine learning development work. Current laptop cannot handle the computational requirements for training AI models and running development environments.&lt;/p&gt;</field>
+            <field name="justification">&lt;p&gt;Working on critical AI project with tight deadline. Current hardware limitations are causing significant delays in model training and testing. GPU acceleration is essential for the project's success.&lt;/p&gt;</field>
+            <field name="specifications">&lt;p&gt;Required specifications:&lt;br/&gt;- Intel i9 or AMD Ryzen 9 processor&lt;br/&gt;- 64GB RAM minimum&lt;br/&gt;- NVIDIA RTX 4070 or better&lt;br/&gt;- 2TB NVMe SSD&lt;br/&gt;- 17-inch display&lt;br/&gt;- Thunderbolt 4 ports&lt;/p&gt;</field>
+            <field name="preferred_brand">ASUS</field>
+            <field name="preferred_model">ROG Strix Scar 17</field>
+        </record>
+
+        <!-- Repair Requests -->
+        <record id="request_repair_laptop_designer" model="it.asset.request">
+            <field name="name">REQ-007</field>
+            <field name="user_id" ref="user_designer"/>
+            <field name="request_type">repair</field>
+            <field name="asset_id" ref="asset_laptop_003"/>
+            <field name="priority">high</field>
+            <field name="urgency">high</field>
+            <field name="state">submitted</field>
+            <field name="request_date" eval="DateTime.now() - timedelta(days=1)"/>
+            <field name="required_date" eval="DateTime.now() + timedelta(days=3)"/>
+            <field name="description">&lt;p&gt;MacBook Pro 16-inch has developed screen flickering issues and intermittent display failures. The problem occurs randomly but has become more frequent, affecting design work productivity.&lt;/p&gt;</field>
+            <field name="justification">&lt;p&gt;This is the primary workstation for critical design projects. Screen reliability is essential for accurate color work and client presentations. Unable to complete current projects effectively.&lt;/p&gt;</field>
+        </record>
+
+        <record id="request_repair_printer_sales" model="it.asset.request">
+            <field name="name">REQ-008</field>
+            <field name="user_id" ref="user_sales_manager"/>
+            <field name="request_type">repair</field>
+            <field name="asset_id" ref="asset_printer_003"/>
+            <field name="priority">medium</field>
+            <field name="urgency">medium</field>
+            <field name="state">submitted</field>
+            <field name="request_date" eval="DateTime.now() - timedelta(days=3)"/>
+            <field name="required_date" eval="DateTime.now() + timedelta(days=10)"/>
+            <field name="description">&lt;p&gt;Epson EcoTank printer in marketing department is producing inconsistent colors and has streaking in prints. Photo quality has degraded significantly, affecting marketing material production.&lt;/p&gt;</field>
+            <field name="justification">&lt;p&gt;Marketing materials require high-quality photo prints for client presentations and promotional materials. Current print quality is unprofessional and reflects poorly on company image.&lt;/p&gt;</field>
+        </record>
+
+        <!-- Replacement Requests -->
+        <record id="request_replace_phone_finance" model="it.asset.request">
+            <field name="name">REQ-009</field>
+            <field name="user_id" ref="user_finance"/>
+            <field name="request_type">replacement</field>
+            <field name="asset_id" ref="asset_phone_003"/>
+            <field name="priority">medium</field>
+            <field name="urgency">medium</field>
+            <field name="state">submitted</field>
+            <field name="request_date" eval="DateTime.now() - timedelta(days=4)"/>
+            <field name="required_date" eval="DateTime.now() + timedelta(days=15)"/>
+            <field name="description">&lt;p&gt;Google Pixel 7 Pro has been experiencing battery drain issues, random reboots, and connectivity problems. Device is frequently unreliable for business communications.&lt;/p&gt;</field>
+            <field name="justification">&lt;p&gt;Reliable mobile communication is essential for finance team coordination and client calls. Current device issues are impacting responsiveness and professional communications.&lt;/p&gt;</field>
+        </record>
+
+        <record id="request_replace_monitor_remote" model="it.asset.request">
+            <field name="name">REQ-010</field>
+            <field name="user_id" ref="user_remote_worker"/>
+            <field name="request_type">new_asset</field>
+            <field name="category_id" ref="category_monitor"/>
+            <field name="priority">medium</field>
+            <field name="urgency">low</field>
+            <field name="state">submitted</field>
+            <field name="request_date" eval="DateTime.now() - timedelta(days=6)"/>
+            <field name="required_date" eval="DateTime.now() + timedelta(days=25)"/>
+            <field name="description">&lt;p&gt;Current home office monitor is a personal 22-inch display that is inadequate for professional work. Need a company-provided monitor that matches office standards for remote work setup.&lt;/p&gt;</field>
+            <field name="justification">&lt;p&gt;Remote work policy requires company to provide adequate equipment for home office setups. Current display causes eye strain and reduces productivity compared to office workstation.&lt;/p&gt;</field>
+            <field name="specifications">&lt;p&gt;Requirements for remote work setup:&lt;br/&gt;- 27-inch minimum&lt;br/&gt;- 1440p or 4K resolution&lt;br/&gt;- USB-C hub functionality&lt;br/&gt;- Ergonomic adjustability&lt;br/&gt;- Blue light reduction&lt;/p&gt;</field>
+        </record>
+
+        <!-- Accessory Requests -->
+        <record id="request_new_headset_support" model="it.asset.request">
+            <field name="name">REQ-011</field>
+            <field name="user_id" ref="user_it_support"/>
+            <field name="request_type">new_asset</field>
+            <field name="category_id" ref="category_headset"/>
+            <field name="priority">medium</field>
+            <field name="urgency">medium</field>
+            <field name="state">submitted</field>
+            <field name="request_date" eval="DateTime.now() - timedelta(days=2)"/>
+            <field name="required_date" eval="DateTime.now() + timedelta(days=14)"/>
+            <field name="description">&lt;p&gt;Request for a professional headset for IT support calls and remote assistance sessions. Current basic headphones are inadequate for clear communication during technical support.&lt;/p&gt;</field>
+            <field name="justification">&lt;p&gt;IT support requires clear audio communication for troubleshooting sessions, video calls, and training. Professional headset would improve support quality and reduce communication errors.&lt;/p&gt;</field>
+            <field name="specifications">&lt;p&gt;Professional headset requirements:&lt;br/&gt;- Noise cancelling microphone&lt;br/&gt;- Comfortable for long use&lt;br/&gt;- Wireless with USB dongle&lt;br/&gt;- Long battery life (12+ hours)&lt;br/&gt;- Mute button controls&lt;/p&gt;</field>
+            <field name="preferred_brand">Jabra</field>
+            <field name="preferred_model">Evolve2 75</field>
+        </record>
+
+        <record id="request_new_keyboard_intern" model="it.asset.request">
+            <field name="name">REQ-012</field>
+            <field name="user_id" ref="user_it_intern"/>
+            <field name="request_type">new_asset</field>
+            <field name="category_id" ref="category_keyboard"/>
+            <field name="priority">low</field>
+            <field name="urgency">low</field>
+            <field name="state">submitted</field>
+            <field name="request_date" eval="DateTime.now() - timedelta(days=10)"/>
+            <field name="required_date" eval="DateTime.now() + timedelta(days=30)"/>
+            <field name="description">&lt;p&gt;Request for an ergonomic keyboard to replace the basic keyboard currently assigned. Learning programming and spending long hours coding - need better typing comfort.&lt;/p&gt;</field>
+            <field name="justification">&lt;p&gt;As an intern learning development skills, spending 6-8 hours daily coding. Current keyboard causes wrist discomfort and may lead to repetitive strain injury. Ergonomic keyboard would support learning and health.&lt;/p&gt;</field>
+            <field name="specifications">&lt;p&gt;Ergonomic requirements:&lt;br/&gt;- Split or curved design&lt;br/&gt;- Mechanical switches&lt;br/&gt;- Wrist rest included&lt;br/&gt;- Programmable keys preferred&lt;br/&gt;- USB or wireless connection&lt;/p&gt;</field>
+        </record>
+
+        <!-- Upgrade Requests -->
+        <record id="request_upgrade_ram_developer" model="it.asset.request">
+            <field name="name">REQ-013</field>
+            <field name="user_id" ref="user_developer"/>
+            <field name="request_type">upgrade</field>
+            <field name="asset_id" ref="sample_desktop_001"/>
+            <field name="priority">medium</field>
+            <field name="urgency">medium</field>
+            <field name="state">submitted</field>
+            <field name="request_date" eval="DateTime.now() - timedelta(days=7)"/>
+            <field name="required_date" eval="DateTime.now() + timedelta(days=21)"/>
+            <field name="description">&lt;p&gt;Need RAM upgrade for development workstation from 16GB to 32GB. Current memory is insufficient for running multiple development environments and virtual machines simultaneously.&lt;/p&gt;</field>
+            <field name="justification">&lt;p&gt;Development workflow requires multiple IDEs, databases, containers, and testing environments running concurrently. 16GB RAM causes frequent slowdowns and limits productivity on complex projects.&lt;/p&gt;</field>
+            <field name="specifications">&lt;p&gt;RAM Upgrade requirements:&lt;br/&gt;- Upgrade to 32GB DDR4&lt;br/&gt;- Compatible with HP EliteDesk&lt;br/&gt;- Matching speed and timings&lt;br/&gt;- Professional installation preferred&lt;/p&gt;</field>
+        </record>
+
+        <!-- Return Requests -->
+        <record id="request_return_tablet_intern" model="it.asset.request">
+            <field name="name">REQ-014</field>
+            <field name="user_id" ref="user_it_intern"/>
+            <field name="request_type">return</field>
+            <field name="asset_id" ref="asset_tablet_002"/>
+            <field name="priority">low</field>
+            <field name="urgency">low</field>
+            <field name="state">submitted</field>
+            <field name="request_date" eval="DateTime.now() - timedelta(days=5)"/>
+            <field name="required_date" eval="DateTime.now() + timedelta(days=15)"/>
+            <field name="description">&lt;p&gt;Returning Surface Pro 9 tablet as it's not being utilized in current internship role. Work is primarily desktop-based development and the tablet features are not needed.&lt;/p&gt;</field>
+            <field name="justification">&lt;p&gt;Tablet was initially assigned for mobile work but internship duties are focused on desktop development. Returning device to make it available for someone who needs mobile computing capabilities.&lt;/p&gt;</field>
+        </record>
+
+        <!-- Emergency Requests -->
+        <record id="request_emergency_laptop_sales" model="it.asset.request">
+            <field name="name">REQ-015</field>
+            <field name="user_id" ref="user_sales_manager"/>
+            <field name="request_type">new_asset</field>
+            <field name="category_id" ref="category_laptop"/>
+            <field name="priority">urgent</field>
+            <field name="urgency">high</field>
+            <field name="state">submitted</field>
+            <field name="request_date" eval="DateTime.now() - timedelta(hours=4)"/>
+            <field name="required_date" eval="DateTime.now() + timedelta(days=1)"/>
+            <field name="description">&lt;p&gt;EMERGENCY: Primary laptop failed completely during important client presentation preparation. Critical sales meeting scheduled for tomorrow with major client - need immediate replacement.&lt;/p&gt;</field>
+            <field name="justification">&lt;p&gt;Major client meeting tomorrow worth $500K in potential revenue. Laptop failure has all presentation materials and client data inaccessible. Emergency replacement needed to recover work and complete presentation.&lt;/p&gt;</field>
+            <field name="specifications">&lt;p&gt;Immediate requirements:&lt;br/&gt;- Any available business laptop&lt;br/&gt;- Minimum 8GB RAM&lt;br/&gt;- SSD storage&lt;br/&gt;- HDMI/USB-C for presentations&lt;br/&gt;- Windows 11 compatible&lt;/p&gt;</field>
+        </record>
+
+        <!-- Software Installation Requests -->
+        <record id="request_software_designer" model="it.asset.request">
+            <field name="name">REQ-016</field>
+            <field name="user_id" ref="user_designer"/>
+            <field name="request_type">upgrade</field>
+            <field name="asset_id" ref="asset_desktop_003"/>
+            <field name="priority">medium</field>
+            <field name="urgency">medium</field>
+            <field name="state">submitted</field>
+            <field name="request_date" eval="DateTime.now() - timedelta(days=3)"/>
+            <field name="required_date" eval="DateTime.now() + timedelta(days=14)"/>
+            <field name="description">&lt;p&gt;Need professional design software suite installed on iMac workstation: Adobe Creative Cloud (Photoshop, Illustrator, InDesign, After Effects), Sketch, and Figma desktop app.&lt;/p&gt;</field>
+            <field name="justification">&lt;p&gt;Design team transition to new standardized software suite for better collaboration and workflow consistency. Current software licenses are outdated and incompatible with team projects.&lt;/p&gt;</field>
+            <field name="specifications">&lt;p&gt;Software requirements:&lt;br/&gt;- Adobe Creative Cloud Business license&lt;br/&gt;- Sketch for Mac latest version&lt;br/&gt;- Figma desktop application&lt;br/&gt;- Color calibration software&lt;br/&gt;- Font management utility&lt;/p&gt;</field>
+        </record>
+
+    </data>
+</odoo>

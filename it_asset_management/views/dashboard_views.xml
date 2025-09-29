@@ -1,0 +1,312 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+
+        <!-- Dashboard Form View -->
+        <record id="view_asset_dashboard" model="ir.ui.view">
+            <field name="name">it.asset.dashboard.form</field>
+            <field name="model">it.asset.dashboard</field>
+            <field name="arch" type="xml">
+                <form string="IT Asset Management Dashboard" create="false" edit="false" delete="false">
+                    <sheet>
+                        <div class="o_form_sheet_bg">
+                            <div class="clearfix">
+                                <h1 class="float-left">
+                                    <i class="fa fa-tachometer" title="Dashboard"></i> IT Asset Management Dashboard
+                                </h1>
+                            </div>
+
+                            <!-- Asset Overview Section -->
+                            <div class="row">
+                                <div class="col-12">
+                                    <h3><i class="fa fa-laptop" title="Assets"></i> Asset Overview</h3>
+                                </div>
+                            </div>
+
+                            <div class="row">
+                                <div class="col-lg-2 col-md-4 col-sm-6">
+                                    <div class="card bg-primary text-white mb-3">
+                                        <div class="card-body text-center">
+                                            <button name="action_view_assets" type="object" class="btn btn-link text-white p-0">
+                                                <h2><field name="total_assets"/></h2>
+                                                <p class="card-text">Total Assets</p>
+                                            </button>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="col-lg-2 col-md-4 col-sm-6">
+                                    <div class="card bg-success text-white mb-3">
+                                        <div class="card-body text-center">
+                                            <button name="action_view_available_assets" type="object" class="btn btn-link text-white p-0">
+                                                <h2><field name="available_assets"/></h2>
+                                                <p class="card-text">Available</p>
+                                            </button>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="col-lg-2 col-md-4 col-sm-6">
+                                    <div class="card bg-info text-white mb-3">
+                                        <div class="card-body text-center">
+                                            <button name="action_view_assigned_assets" type="object" class="btn btn-link text-white p-0">
+                                                <h2><field name="assigned_assets"/></h2>
+                                                <p class="card-text">Assigned</p>
+                                            </button>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="col-lg-2 col-md-4 col-sm-6">
+                                    <div class="card bg-warning text-white mb-3">
+                                        <div class="card-body text-center">
+                                            <button name="action_view_maintenance_assets" type="object" class="btn btn-link text-white p-0">
+                                                <h2><field name="maintenance_assets"/></h2>
+                                                <p class="card-text">Maintenance</p>
+                                            </button>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="col-lg-2 col-md-4 col-sm-6">
+                                    <div class="card bg-secondary text-white mb-3">
+                                        <div class="card-body text-center">
+                                            <button name="action_view_maintenance_assets" type="object" class="btn btn-link text-white p-0">
+                                                <h2><field name="repair_assets"/></h2>
+                                                <p class="card-text">Under Repair</p>
+                                            </button>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="col-lg-2 col-md-4 col-sm-6">
+                                    <div class="card bg-dark text-white mb-3">
+                                        <div class="card-body text-center">
+                                            <h2><field name="total_asset_value" widget="monetary"/></h2>
+                                            <p class="card-text">Total Value</p>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- Request Overview Section -->
+                            <div class="row mt-4">
+                                <div class="col-12">
+                                    <h3><i class="fa fa-list-alt" title="Requests"></i> Request Overview</h3>
+                                </div>
+                            </div>
+
+                            <div class="row">
+                                <div class="col-lg-2 col-md-4 col-sm-6">
+                                    <div class="card border-primary mb-3">
+                                        <div class="card-body text-center">
+                                            <h2 class="text-primary"><field name="total_requests"/></h2>
+                                            <p class="card-text">Total Requests</p>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="col-lg-2 col-md-4 col-sm-6">
+                                    <div class="card border-warning mb-3">
+                                        <div class="card-body text-center">
+                                            <button name="action_view_pending_requests" type="object" class="btn btn-link text-warning p-0">
+                                                <h2><field name="pending_requests"/></h2>
+                                                <p class="card-text">Pending</p>
+                                            </button>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="col-lg-2 col-md-4 col-sm-6">
+                                    <div class="card border-success mb-3">
+                                        <div class="card-body text-center">
+                                            <h2 class="text-success"><field name="approved_requests"/></h2>
+                                            <p class="card-text">Approved</p>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="col-lg-2 col-md-4 col-sm-6">
+                                    <div class="card border-info mb-3">
+                                        <div class="card-body text-center">
+                                            <h2 class="text-info"><field name="completed_requests"/></h2>
+                                            <p class="card-text">Completed</p>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="col-lg-2 col-md-4 col-sm-6">
+                                    <div class="card border-danger mb-3">
+                                        <div class="card-body text-center">
+                                            <button name="action_view_overdue_requests" type="object" class="btn btn-link text-danger p-0">
+                                                <h2><field name="overdue_requests"/></h2>
+                                                <p class="card-text">Overdue</p>
+                                            </button>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="col-lg-2 col-md-4 col-sm-6">
+                                    <div class="card border-secondary mb-3">
+                                        <div class="card-body text-center">
+                                            <h2 class="text-secondary"><field name="monthly_cost" widget="monetary"/></h2>
+                                            <p class="card-text">Est. Monthly Cost</p>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- Assignment Overview Section -->
+                            <div class="row mt-4">
+                                <div class="col-12">
+                                    <h3><i class="fa fa-users" title="Assignments"></i> Assignment Overview</h3>
+                                </div>
+                            </div>
+
+                            <div class="row">
+                                <div class="col-lg-4 col-md-6">
+                                    <div class="card border-primary mb-3">
+                                        <div class="card-body text-center">
+                                            <h2 class="text-primary"><field name="total_assignments"/></h2>
+                                            <p class="card-text">Total Assignments</p>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="col-lg-4 col-md-6">
+                                    <div class="card border-success mb-3">
+                                        <div class="card-body text-center">
+                                            <h2 class="text-success"><field name="active_assignments"/></h2>
+                                            <p class="card-text">Active Assignments</p>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="col-lg-4 col-md-6">
+                                    <div class="card border-danger mb-3">
+                                        <div class="card-body text-center">
+                                            <button name="action_view_overdue_assignments" type="object" class="btn btn-link text-danger p-0">
+                                                <h2><field name="overdue_assignments"/></h2>
+                                                <p class="card-text">Overdue Assignments</p>
+                                            </button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- Warranty Overview Section -->
+                            <div class="row mt-4">
+                                <div class="col-12">
+                                    <h3><i class="fa fa-shield" title="Warranty"></i> Warranty Overview</h3>
+                                </div>
+                            </div>
+
+                            <div class="row">
+                                <div class="col-lg-6">
+                                    <div class="card border-warning mb-3">
+                                        <div class="card-body text-center">
+                                            <button name="action_view_warranty_expiring" type="object" class="btn btn-link text-warning p-0">
+                                                <h2><field name="warranty_expiring"/></h2>
+                                                <p class="card-text">Warranty Expiring Soon</p>
+                                            </button>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="col-lg-6">
+                                    <div class="card border-danger mb-3">
+                                        <div class="card-body text-center">
+                                            <button name="action_view_warranty_expired" type="object" class="btn btn-link text-danger p-0">
+                                                <h2><field name="warranty_expired"/></h2>
+                                                <p class="card-text">Warranty Expired</p>
+                                            </button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- Quick Actions Section -->
+                            <div class="row mt-4">
+                                <div class="col-12">
+                                    <h3><i class="fa fa-flash" title="Quick Actions"></i> Quick Actions</h3>
+                                </div>
+                            </div>
+
+                            <div class="row">
+                                <div class="col-lg-3 col-md-6 mb-3">
+                                    <button name="%(action_asset)d" type="action" class="btn btn-primary btn-lg btn-block">
+                                        <i class="fa fa-plus" title="Add"></i> New Asset
+                                    </button>
+                                </div>
+
+                                <div class="col-lg-3 col-md-6 mb-3">
+                                    <button name="%(action_asset_request)d" type="action" class="btn btn-success btn-lg btn-block">
+                                        <i class="fa fa-plus" title="Add"></i> New Request
+                                    </button>
+                                </div>
+
+                                <div class="col-lg-3 col-md-6 mb-3">
+                                    <button name="%(action_asset_assignment)d" type="action" class="btn btn-info btn-lg btn-block">
+                                        <i class="fa fa-users" title="Assignments"></i> Assignments
+                                    </button>
+                                </div>
+
+                                <div class="col-lg-3 col-md-6 mb-3">
+                                    <button name="%(action_asset_category)d" type="action" class="btn btn-secondary btn-lg btn-block">
+                                        <i class="fa fa-cogs" title="Categories"></i> Categories
+                                    </button>
+                                </div>
+                            </div>
+
+                            <!-- Recent Activity Section -->
+                            <div class="row mt-4">
+                                <div class="col-12">
+                                    <h3><i class="fa fa-clock-o" title="Recent Activity"></i> Recent Activity</h3>
+                                </div>
+                            </div>
+
+                            <div class="row">
+                                <div class="col-lg-6">
+                                    <div class="card">
+                                        <div class="card-header">
+                                            <h5><i class="fa fa-list-alt" title="Requests"></i> Recent Requests</h5>
+                                        </div>
+                                        <div class="card-body">
+                                            <button name="%(action_asset_request)d" type="action" class="btn btn-outline-primary btn-block">
+                                                View All Requests
+                                            </button>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="col-lg-6">
+                                    <div class="card">
+                                        <div class="card-header">
+                                            <h5><i class="fa fa-users" title="Assignments"></i> Recent Assignments</h5>
+                                        </div>
+                                        <div class="card-body">
+                                            <button name="%(action_asset_assignment)d" type="action" class="btn btn-outline-info btn-block">
+                                                View All Assignments
+                                            </button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                        </div>
+                    </sheet>
+                </form>
+            </field>
+        </record>
+
+        <!-- Dashboard Action -->
+        <record id="action_asset_dashboard" model="ir.actions.act_window">
+            <field name="name">IT Asset Dashboard</field>
+            <field name="res_model">it.asset.dashboard</field>
+            <field name="view_mode">form</field>
+            <field name="view_id" ref="view_asset_dashboard"/>
+            <field name="target">current</field>
+        </record>
+
+    </data>
+</odoo>

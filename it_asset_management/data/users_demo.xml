@@ -1,0 +1,180 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data noupdate="0">
+
+        <!-- Demo Users with Different Roles -->
+
+        <!-- IT Manager -->
+        <record id="user_it_manager" model="res.users">
+            <field name="name">Alice Johnson</field>
+            <field name="login">alice.johnson</field>
+            <field name="email">alice.johnson@company.com</field>
+            <field name="password">demo123</field>
+            <field name="groups_id" eval="[(4, ref('it_asset_management.group_asset_manager'))]"/>
+        </record>
+
+        <!-- IT Support Specialist -->
+        <record id="user_it_support" model="res.users">
+            <field name="name">Bob Martinez</field>
+            <field name="login">bob.martinez</field>
+            <field name="email">bob.martinez@company.com</field>
+            <field name="password">demo123</field>
+            <field name="groups_id" eval="[(4, ref('it_asset_management.group_it_support'))]"/>
+        </record>
+
+        <!-- HR Manager -->
+        <record id="user_hr_manager" model="res.users">
+            <field name="name">Carol Williams</field>
+            <field name="login">carol.williams</field>
+            <field name="email">carol.williams@company.com</field>
+            <field name="password">demo123</field>
+            <field name="groups_id" eval="[(4, ref('it_asset_management.group_asset_user'))]"/>
+        </record>
+
+        <!-- Marketing Specialist -->
+        <record id="user_marketing" model="res.users">
+            <field name="name">David Brown</field>
+            <field name="login">david.brown</field>
+            <field name="email">david.brown@company.com</field>
+            <field name="password">demo123</field>
+            <field name="groups_id" eval="[(4, ref('it_asset_management.group_asset_user'))]"/>
+        </record>
+
+        <!-- Developer -->
+        <record id="user_developer" model="res.users">
+            <field name="name">Eva García</field>
+            <field name="login">eva.garcia</field>
+            <field name="email">eva.garcia@company.com</field>
+            <field name="password">demo123</field>
+            <field name="groups_id" eval="[(4, ref('it_asset_management.group_asset_user'))]"/>
+        </record>
+
+        <!-- Designer -->
+        <record id="user_designer" model="res.users">
+            <field name="name">Frank Thompson</field>
+            <field name="login">frank.thompson</field>
+            <field name="email">frank.thompson@company.com</field>
+            <field name="password">demo123</field>
+            <field name="groups_id" eval="[(4, ref('it_asset_management.group_asset_user'))]"/>
+        </record>
+
+        <!-- Sales Manager -->
+        <record id="user_sales_manager" model="res.users">
+            <field name="name">Grace Chen</field>
+            <field name="login">grace.chen</field>
+            <field name="email">grace.chen@company.com</field>
+            <field name="password">demo123</field>
+            <field name="groups_id" eval="[(4, ref('it_asset_management.group_asset_user'))]"/>
+        </record>
+
+        <!-- Finance Analyst -->
+        <record id="user_finance" model="res.users">
+            <field name="name">Henry Davis</field>
+            <field name="login">henry.davis</field>
+            <field name="email">henry.davis@company.com</field>
+            <field name="password">demo123</field>
+            <field name="groups_id" eval="[(4, ref('it_asset_management.group_asset_user'))]"/>
+        </record>
+
+        <!-- Remote Worker -->
+        <record id="user_remote_worker" model="res.users">
+            <field name="name">Isabella Rodriguez</field>
+            <field name="login">isabella.rodriguez</field>
+            <field name="email">isabella.rodriguez@company.com</field>
+            <field name="password">demo123</field>
+            <field name="groups_id" eval="[(4, ref('it_asset_management.group_asset_user'))]"/>
+        </record>
+
+        <!-- IT Intern -->
+        <record id="user_it_intern" model="res.users">
+            <field name="name">Jack Wilson</field>
+            <field name="login">jack.wilson</field>
+            <field name="email">jack.wilson@company.com</field>
+            <field name="password">demo123</field>
+            <field name="groups_id" eval="[(4, ref('it_asset_management.group_asset_user'))]"/>
+        </record>
+
+        <!-- Create HR Employee records for these users -->
+
+        <record id="employee_alice" model="hr.employee">
+            <field name="name">Alice Johnson</field>
+            <field name="user_id" ref="user_it_manager"/>
+            <field name="work_email">alice.johnson@company.com</field>
+            <field name="department_id" ref="hr.dep_rd"/>
+            <field name="job_title">IT Manager</field>
+        </record>
+
+        <record id="employee_bob" model="hr.employee">
+            <field name="name">Bob Martinez</field>
+            <field name="user_id" ref="user_it_support"/>
+            <field name="work_email">bob.martinez@company.com</field>
+            <field name="department_id" ref="hr.dep_rd"/>
+            <field name="job_title">IT Support Specialist</field>
+        </record>
+
+        <record id="employee_carol" model="hr.employee">
+            <field name="name">Carol Williams</field>
+            <field name="user_id" ref="user_hr_manager"/>
+            <field name="work_email">carol.williams@company.com</field>
+            <field name="department_id" ref="hr.dep_administration"/>
+            <field name="job_title">HR Manager</field>
+        </record>
+
+        <record id="employee_david" model="hr.employee">
+            <field name="name">David Brown</field>
+            <field name="user_id" ref="user_marketing"/>
+            <field name="work_email">david.brown@company.com</field>
+            <field name="department_id" ref="hr.dep_sales"/>
+            <field name="job_title">Marketing Specialist</field>
+        </record>
+
+        <record id="employee_eva" model="hr.employee">
+            <field name="name">Eva García</field>
+            <field name="user_id" ref="user_developer"/>
+            <field name="work_email">eva.garcia@company.com</field>
+            <field name="department_id" ref="hr.dep_rd"/>
+            <field name="job_title">Software Developer</field>
+        </record>
+
+        <record id="employee_frank" model="hr.employee">
+            <field name="name">Frank Thompson</field>
+            <field name="user_id" ref="user_designer"/>
+            <field name="work_email">frank.thompson@company.com</field>
+            <field name="department_id" ref="hr.dep_rd"/>
+            <field name="job_title">UI/UX Designer</field>
+        </record>
+
+        <record id="employee_grace" model="hr.employee">
+            <field name="name">Grace Chen</field>
+            <field name="user_id" ref="user_sales_manager"/>
+            <field name="work_email">grace.chen@company.com</field>
+            <field name="department_id" ref="hr.dep_sales"/>
+            <field name="job_title">Sales Manager</field>
+        </record>
+
+        <record id="employee_henry" model="hr.employee">
+            <field name="name">Henry Davis</field>
+            <field name="user_id" ref="user_finance"/>
+            <field name="work_email">henry.davis@company.com</field>
+            <field name="department_id" ref="hr.dep_administration"/>
+            <field name="job_title">Finance Analyst</field>
+        </record>
+
+        <record id="employee_isabella" model="hr.employee">
+            <field name="name">Isabella Rodriguez</field>
+            <field name="user_id" ref="user_remote_worker"/>
+            <field name="work_email">isabella.rodriguez@company.com</field>
+            <field name="department_id" ref="hr.dep_sales"/>
+            <field name="job_title">Business Analyst</field>
+        </record>
+
+        <record id="employee_jack" model="hr.employee">
+            <field name="name">Jack Wilson</field>
+            <field name="user_id" ref="user_it_intern"/>
+            <field name="work_email">jack.wilson@company.com</field>
+            <field name="department_id" ref="hr.dep_rd"/>
+            <field name="job_title">IT Intern</field>
+        </record>
+
+    </data>
+</odoo>

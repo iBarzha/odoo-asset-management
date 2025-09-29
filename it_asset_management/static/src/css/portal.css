@@ -1,0 +1,351 @@
+/* IT Asset Management Portal Styles */
+
+/* Card styling improvements */
+.o_portal_wrap .card {
+    border: 1px solid #e9ecef;
+    border-radius: 0.5rem;
+    box-shadow: 0 0.125rem 0.25rem rgba(0, 0, 0, 0.075);
+    transition: box-shadow 0.15s ease-in-out;
+}
+
+.o_portal_wrap .card:hover {
+    box-shadow: 0 0.5rem 1rem rgba(0, 0, 0, 0.15);
+}
+
+.o_portal_wrap .card-header {
+    background-color: #f8f9fa;
+    border-bottom: 1px solid #e9ecef;
+    font-weight: 600;
+}
+
+/* Badge styling */
+.badge {
+    font-size: 0.75em;
+    font-weight: 500;
+    padding: 0.375em 0.75em;
+}
+
+/* Status badges */
+.badge.bg-success {
+    background-color: #28a745 !important;
+}
+
+.badge.bg-warning {
+    background-color: #ffc107 !important;
+    color: #212529 !important;
+}
+
+.badge.bg-danger {
+    background-color: #dc3545 !important;
+}
+
+.badge.bg-info {
+    background-color: #17a2b8 !important;
+}
+
+.badge.bg-primary {
+    background-color: #007bff !important;
+}
+
+.badge.bg-secondary {
+    background-color: #6c757d !important;
+}
+
+/* Table styling */
+.o_portal_wrap .table {
+    margin-bottom: 0;
+}
+
+.o_portal_wrap .table-sm td,
+.o_portal_wrap .table-sm th {
+    padding: 0.5rem;
+    vertical-align: middle;
+}
+
+.o_portal_wrap .table tbody tr:hover {
+    background-color: #f8f9fa;
+}
+
+/* Button improvements */
+.btn-group .btn {
+    margin-right: 0;
+}
+
+.btn-sm {
+    padding: 0.25rem 0.5rem;
+    font-size: 0.875rem;
+}
+
+/* Asset list specific styling */
+.asset-list-item {
+    border-left: 4px solid transparent;
+    transition: border-color 0.2s ease;
+}
+
+.asset-list-item.active {
+    border-left-color: #28a745;
+}
+
+.asset-list-item.overdue {
+    border-left-color: #dc3545;
+    background-color: #fff5f5;
+}
+
+.asset-list-item.maintenance {
+    border-left-color: #ffc107;
+    background-color: #fffdf0;
+}
+
+/* Request form styling */
+.request-form .form-label {
+    font-weight: 600;
+    color: #495057;
+    margin-bottom: 0.5rem;
+}
+
+.request-form .form-control,
+.request-form .form-select {
+    border-radius: 0.375rem;
+    border: 1px solid #ced4da;
+    transition: border-color 0.15s ease-in-out, box-shadow 0.15s ease-in-out;
+}
+
+.request-form .form-control:focus,
+.request-form .form-select:focus {
+    border-color: #80bdff;
+    box-shadow: 0 0 0 0.2rem rgba(0, 123, 255, 0.25);
+}
+
+.request-form .required::after {
+    content: " *";
+    color: #dc3545;
+}
+
+/* Priority indicators */
+.priority-urgent {
+    color: #dc3545;
+    font-weight: bold;
+}
+
+.priority-high {
+    color: #fd7e14;
+    font-weight: bold;
+}
+
+.priority-medium {
+    color: #17a2b8;
+}
+
+.priority-low {
+    color: #6c757d;
+}
+
+/* Status indicators */
+.status-submitted {
+    color: #007bff;
+}
+
+.status-approved {
+    color: #28a745;
+}
+
+.status-in-progress {
+    color: #ffc107;
+}
+
+.status-completed {
+    color: #28a745;
+}
+
+.status-rejected {
+    color: #dc3545;
+}
+
+.status-cancelled {
+    color: #6c757d;
+}
+
+/* Responsive improvements */
+@media (max-width: 768px) {
+    .o_portal_wrap .btn-group {
+        display: flex;
+        flex-direction: column;
+        width: 100%;
+    }
+
+    .o_portal_wrap .btn-group .btn {
+        margin-bottom: 0.25rem;
+        border-radius: 0.375rem !important;
+    }
+
+    .o_portal_wrap .table-responsive {
+        font-size: 0.875rem;
+    }
+
+    .o_portal_wrap .card-header h4 {
+        font-size: 1.1rem;
+    }
+}
+
+/* Asset detail page styling */
+.asset-detail .asset-header {
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    color: white;
+    padding: 2rem;
+    border-radius: 0.5rem 0.5rem 0 0;
+}
+
+.asset-detail .asset-header h1 {
+    margin-bottom: 0.5rem;
+    font-weight: 300;
+}
+
+.asset-detail .asset-header .asset-code {
+    opacity: 0.9;
+    font-size: 1rem;
+}
+
+.asset-detail .spec-table {
+    background-color: #f8f9fa;
+    border-radius: 0.375rem;
+    padding: 1rem;
+}
+
+.asset-detail .spec-table table {
+    margin-bottom: 0;
+}
+
+/* Request detail page styling */
+.request-detail .request-header {
+    background: linear-gradient(135deg, #11998e 0%, #38ef7d 100%);
+    color: white;
+    padding: 2rem;
+    border-radius: 0.5rem 0.5rem 0 0;
+}
+
+.request-detail .request-header h1 {
+    margin-bottom: 0.5rem;
+    font-weight: 300;
+}
+
+.request-detail .timeline {
+    position: relative;
+    padding-left: 2rem;
+}
+
+.request-detail .timeline::before {
+    content: '';
+    position: absolute;
+    left: 0.5rem;
+    top: 0;
+    bottom: 0;
+    width: 2px;
+    background-color: #e9ecef;
+}
+
+.request-detail .timeline-item {
+    position: relative;
+    margin-bottom: 1.5rem;
+}
+
+.request-detail .timeline-item::before {
+    content: '';
+    position: absolute;
+    left: -1.75rem;
+    top: 0.5rem;
+    width: 1rem;
+    height: 1rem;
+    border-radius: 50%;
+    background-color: #007bff;
+    border: 2px solid white;
+    box-shadow: 0 0 0 3px #e9ecef;
+}
+
+/* Loading states */
+.loading {
+    opacity: 0.6;
+    pointer-events: none;
+}
+
+.loading::after {
+    content: '';
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: 2rem;
+    height: 2rem;
+    margin: -1rem 0 0 -1rem;
+    border: 2px solid #e9ecef;
+    border-top: 2px solid #007bff;
+    border-radius: 50%;
+    animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
+}
+
+/* Success/Error messages */
+.alert {
+    border-radius: 0.5rem;
+    border: 1px solid transparent;
+    padding: 0.75rem 1rem;
+    margin-bottom: 1rem;
+}
+
+.alert-success {
+    color: #155724;
+    background-color: #d4edda;
+    border-color: #c3e6cb;
+}
+
+.alert-danger {
+    color: #721c24;
+    background-color: #f8d7da;
+    border-color: #f5c6cb;
+}
+
+.alert-info {
+    color: #0c5460;
+    background-color: #d1ecf1;
+    border-color: #bee5eb;
+}
+
+.alert-warning {
+    color: #856404;
+    background-color: #fff3cd;
+    border-color: #ffeaa7;
+}
+
+/* Portal home improvements */
+.portal-home-card {
+    transition: transform 0.2s ease-in-out;
+}
+
+.portal-home-card:hover {
+    transform: translateY(-2px);
+}
+
+/* Footer spacing */
+.o_portal_wrap {
+    padding-bottom: 2rem;
+}
+
+/* Print styles */
+@media print {
+    .btn, .btn-group {
+        display: none !important;
+    }
+
+    .card {
+        border: 1px solid #000 !important;
+        box-shadow: none !important;
+    }
+
+    .badge {
+        border: 1px solid #000;
+        color: #000 !important;
+        background: transparent !important;
+    }
+}

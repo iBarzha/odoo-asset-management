@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+
+        <!-- Asset Report -->
+        <record id="action_report_asset_list" model="ir.actions.report">
+            <field name="name">Assets Report</field>
+            <field name="model">it.asset</field>
+            <field name="report_type">qweb-pdf</field>
+            <field name="report_name">it_asset_management.report_asset_list</field>
+            <field name="report_file">it_asset_management.report_asset_list</field>
+            <field name="binding_model_id" ref="model_it_asset"/>
+            <field name="binding_type">report</field>
+        </record>
+
+        <!-- Asset Assignment Report -->
+        <record id="action_report_assignment_list" model="ir.actions.report">
+            <field name="name">Asset Assignments Report</field>
+            <field name="model">it.asset.assignment</field>
+            <field name="report_type">qweb-pdf</field>
+            <field name="report_name">it_asset_management.report_assignment_list</field>
+            <field name="report_file">it_asset_management.report_assignment_list</field>
+            <field name="binding_model_id" ref="model_it_asset_assignment"/>
+            <field name="binding_type">report</field>
+        </record>
+
+        <!-- Asset Request Report -->
+        <record id="action_report_request_list" model="ir.actions.report">
+            <field name="name">Asset Requests Report</field>
+            <field name="model">it.asset.request</field>
+            <field name="report_type">qweb-pdf</field>
+            <field name="report_name">it_asset_management.report_request_list</field>
+            <field name="report_file">it_asset_management.report_request_list</field>
+            <field name="binding_model_id" ref="model_it_asset_request"/>
+            <field name="binding_type">report</field>
+        </record>
+
+        <!-- Individual Asset Report -->
+        <record id="action_report_asset_detail" model="ir.actions.report">
+            <field name="name">Asset Details</field>
+            <field name="model">it.asset</field>
+            <field name="report_type">qweb-pdf</field>
+            <field name="report_name">it_asset_management.report_asset_detail</field>
+            <field name="report_file">it_asset_management.report_asset_detail</field>
+            <field name="binding_model_id" ref="model_it_asset"/>
+            <field name="binding_type">report</field>
+        </record>
+
+        <!-- Individual Request Report -->
+        <record id="action_report_request_detail" model="ir.actions.report">
+            <field name="name">Request Details</field>
+            <field name="model">it.asset.request</field>
+            <field name="report_type">qweb-pdf</field>
+            <field name="report_name">it_asset_management.report_request_detail</field>
+            <field name="report_file">it_asset_management.report_request_detail</field>
+            <field name="binding_model_id" ref="model_it_asset_request"/>
+            <field name="binding_type">report</field>
+        </record>
+
+    </data>
+</odoo>

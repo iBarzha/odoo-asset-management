@@ -1,0 +1,296 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <record id="res_config_settings_view_form" model="ir.ui.view">
+        <field name="name">res.config.settings.view.form.inherit.it.asset.management</field>
+        <field name="model">res.config.settings</field>
+        <field name="priority">60</field>
+        <field name="inherit_id" ref="base.res_config_settings_view_form"/>
+        <field name="arch" type="xml">
+            <!--
+              ROBUST XPATH FOR ODOO 18:
+              Targets the main form content area and adds our settings block
+            -->
+            <xpath expr="//form" position="inside">
+                <!-- Add our settings block after any existing settings -->
+                <div class="app_settings_block" data-string="IT Asset Management" string="IT Asset Management" data-key="it_asset_management">
+
+                    <!-- Asset Management Settings -->
+                    <h2>Asset Management</h2>
+                    <div class="row mt16 o_settings_container">
+                        <div class="col-12 col-lg-6 o_setting_box">
+                            <div class="o_setting_left_pane">
+                                <field name="asset_auto_generate_code"/>
+                            </div>
+                            <div class="o_setting_right_pane">
+                                <label for="asset_auto_generate_code"/>
+                                <div class="text-muted">
+                                    Automatically generate unique asset codes when creating new assets
+                                </div>
+                                <div class="content-group" invisible="not asset_auto_generate_code">
+                                    <div class="mt16">
+                                        <label for="asset_code_prefix" class="o_light_label"/>
+                                        <field name="asset_code_prefix" placeholder="ASSET-"/>
+                                    </div>
+                                    <div class="mt16">
+                                        <label for="asset_code_sequence" class="o_light_label"/>
+                                        <field name="asset_code_sequence"/>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="col-12 col-lg-6 o_setting_box">
+                            <div class="o_setting_left_pane">
+                                <field name="asset_access_restriction"/>
+                            </div>
+                            <div class="o_setting_right_pane">
+                                <label for="asset_access_restriction"/>
+                                <div class="text-muted">
+                                    Control which assets users can view based on their role
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Assignment Settings -->
+                    <h2>Asset Assignments</h2>
+                    <div class="row mt16 o_settings_container">
+                        <div class="col-12 col-lg-6 o_setting_box">
+                            <div class="o_setting_left_pane">
+                                <field name="assignment_auto_approve"/>
+                            </div>
+                            <div class="o_setting_right_pane">
+                                <label for="assignment_auto_approve"/>
+                                <div class="text-muted">
+                                    Automatically approve asset assignments without manual approval
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="col-12 col-lg-6 o_setting_box">
+                            <div class="o_setting_left_pane">
+                                <field name="assignment_require_return_reason"/>
+                            </div>
+                            <div class="o_setting_right_pane">
+                                <label for="assignment_require_return_reason"/>
+                                <div class="text-muted">
+                                    Require a reason when returning assigned assets
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="col-12 col-lg-6 o_setting_box">
+                            <div class="o_setting_left_pane">
+                                <field name="assignment_notification_email"/>
+                            </div>
+                            <div class="o_setting_right_pane">
+                                <label for="assignment_notification_email"/>
+                                <div class="text-muted">
+                                    Send email notifications for asset assignments and returns
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Request Settings -->
+                    <h2>Asset Requests</h2>
+                    <div class="row mt16 o_settings_container">
+                        <div class="col-12 col-lg-6 o_setting_box">
+                            <div class="o_setting_left_pane">
+                                <field name="request_approval_required"/>
+                            </div>
+                            <div class="o_setting_right_pane">
+                                <label for="request_approval_required"/>
+                                <div class="text-muted">
+                                    Require manager approval for asset requests
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="col-12 col-lg-6 o_setting_box">
+                            <div class="o_setting_left_pane">
+                                <field name="request_auto_create_asset"/>
+                            </div>
+                            <div class="o_setting_right_pane">
+                                <label for="request_auto_create_asset"/>
+                                <div class="text-muted">
+                                    Automatically create asset records when fulfilling approved requests
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="col-12 col-lg-6 o_setting_box">
+                            <div class="o_setting_left_pane">
+                                <field name="request_notification_email"/>
+                            </div>
+                            <div class="o_setting_right_pane">
+                                <label for="request_notification_email"/>
+                                <div class="text-muted">
+                                    Send email notifications for request status changes
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Maintenance Settings -->
+                    <h2>Maintenance &amp; Warranty</h2>
+                    <div class="row mt16 o_settings_container">
+                        <div class="col-12 col-lg-6 o_setting_box">
+                            <div class="o_setting_left_pane">
+                                <field name="maintenance_auto_schedule"/>
+                            </div>
+                            <div class="o_setting_right_pane">
+                                <label for="maintenance_auto_schedule"/>
+                                <div class="text-muted">
+                                    Automatically schedule maintenance based on asset lifecycle
+                                </div>
+                                <div class="content-group" invisible="not maintenance_auto_schedule">
+                                    <div class="mt16">
+                                        <label for="maintenance_reminder_days" class="o_light_label"/>
+                                        <field name="maintenance_reminder_days"/>
+                                        <span> days</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="col-12 col-lg-6 o_setting_box">
+                            <div class="o_setting_left_pane">
+                                <field name="maintenance_notification_email"/>
+                            </div>
+                            <div class="o_setting_right_pane">
+                                <label for="maintenance_notification_email"/>
+                                <div class="text-muted">
+                                    Send email notifications for maintenance schedules and reminders
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="col-12 col-lg-6 o_setting_box">
+                            <div class="o_setting_left_pane">
+                                <label for="warranty_reminder_days"/>
+                            </div>
+                            <div class="o_setting_right_pane">
+                                <field name="warranty_reminder_days"/>
+                                <span> days before warranty expires</span>
+                                <div class="text-muted">
+                                    Number of days before warranty expires to send reminders
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="col-12 col-lg-6 o_setting_box">
+                            <div class="o_setting_left_pane">
+                                <field name="warranty_notification_email"/>
+                            </div>
+                            <div class="o_setting_right_pane">
+                                <label for="warranty_notification_email"/>
+                                <div class="text-muted">
+                                    Send email notifications for warranty expiry reminders
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Portal Settings -->
+                    <h2>Portal Access</h2>
+                    <div class="row mt16 o_settings_container">
+                        <div class="col-12 col-lg-6 o_setting_box">
+                            <div class="o_setting_left_pane">
+                                <field name="portal_asset_view"/>
+                            </div>
+                            <div class="o_setting_right_pane">
+                                <label for="portal_asset_view"/>
+                                <div class="text-muted">
+                                    Allow users to view their assigned assets in portal
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="col-12 col-lg-6 o_setting_box">
+                            <div class="o_setting_left_pane">
+                                <field name="portal_request_creation"/>
+                            </div>
+                            <div class="o_setting_right_pane">
+                                <label for="portal_request_creation"/>
+                                <div class="text-muted">
+                                    Allow users to create asset requests from portal
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="col-12 col-lg-6 o_setting_box">
+                            <div class="o_setting_left_pane">
+                                <field name="portal_assignment_history"/>
+                            </div>
+                            <div class="o_setting_right_pane">
+                                <label for="portal_assignment_history"/>
+                                <div class="text-muted">
+                                    Show assignment history to users in portal
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Dashboard & Reporting -->
+                    <h2>Dashboard &amp; Reporting</h2>
+                    <div class="row mt16 o_settings_container">
+                        <div class="col-12 col-lg-6 o_setting_box">
+                            <div class="o_setting_left_pane">
+                                <field name="dashboard_show_charts"/>
+                            </div>
+                            <div class="o_setting_right_pane">
+                                <label for="dashboard_show_charts"/>
+                                <div class="text-muted">
+                                    Display charts and graphs on the dashboard
+                                </div>
+                                <div class="content-group" invisible="not dashboard_show_charts">
+                                    <div class="mt16">
+                                        <label for="dashboard_refresh_interval" class="o_light_label"/>
+                                        <field name="dashboard_refresh_interval"/>
+                                        <span> minutes</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="col-12 col-lg-6 o_setting_box">
+                            <div class="o_setting_left_pane">
+                                <field name="report_include_images"/>
+                            </div>
+                            <div class="o_setting_right_pane">
+                                <label for="report_include_images"/>
+                                <div class="text-muted">
+                                    Include asset images in printed reports
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="col-12 col-lg-6 o_setting_box">
+                            <div class="o_setting_left_pane">
+                                <label for="report_barcode_format"/>
+                            </div>
+                            <div class="o_setting_right_pane">
+                                <field name="report_barcode_format"/>
+                                <div class="text-muted">
+                                    Format for asset tag barcodes in reports
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </xpath>
+        </field>
+    </record>
+
+    <record id="it_asset_config_settings_action" model="ir.actions.act_window">
+        <field name="name">Settings</field>
+        <field name="type">ir.actions.act_window</field>
+        <field name="res_model">res.config.settings</field>
+        <field name="view_mode">form</field>
+        <field name="target">inline</field>
+        <field name="context">{'module': 'it_asset_management'}</field>
+    </record>
+
+</odoo>

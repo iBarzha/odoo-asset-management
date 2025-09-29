@@ -1,0 +1,323 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data noupdate="1">
+
+        <!-- Main Asset Categories -->
+        <record id="category_computer" model="it.asset.category">
+            <field name="name">Computers</field>
+            <field name="code">COMP_001</field>
+            <field name="sequence">10</field>
+            <field name="description">All types of computer equipment including desktops, laptops, workstations</field>
+            <field name="color">1</field>
+        </record>
+
+        <record id="category_laptop" model="it.asset.category">
+            <field name="name">Laptops</field>
+            <field name="code">LAPTOP</field>
+            <field name="parent_id" ref="category_computer"/>
+            <field name="sequence">11</field>
+            <field name="description">Portable computers for mobile work</field>
+            <field name="color">2</field>
+        </record>
+
+        <record id="category_desktop" model="it.asset.category">
+            <field name="name">Desktop Computers</field>
+            <field name="code">DESKTOP</field>
+            <field name="parent_id" ref="category_computer"/>
+            <field name="sequence">12</field>
+            <field name="description">Fixed workstation computers</field>
+            <field name="color">3</field>
+        </record>
+
+        <record id="category_workstation" model="it.asset.category">
+            <field name="name">Workstations</field>
+            <field name="code">WORKS</field>
+            <field name="parent_id" ref="category_computer"/>
+            <field name="sequence">13</field>
+            <field name="description">High-performance workstations for specialized tasks</field>
+            <field name="color">4</field>
+        </record>
+
+        <!-- Server Equipment -->
+        <record id="category_server" model="it.asset.category">
+            <field name="name">Servers</field>
+            <field name="code">SERVER</field>
+            <field name="sequence">20</field>
+            <field name="description">Server equipment and infrastructure</field>
+            <field name="color">5</field>
+        </record>
+
+        <record id="category_physical_server" model="it.asset.category">
+            <field name="name">Physical Servers</field>
+            <field name="code">PHYS_SRV</field>
+            <field name="parent_id" ref="category_server"/>
+            <field name="sequence">21</field>
+            <field name="description">Physical server hardware</field>
+            <field name="color">6</field>
+        </record>
+
+        <record id="category_virtual_server" model="it.asset.category">
+            <field name="name">Virtual Servers</field>
+            <field name="code">VIRT_SRV</field>
+            <field name="parent_id" ref="category_server"/>
+            <field name="sequence">22</field>
+            <field name="description">Virtual server instances</field>
+            <field name="color">7</field>
+        </record>
+
+        <!-- Mobile Devices -->
+        <record id="category_mobile" model="it.asset.category">
+            <field name="name">Mobile Devices</field>
+            <field name="code">MOBILE</field>
+            <field name="sequence">30</field>
+            <field name="description">Portable mobile communication and computing devices</field>
+            <field name="color">8</field>
+        </record>
+
+        <record id="category_smartphone" model="it.asset.category">
+            <field name="name">Smartphones</field>
+            <field name="code">PHONE</field>
+            <field name="parent_id" ref="category_mobile"/>
+            <field name="sequence">31</field>
+            <field name="description">Business smartphones and mobile phones</field>
+            <field name="color">9</field>
+        </record>
+
+        <record id="category_tablet" model="it.asset.category">
+            <field name="name">Tablets</field>
+            <field name="code">TABLET</field>
+            <field name="parent_id" ref="category_mobile"/>
+            <field name="sequence">32</field>
+            <field name="description">Tablet computers and iPad devices</field>
+            <field name="color">10</field>
+        </record>
+
+        <!-- Network Equipment -->
+        <record id="category_network" model="it.asset.category">
+            <field name="name">Network Equipment</field>
+            <field name="code">NETWORK</field>
+            <field name="sequence">40</field>
+            <field name="description">Network infrastructure and communication equipment</field>
+            <field name="color">11</field>
+        </record>
+
+        <record id="category_router" model="it.asset.category">
+            <field name="name">Routers</field>
+            <field name="code">ROUTER</field>
+            <field name="parent_id" ref="category_network"/>
+            <field name="sequence">41</field>
+            <field name="description">Network routing equipment</field>
+            <field name="color">1</field>
+        </record>
+
+        <record id="category_switch" model="it.asset.category">
+            <field name="name">Switches</field>
+            <field name="code">SWITCH</field>
+            <field name="parent_id" ref="category_network"/>
+            <field name="sequence">42</field>
+            <field name="description">Network switching equipment</field>
+            <field name="color">2</field>
+        </record>
+
+        <record id="category_firewall" model="it.asset.category">
+            <field name="name">Firewalls</field>
+            <field name="code">FIREWALL</field>
+            <field name="parent_id" ref="category_network"/>
+            <field name="sequence">43</field>
+            <field name="description">Network security and firewall equipment</field>
+            <field name="color">3</field>
+        </record>
+
+        <!-- Software and Licenses -->
+        <record id="category_software" model="it.asset.category">
+            <field name="name">Software Licenses</field>
+            <field name="code">SOFTWARE</field>
+            <field name="sequence">50</field>
+            <field name="description">Software licenses and digital assets</field>
+            <field name="color">4</field>
+        </record>
+
+        <record id="category_os_license" model="it.asset.category">
+            <field name="name">Operating System Licenses</field>
+            <field name="code">OS_LIC</field>
+            <field name="parent_id" ref="category_software"/>
+            <field name="sequence">51</field>
+            <field name="description">Operating system software licenses</field>
+            <field name="color">5</field>
+        </record>
+
+        <record id="category_app_license" model="it.asset.category">
+            <field name="name">Application Licenses</field>
+            <field name="code">APP_LIC</field>
+            <field name="parent_id" ref="category_software"/>
+            <field name="sequence">52</field>
+            <field name="description">Business application software licenses</field>
+            <field name="color">6</field>
+        </record>
+
+        <record id="category_security_license" model="it.asset.category">
+            <field name="name">Security Software Licenses</field>
+            <field name="code">SEC_LIC</field>
+            <field name="parent_id" ref="category_software"/>
+            <field name="sequence">53</field>
+            <field name="description">Security software and antivirus licenses</field>
+            <field name="color">7</field>
+        </record>
+
+        <!-- Peripherals and Accessories -->
+        <record id="category_peripheral" model="it.asset.category">
+            <field name="name">Peripherals</field>
+            <field name="code">PERIPH</field>
+            <field name="sequence">60</field>
+            <field name="description">Computer peripherals and accessories</field>
+            <field name="color">8</field>
+        </record>
+
+        <record id="category_monitor" model="it.asset.category">
+            <field name="name">Monitors</field>
+            <field name="code">MONITOR</field>
+            <field name="parent_id" ref="category_peripheral"/>
+            <field name="sequence">61</field>
+            <field name="description">Computer monitors and displays</field>
+            <field name="color">9</field>
+        </record>
+
+        <record id="category_printer" model="it.asset.category">
+            <field name="name">Printers</field>
+            <field name="code">PRINTER</field>
+            <field name="parent_id" ref="category_peripheral"/>
+            <field name="sequence">62</field>
+            <field name="description">Printers, scanners, and multifunction devices</field>
+            <field name="color">10</field>
+        </record>
+
+        <record id="category_input_device" model="it.asset.category">
+            <field name="name">Input Devices</field>
+            <field name="code">INPUT</field>
+            <field name="parent_id" ref="category_peripheral"/>
+            <field name="sequence">63</field>
+            <field name="description">Keyboards, mice, and other input devices</field>
+            <field name="color">11</field>
+        </record>
+
+        <record id="category_accessory" model="it.asset.category">
+            <field name="name">Accessories</field>
+            <field name="code">ACCESS</field>
+            <field name="parent_id" ref="category_peripheral"/>
+            <field name="sequence">64</field>
+            <field name="description">Computer accessories including headsets, webcams, and other peripherals</field>
+            <field name="color">12</field>
+        </record>
+
+        <!-- Storage Equipment -->
+        <record id="category_storage" model="it.asset.category">
+            <field name="name">Storage Equipment</field>
+            <field name="code">STORAGE</field>
+            <field name="sequence">70</field>
+            <field name="description">Data storage devices and equipment</field>
+            <field name="color">1</field>
+        </record>
+
+        <record id="category_external_drive" model="it.asset.category">
+            <field name="name">External Drives</field>
+            <field name="code">EXT_DRIVE</field>
+            <field name="parent_id" ref="category_storage"/>
+            <field name="sequence">71</field>
+            <field name="description">External hard drives and USB storage</field>
+            <field name="color">2</field>
+        </record>
+
+        <record id="category_nas" model="it.asset.category">
+            <field name="name">Network Attached Storage</field>
+            <field name="code">NAS</field>
+            <field name="parent_id" ref="category_storage"/>
+            <field name="sequence">72</field>
+            <field name="description">Network attached storage devices</field>
+            <field name="color">3</field>
+        </record>
+
+        <!-- Audio/Visual Equipment -->
+        <record id="category_av_equipment" model="it.asset.category">
+            <field name="name">Audio/Visual Equipment</field>
+            <field name="code">AV_EQUIP</field>
+            <field name="sequence">80</field>
+            <field name="description">Audio and visual equipment for presentations and meetings</field>
+            <field name="color">4</field>
+        </record>
+
+        <record id="category_projector" model="it.asset.category">
+            <field name="name">Projectors</field>
+            <field name="code">PROJ</field>
+            <field name="parent_id" ref="category_av_equipment"/>
+            <field name="sequence">81</field>
+            <field name="description">Digital projectors and presentation equipment</field>
+            <field name="color">5</field>
+        </record>
+
+        <record id="category_camera" model="it.asset.category">
+            <field name="name">Cameras</field>
+            <field name="code">CAMERA</field>
+            <field name="parent_id" ref="category_av_equipment"/>
+            <field name="sequence">82</field>
+            <field name="description">Digital cameras and video equipment</field>
+            <field name="color">6</field>
+        </record>
+
+        <!-- Additional Peripheral Categories -->
+
+        <record id="category_keyboard" model="it.asset.category">
+            <field name="name">Keyboards</field>
+            <field name="code">KEYBOARD</field>
+            <field name="parent_id" ref="category_input_device"/>
+            <field name="sequence">631</field>
+            <field name="description">Computer keyboards and input devices</field>
+            <field name="color">1</field>
+        </record>
+
+        <record id="category_mouse" model="it.asset.category">
+            <field name="name">Mice</field>
+            <field name="code">MOUSE</field>
+            <field name="parent_id" ref="category_input_device"/>
+            <field name="sequence">632</field>
+            <field name="description">Computer mice and pointing devices</field>
+            <field name="color">2</field>
+        </record>
+
+        <record id="category_headset" model="it.asset.category">
+            <field name="name">Headsets</field>
+            <field name="code">HEADSET</field>
+            <field name="parent_id" ref="category_accessory"/>
+            <field name="sequence">641</field>
+            <field name="description">Headphones and communication headsets</field>
+            <field name="color">3</field>
+        </record>
+
+        <record id="category_webcam" model="it.asset.category">
+            <field name="name">Webcams</field>
+            <field name="code">WEBCAM</field>
+            <field name="parent_id" ref="category_accessory"/>
+            <field name="sequence">642</field>
+            <field name="description">Web cameras and video conferencing equipment</field>
+            <field name="color">4</field>
+        </record>
+
+        <record id="category_docking_station" model="it.asset.category">
+            <field name="name">Docking Stations</field>
+            <field name="code">DOCK</field>
+            <field name="parent_id" ref="category_accessory"/>
+            <field name="sequence">643</field>
+            <field name="description">Laptop docking stations and port replicators</field>
+            <field name="color">5</field>
+        </record>
+
+        <!-- Other Equipment -->
+        <record id="category_other" model="it.asset.category">
+            <field name="name">Other Equipment</field>
+            <field name="code">OTHER</field>
+            <field name="sequence">90</field>
+            <field name="description">Miscellaneous IT equipment not categorized elsewhere</field>
+            <field name="color">7</field>
+        </record>
+
+    </data>
+</odoo>

@@ -1,0 +1,270 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <!-- Barcode Generator Wizard Views -->
+    <record id="view_barcode_generator_wizard_form" model="ir.ui.view">
+        <field name="name">Barcode Generator Wizard</field>
+        <field name="model">it.asset.barcode.generator.wizard</field>
+        <field name="arch" type="xml">
+            <form string="Generate QR Codes &amp; Barcodes">
+                <sheet>
+                    <div class="oe_title">
+                        <h1>Generate QR Codes &amp; Barcodes</h1>
+                        <p>Generate QR codes and/or barcodes for your IT assets</p>
+                    </div>
+
+                    <group>
+                        <group string="Generation Options">
+                            <field name="generation_type" widget="radio"/>
+                            <field name="overwrite_existing"/>
+                            <field name="auto_generate_barcode" invisible="generation_type not in ('barcode', 'both')"/>
+                        </group>
+                        <group string="Asset Selection">
+                            <field name="state_filter"/>
+                        </group>
+                    </group>
+
+                    <notebook>
+                        <page string="Asset Selection">
+                            <field name="asset_ids" nolabel="1">
+                                <tree>
+                                    <field name="name"/>
+                                    <field name="code"/>
+                                    <field name="category_id"/>
+                                    <field name="state"/>
+                                    <field name="asset_tag"/>
+                                </tree>
+                            </field>
+                            <p class="text-muted">
+                                Leave empty to process all assets matching the filters.
+                            </p>
+                        </page>
+                        <page string="Category Filter">
+                            <field name="category_ids" nolabel="1">
+                                <tree>
+                                    <field name="name"/>
+                                    <field name="code"/>
+                                    <field name="asset_count"/>
+                                </tree>
+                            </field>
+                            <p class="text-muted">
+                                Select categories to limit processing to assets in these categories only.
+                            </p>
+                        </page>
+                    </notebook>
+                </sheet>
+                <footer>
+                    <button name="action_preview_selection" string="Preview Selection" type="object" class="btn-secondary"/>
+                    <button name="action_generate_codes" string="Generate Codes" type="object" class="btn-primary"/>
+                    <button string="Cancel" class="btn-secondary" special="cancel"/>
+                </footer>
+            </form>
+        </field>
+    </record>
+
+    <!-- Action for Barcode Generator Wizard -->
+    <record id="action_barcode_generator_wizard" model="ir.actions.act_window">
+        <field name="name">Generate QR Codes &amp; Barcodes</field>
+        <field name="type">ir.actions.act_window</field>
+        <field name="res_model">it.asset.barcode.generator.wizard</field>
+        <field name="view_mode">form</field>
+        <field name="target">new</field>
+        <field name="context">{}</field>
+    </record>
+
+    <!-- Asset Import Wizard Views -->
+    <record id="view_asset_import_wizard_form" model="ir.ui.view">
+        <field name="name">Asset Import Wizard</field>
+        <field name="model">it.asset.import.wizard</field>
+        <field name="arch" type="xml">
+            <form string="Import Assets">
+                <sheet>
+                    <div class="oe_title">
+                        <h1>Import Assets</h1>
+                    </div>
+
+                    <group invisible="state != 'draft'">
+                        <group>
+                            <field name="file_data" filename="file_name"/>
+                            <field name="file_name" invisible="1"/>
+                            <field name="import_type"/>
+                            <field name="has_header"/>
+                            <field name="delimiter"/>
+                        </group>
+                    </group>
+
+                    <group invisible="state not in ('preview', 'done')">
+                        <field name="preview_data" widget="text" readonly="1" invisible="state != 'preview'"/>
+                        <field name="import_results" widget="text" readonly="1" invisible="state != 'done'"/>
+                    </group>
+
+                    <field name="state" invisible="1"/>
+                </sheet>
+
+                <footer>
+                    <button name="action_download_template" type="object" string="Download Template"
+                            class="btn-secondary" invisible="state != 'draft'"/>
+                    <button name="action_preview" type="object" string="Preview"
+                            class="btn-primary" invisible="state != 'draft'"/>
+                    <button name="action_import" type="object" string="Import"
+                            class="btn-primary" invisible="state != 'preview'"/>
+                    <button string="Cancel" class="btn-secondary" special="cancel"/>
+                </footer>
+            </form>
+        </field>
+    </record>
+
+    <!-- Asset Export Wizard Views -->
+    <record id="view_asset_export_wizard_form" model="ir.ui.view">
+        <field name="name">Asset Export Wizard</field>
+        <field name="model">it.asset.export.wizard</field>
+        <field name="arch" type="xml">
+            <form string="Export Assets">
+                <sheet>
+                    <div class="oe_title">
+                        <h1>Export Assets</h1>
+                    </div>
+
+                    <group>
+                        <group>
+                            <field name="export_format"/>
+                            <field name="export_type"/>
+                            <field name="delimiter" invisible="export_format != 'csv'"/>
+                        </group>
+                        <group>
+                            <field name="include_assignments"/>
+                            <field name="include_requests"/>
+                        </group>
+                    </group>
+
+                    <group string="Assets to Export" invisible="export_type != 'selected'">
+                        <field name="asset_ids" nolabel="1"/>
+                    </group>
+
+                    <group string="Filters" invisible="export_type != 'filtered'">
+                        <group>
+                            <field name="category_ids"/>
+                            <field name="state_filter"/>
+                        </group>
+                        <group>
+                            <field name="date_from"/>
+                            <field name="date_to"/>
+                        </group>
+                    </group>
+
+                    <group invisible="not exported_file">
+                        <field name="exported_file" filename="exported_filename" readonly="1"/>
+                        <field name="exported_filename" readonly="1"/>
+                    </group>
+                </sheet>
+
+                <footer>
+                    <button name="action_export" type="object" string="Export"
+                            class="btn-primary" invisible="exported_file"/>
+                    <button name="action_download" type="object" string="Download"
+                            class="btn-primary" invisible="not exported_file"/>
+                    <button string="Close" class="btn-secondary" special="cancel"/>
+                </footer>
+            </form>
+        </field>
+    </record>
+
+    <!-- Actions -->
+    <record id="action_asset_import_wizard" model="ir.actions.act_window">
+        <field name="name">Import Assets</field>
+        <field name="res_model">it.asset.import.wizard</field>
+        <field name="view_mode">form</field>
+        <field name="target">new</field>
+    </record>
+
+    <record id="action_asset_export_wizard" model="ir.actions.act_window">
+        <field name="name">Export Assets</field>
+        <field name="res_model">it.asset.export.wizard</field>
+        <field name="view_mode">form</field>
+        <field name="target">new</field>
+    </record>
+
+    <!-- Asset Request Reject Wizard Views -->
+    <record id="view_asset_request_reject_wizard_form" model="ir.ui.view">
+        <field name="name">Asset Request Reject Wizard</field>
+        <field name="model">it.asset.request.reject.wizard</field>
+        <field name="arch" type="xml">
+            <form string="Reject Asset Request">
+                <sheet>
+                    <div class="oe_title">
+                        <h1>Reject Request</h1>
+                    </div>
+
+                    <group>
+                        <field name="request_id" readonly="1"/>
+                        <field name="notify_requester"/>
+                    </group>
+
+                    <group string="Rejection Reason">
+                        <field name="rejection_reason" nolabel="1"
+                               placeholder="Please provide a detailed reason for rejecting this request..."/>
+                    </group>
+                </sheet>
+
+                <footer>
+                    <button name="action_reject" type="object" string="Reject Request"
+                            class="btn-danger"/>
+                    <button string="Cancel" class="btn-secondary" special="cancel"/>
+                </footer>
+            </form>
+        </field>
+    </record>
+
+    <!-- Asset Request Complete Wizard Views -->
+    <record id="view_asset_request_complete_wizard_form" model="ir.ui.view">
+        <field name="name">Asset Request Complete Wizard</field>
+        <field name="model">it.asset.request.complete.wizard</field>
+        <field name="arch" type="xml">
+            <form string="Complete Asset Request">
+                <sheet>
+                    <div class="oe_title">
+                        <h1>Complete Request</h1>
+                    </div>
+
+                    <group>
+                        <group>
+                            <field name="request_id" readonly="1"/>
+                            <field name="notify_requester"/>
+                        </group>
+                        <group>
+                            <field name="actual_cost"/>
+                            <field name="delivered_asset_id"/>
+                        </group>
+                    </group>
+
+                    <group string="Completion Notes">
+                        <field name="completion_notes" nolabel="1"
+                               placeholder="Describe what was done to complete this request..."/>
+                    </group>
+                </sheet>
+
+                <footer>
+                    <button name="action_complete" type="object" string="Complete Request"
+                            class="btn-success"/>
+                    <button string="Cancel" class="btn-secondary" special="cancel"/>
+                </footer>
+            </form>
+        </field>
+    </record>
+
+    <!-- Actions for New Wizards -->
+    <record id="action_asset_request_reject_wizard" model="ir.actions.act_window">
+        <field name="name">Reject Asset Request</field>
+        <field name="res_model">it.asset.request.reject.wizard</field>
+        <field name="view_mode">form</field>
+        <field name="target">new</field>
+    </record>
+
+    <record id="action_asset_request_complete_wizard" model="ir.actions.act_window">
+        <field name="name">Complete Asset Request</field>
+        <field name="res_model">it.asset.request.complete.wizard</field>
+        <field name="view_mode">form</field>
+        <field name="target">new</field>
+    </record>
+
+</odoo>

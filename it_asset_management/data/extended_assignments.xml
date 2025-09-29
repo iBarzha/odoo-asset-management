@@ -1,0 +1,250 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data noupdate="0">
+
+        <!-- Extended Asset Assignments -->
+
+        <!-- MacBook Pro assigned to Designer -->
+        <record id="assignment_macbook_designer" model="it.asset.assignment">
+            <field name="asset_id" ref="asset_laptop_003"/>
+            <field name="user_id" ref="user_designer"/>
+            <field name="assigned_by_id" ref="user_it_manager"/>
+            <field name="assignment_date" eval="(DateTime.now() - timedelta(days=60))"/>
+            <field name="expected_return_date" eval="(DateTime.now() + timedelta(days=120))"/>
+            <field name="is_active" eval="True"/>
+            <field name="state">active</field>
+            <field name="location">Design Department - Desk 12</field>
+            <field name="condition_on_assignment">excellent</field>
+            <field name="assignment_reason">Primary design workstation for creative projects</field>
+            <field name="assignment_notes">MacBook Pro M2 assigned for graphic design and video editing work. User completed Apple security training and signed equipment responsibility agreement.</field>
+        </record>
+
+        <!-- Gaming Laptop assigned to Developer -->
+        <record id="assignment_gaming_laptop_dev" model="it.asset.assignment">
+            <field name="asset_id" ref="asset_laptop_005"/>
+            <field name="user_id" ref="user_developer"/>
+            <field name="assigned_by_id" ref="user_it_manager"/>
+            <field name="assignment_date" eval="(DateTime.now() - timedelta(days=25))"/>
+            <field name="expected_return_date" eval="(DateTime.now() + timedelta(days=155))"/>
+            <field name="is_active" eval="True"/>
+            <field name="state">active</field>
+            <field name="location">Development Team - Workstation 3</field>
+            <field name="condition_on_assignment">excellent</field>
+            <field name="assignment_reason">High-performance computing for AI/ML development</field>
+            <field name="assignment_notes">MSI Gaming laptop assigned for machine learning projects requiring GPU acceleration. Includes development environment setup and security software installation.</field>
+        </record>
+
+        <!-- iMac assigned to Creative Studio -->
+        <record id="assignment_imac_creative" model="it.asset.assignment">
+            <field name="asset_id" ref="asset_desktop_003"/>
+            <field name="user_id" ref="user_marketing"/>
+            <field name="assigned_by_id" ref="user_it_manager"/>
+            <field name="assignment_date" eval="(DateTime.now() - timedelta(days=40))"/>
+            <field name="expected_return_date" eval="(DateTime.now() + timedelta(days=140))"/>
+            <field name="is_active" eval="True"/>
+            <field name="state">active</field>
+            <field name="location">Creative Studio - Station A</field>
+            <field name="condition_on_assignment">excellent</field>
+            <field name="assignment_reason">Marketing content creation and brand design</field>
+            <field name="assignment_notes">iMac 24-inch assigned to marketing for campaign design and content creation. Pre-installed with Adobe Creative Suite and brand assets.</field>
+        </record>
+
+        <!-- UltraWide Monitor assigned to Developer -->
+        <record id="assignment_ultrawide_dev" model="it.asset.assignment">
+            <field name="asset_id" ref="asset_monitor_002"/>
+            <field name="user_id" ref="user_developer"/>
+            <field name="assigned_by_id" ref="user_it_manager"/>
+            <field name="assignment_date" eval="(DateTime.now() - timedelta(days=50))"/>
+            <field name="expected_return_date" eval="(DateTime.now() + timedelta(days=130))"/>
+            <field name="is_active" eval="True"/>
+            <field name="state">active</field>
+            <field name="location">Development Area - Desk 15</field>
+            <field name="condition_on_assignment">good</field>
+            <field name="assignment_reason">Enhanced coding productivity with wide screen</field>
+            <field name="assignment_notes">LG UltraWide monitor for development work. Allows side-by-side code and documentation viewing. Includes monitor arm for ergonomic positioning.</field>
+        </record>
+
+        <!-- Samsung Galaxy assigned to Sales Manager -->
+        <record id="assignment_galaxy_sales" model="it.asset.assignment">
+            <field name="asset_id" ref="asset_phone_002"/>
+            <field name="user_id" ref="user_sales_manager"/>
+            <field name="assigned_by_id" ref="user_it_manager"/>
+            <field name="assignment_date" eval="(DateTime.now() - timedelta(days=35))"/>
+            <field name="expected_return_date" eval="(DateTime.now() + timedelta(days=145))"/>
+            <field name="is_active" eval="True"/>
+            <field name="state">active</field>
+            <field name="location">Sales Department - Mobile</field>
+            <field name="condition_on_assignment">excellent</field>
+            <field name="assignment_reason">Business communications and client meetings</field>
+            <field name="assignment_notes">Samsung Galaxy S23 Ultra assigned for sales activities. Configured with business apps, CRM access, and presentation tools. Includes protective case and car charger.</field>
+        </record>
+
+        <!-- iPad Pro assigned to Designer -->
+        <record id="assignment_ipad_designer" model="it.asset.assignment">
+            <field name="asset_id" ref="asset_tablet_001"/>
+            <field name="user_id" ref="user_designer"/>
+            <field name="assigned_by_id" ref="user_it_manager"/>
+            <field name="assignment_date" eval="(DateTime.now() - timedelta(days=20))"/>
+            <field name="expected_return_date" eval="(DateTime.now() + timedelta(days=160))"/>
+            <field name="is_active" eval="True"/>
+            <field name="state">active</field>
+            <field name="location">Design Department - Mobile</field>
+            <field name="condition_on_assignment">excellent</field>
+            <field name="assignment_reason">Mobile design work and client presentations</field>
+            <field name="assignment_notes">iPad Pro with Apple Pencil for sketching and mobile design work. Client presentation capability for on-site meetings. Includes keyboard case and protective sleeve.</field>
+        </record>
+
+        <!-- Epson Printer assigned to Marketing -->
+        <record id="assignment_epson_marketing" model="it.asset.assignment">
+            <field name="asset_id" ref="asset_printer_003"/>
+            <field name="user_id" ref="user_marketing"/>
+            <field name="assigned_by_id" ref="user_it_manager"/>
+            <field name="assignment_date" eval="(DateTime.now() - timedelta(days=30))"/>
+            <field name="expected_return_date" eval="(DateTime.now() + timedelta(days=150))"/>
+            <field name="is_active" eval="True"/>
+            <field name="state">active</field>
+            <field name="location">Marketing Department - Print Station</field>
+            <field name="condition_on_assignment">good</field>
+            <field name="assignment_reason">High-quality marketing material printing</field>
+            <field name="assignment_notes">Epson EcoTank photo printer for marketing materials and promotional content. Includes premium photo paper stock and color calibration setup.</field>
+        </record>
+
+        <!-- Logitech Keyboard assigned to Developer -->
+        <record id="assignment_keyboard_dev" model="it.asset.assignment">
+            <field name="asset_id" ref="asset_keyboard_001"/>
+            <field name="user_id" ref="user_developer"/>
+            <field name="assigned_by_id" ref="user_it_manager"/>
+            <field name="assignment_date" eval="(DateTime.now() - timedelta(days=15))"/>
+            <field name="expected_return_date" eval="(DateTime.now() + timedelta(days=165))"/>
+            <field name="is_active" eval="True"/>
+            <field name="state">active</field>
+            <field name="location">Development Area - Workstation 3</field>
+            <field name="condition_on_assignment">excellent</field>
+            <field name="assignment_reason">Ergonomic typing for programming work</field>
+            <field name="assignment_notes">Logitech MX Keys for comfortable coding sessions. Wireless connectivity reduces desk clutter. Programmable keys configured for development shortcuts.</field>
+        </record>
+
+        <!-- Logitech Mouse assigned to Designer -->
+        <record id="assignment_mouse_designer" model="it.asset.assignment">
+            <field name="asset_id" ref="asset_mouse_001"/>
+            <field name="user_id" ref="user_designer"/>
+            <field name="assigned_by_id" ref="user_it_manager"/>
+            <field name="assignment_date" eval="(DateTime.now() - timedelta(days=15))"/>
+            <field name="expected_return_date" eval="(DateTime.now() + timedelta(days=165))"/>
+            <field name="is_active" eval="True"/>
+            <field name="state">active</field>
+            <field name="location">Design Department - Desk 12</field>
+            <field name="condition_on_assignment">excellent</field>
+            <field name="assignment_reason">Precision control for design work</field>
+            <field name="assignment_notes">Logitech MX Master 3S for precise design work. High DPI settings configured for detailed graphic design tasks. Custom button mapping for Adobe Creative Suite.</field>
+        </record>
+
+        <!-- Sony Headphones assigned to Remote Worker -->
+        <record id="assignment_headphones_remote" model="it.asset.assignment">
+            <field name="asset_id" ref="asset_headset_001"/>
+            <field name="user_id" ref="user_remote_worker"/>
+            <field name="assigned_by_id" ref="user_it_manager"/>
+            <field name="assignment_date" eval="(DateTime.now() - timedelta(days=10))"/>
+            <field name="expected_return_date" eval="(DateTime.now() + timedelta(days=170))"/>
+            <field name="is_active" eval="True"/>
+            <field name="state">active</field>
+            <field name="location">Remote Home Office</field>
+            <field name="condition_on_assignment">excellent</field>
+            <field name="assignment_reason">Noise cancellation for remote work focus</field>
+            <field name="assignment_notes">Sony WH-1000XM5 for remote work productivity. Noise cancellation essential for home office environment. Configured for video conferencing and music streaming.</field>
+        </record>
+
+        <!-- CalDigit Dock assigned to Hybrid Worker -->
+        <record id="assignment_dock_hybrid" model="it.asset.assignment">
+            <field name="asset_id" ref="asset_dock_001"/>
+            <field name="user_id" ref="user_hr_manager"/>
+            <field name="assigned_by_id" ref="user_it_manager"/>
+            <field name="assignment_date" eval="(DateTime.now() - timedelta(days=12))"/>
+            <field name="expected_return_date" eval="(DateTime.now() + timedelta(days=168))"/>
+            <field name="is_active" eval="True"/>
+            <field name="state">active</field>
+            <field name="location">HR Department - Hybrid Desk 5</field>
+            <field name="condition_on_assignment">excellent</field>
+            <field name="assignment_reason">Multi-device connectivity for hybrid work</field>
+            <field name="assignment_notes">CalDigit TS4 Thunderbolt dock for seamless device switching between laptop and desktop setup. Supports dual monitor configuration and charging.</field>
+        </record>
+
+        <!-- Historical Assignments (Returned) -->
+        <record id="assignment_laptop_returned_001" model="it.asset.assignment">
+            <field name="asset_id" ref="asset_laptop_004"/>
+            <field name="user_id" ref="user_finance"/>
+            <field name="assigned_by_id" ref="user_it_manager"/>
+            <field name="assignment_date" eval="(DateTime.now() - timedelta(days=90))"/>
+            <field name="expected_return_date" eval="(DateTime.now() - timedelta(days=10))"/>
+            <field name="is_active" eval="False"/>
+            <field name="state">returned</field>
+            <field name="location">IT Storage</field>
+            <field name="condition_on_assignment">excellent</field>
+            <field name="condition_on_return">good</field>
+            <field name="assignment_reason">Temporary laptop for financial analysis project</field>
+            <field name="assignment_notes">ThinkPad X1 Carbon assigned for Q3 financial modeling project. Project completed successfully.</field>
+            <field name="return_notes">Laptop returned in good condition. Minor wear on keyboard. Data wiped and ready for reassignment.</field>
+        </record>
+
+        <!-- Overdue Assignment -->
+        <record id="assignment_tablet_overdue" model="it.asset.assignment">
+            <field name="asset_id" ref="asset_tablet_002"/>
+            <field name="user_id" ref="user_it_intern"/>
+            <field name="assigned_by_id" ref="user_it_manager"/>
+            <field name="assignment_date" eval="(DateTime.now() - timedelta(days=75))"/>
+            <field name="expected_return_date" eval="(DateTime.now() - timedelta(days=15))"/>
+            <field name="is_active" eval="True"/>
+            <field name="state">active</field>
+            <field name="location">IT Internship Program</field>
+            <field name="condition_on_assignment">excellent</field>
+            <field name="assignment_reason">Learning mobile application development</field>
+            <field name="assignment_notes">Surface Pro 9 assigned for internship mobile development training. Internship extended, return date needs updating.</field>
+        </record>
+
+        <!-- Shared Equipment Assignments -->
+        <record id="assignment_webcam_conference" model="it.asset.assignment">
+            <field name="asset_id" ref="asset_webcam_001"/>
+            <field name="user_id" ref="user_hr_manager"/>
+            <field name="assigned_by_id" ref="user_it_manager"/>
+            <field name="assignment_date" eval="(DateTime.now() - timedelta(days=5))"/>
+            <field name="expected_return_date" eval="(DateTime.now() + timedelta(days=175))"/>
+            <field name="is_active" eval="True"/>
+            <field name="state">active</field>
+            <field name="location">Conference Room B - Shared</field>
+            <field name="condition_on_assignment">excellent</field>
+            <field name="assignment_reason">Video conferencing for recruitment interviews</field>
+            <field name="assignment_notes">Logitech Brio 4K webcam for conference room setup. Shared use for HR interviews and team meetings. Includes tripod mount and extension cable.</field>
+        </record>
+
+        <!-- Temporary Assignment -->
+        <record id="assignment_desktop_temp" model="it.asset.assignment">
+            <field name="asset_id" ref="asset_desktop_002"/>
+            <field name="user_id" ref="user_it_support"/>
+            <field name="assigned_by_id" ref="user_it_manager"/>
+            <field name="assignment_date" eval="(DateTime.now() - timedelta(days=3))"/>
+            <field name="expected_return_date" eval="(DateTime.now() + timedelta(days=7))"/>
+            <field name="is_active" eval="True"/>
+            <field name="state">active</field>
+            <field name="location">IT Support - Temp Desk</field>
+            <field name="condition_on_assignment">good</field>
+            <field name="assignment_reason">Temporary workstation while primary laptop is being repaired</field>
+            <field name="assignment_notes">Dell OptiPlex micro temporarily assigned while primary laptop undergoes warranty repair. Basic configuration for support ticket management.</field>
+        </record>
+
+        <!-- Long-term Project Assignment -->
+        <record id="assignment_monitor_longterm" model="it.asset.assignment">
+            <field name="asset_id" ref="asset_monitor_003"/>
+            <field name="user_id" ref="user_designer"/>
+            <field name="assigned_by_id" ref="user_it_manager"/>
+            <field name="assignment_date" eval="(DateTime.now() - timedelta(days=45))"/>
+            <field name="expected_return_date" eval="(DateTime.now() + timedelta(days=275))"/>
+            <field name="is_active" eval="True"/>
+            <field name="state">active</field>
+            <field name="location">Design Department - Color Critical Workstation</field>
+            <field name="condition_on_assignment">excellent</field>
+            <field name="assignment_reason">Color-critical design work for major client project</field>
+            <field name="assignment_notes">ASUS ProArt 32-inch 4K monitor for color-accurate design work. Calibrated for print and web design. Essential for brand consistency in major client project spanning 8 months.</field>
+        </record>
+
+    </data>
+</odoo>

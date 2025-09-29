@@ -1,0 +1,342 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+
+        <!-- Asset Assignment Views -->
+        <record id="view_asset_assignment_tree" model="ir.ui.view">
+            <field name="name">it.asset.assignment.tree</field>
+            <field name="model">it.asset.assignment</field>
+            <field name="arch" type="xml">
+                <list string="Asset Assignments" default_order="assignment_date desc"
+                      decoration-success="is_active and state == 'active'"
+                      decoration-info="state == 'returned'"
+                      decoration-warning="is_overdue"
+                      decoration-danger="state in ('lost', 'damaged')">
+                    <field name="asset_name"/>
+                    <field name="asset_code"/>
+                    <field name="asset_category"/>
+                    <field name="user_name"/>
+                    <field name="assignment_date"/>
+                    <field name="expected_return_date"/>
+                    <field name="return_date"/>
+                    <field name="duration_days" string="Duration (Days)"/>
+                    <field name="is_active" widget="boolean_toggle"/>
+                    <field name="state" widget="badge"
+                           decoration-success="state == 'active'"
+                           decoration-info="state == 'returned'"
+                           decoration-danger="state in ('lost', 'damaged')"/>
+                    <field name="is_overdue" invisible="1"/>
+                    <field name="condition_on_assignment"/>
+                    <field name="condition_on_return"/>
+                    <button name="action_return_asset" type="object" string="Return Asset"
+                            class="btn-primary btn-sm" invisible="not is_active"
+                            confirm="Are you sure you want to return this asset?"/>
+                </list>
+            </field>
+        </record>
+
+        <record id="view_asset_assignment_form" model="ir.ui.view">
+            <field name="name">it.asset.assignment.form</field>
+            <field name="model">it.asset.assignment</field>
+            <field name="arch" type="xml">
+                <form string="Asset Assignment">
+                    <header>
+                        <button name="action_return_asset" string="Return Asset"
+                                type="object" class="btn-primary"
+                                invisible="not is_active"/>
+                        <button name="action_mark_lost" string="Mark as Lost"
+                                type="object" class="btn-danger"
+                                invisible="not is_active"
+                                confirm="Are you sure this asset is lost?"/>
+                        <button name="action_mark_damaged" string="Mark as Damaged"
+                                type="object" class="btn-warning"
+                                invisible="not is_active"
+                                confirm="Are you sure this asset is damaged?"/>
+                        <field name="state" widget="statusbar"
+                               statusbar_visible="active,returned"/>
+                    </header>
+                    <sheet>
+                        <div class="oe_button_box" name="button_box">
+                            <button name="action_view_asset" type="object" class="oe_stat_button"
+                                    icon="fa-laptop">
+                                <div class="o_field_widget o_stat_info">
+                                    <span class="o_stat_text">View Asset</span>
+                                </div>
+                            </button>
+                            <button name="action_view_user" type="object" class="oe_stat_button"
+                                    icon="fa-user">
+                                <div class="o_field_widget o_stat_info">
+                                    <span class="o_stat_text">View User</span>
+                                </div>
+                            </button>
+                        </div>
+
+                        <widget name="web_ribbon" title="Active" bg_color="bg-success" invisible="not is_active"/>
+                        <widget name="web_ribbon" title="Overdue" bg_color="bg-danger" invisible="not is_overdue"/>
+                        <widget name="web_ribbon" title="Lost" bg_color="bg-danger" invisible="state != 'lost'"/>
+                        <widget name="web_ribbon" title="Damaged" bg_color="bg-warning" invisible="state != 'damaged'"/>
+
+                        <div class="oe_title">
+                            <h1>
+                                <field name="display_name"/>
+                            </h1>
+                        </div>
+
+                        <group>
+                            <group string="Asset Information">
+                                <field name="asset_id" options="{'no_create': True}"/>
+                                <field name="asset_name" readonly="1"/>
+                                <field name="asset_code" readonly="1"/>
+                                <field name="asset_category" readonly="1"/>
+                            </group>
+                            <group string="Assignment Information">
+                                <field name="user_id" options="{'no_create': True}"/>
+                                <field name="assigned_by_id" readonly="1"/>
+                                <field name="is_active" widget="boolean_toggle"/>
+                                <field name="location"/>
+                            </group>
+                        </group>
+
+                        <group>
+                            <group string="Dates">
+                                <field name="assignment_date"/>
+                                <field name="expected_return_date"/>
+                                <field name="return_date" readonly="1"/>
+                                <field name="duration_days" readonly="1"/>
+                                <field name="is_overdue" readonly="1" widget="boolean"/>
+                            </group>
+                            <group string="Condition">
+                                <field name="condition_on_assignment"/>
+                                <field name="condition_on_return" readonly="not return_date"/>
+                            </group>
+                        </group>
+
+                        <notebook>
+                            <page string="Assignment Details">
+                                <group string="Assignment Reason">
+                                    <field name="assignment_reason" nolabel="1"
+                                           placeholder="Reason for assigning this asset..."/>
+                                </group>
+                                <group string="Assignment Notes">
+                                    <field name="assignment_notes" nolabel="1"
+                                           placeholder="Additional notes about the assignment..."/>
+                                </group>
+                            </page>
+                            <page string="Return Details" invisible="not return_date">
+                                <group>
+                                    <field name="returned_by_id" readonly="1"/>
+                                </group>
+                                <group string="Return Reason">
+                                    <field name="return_reason" nolabel="1" readonly="1"
+                                           placeholder="Reason for returning this asset..."/>
+                                </group>
+                                <group string="Return Notes">
+                                    <field name="return_notes" nolabel="1" readonly="1"
+                                           placeholder="Notes about the asset condition upon return..."/>
+                                </group>
+                            </page>
+                            <page string="Contact Information">
+                                <group>
+                                    <group string="User Details">
+                                        <field name="user_name" readonly="1"/>
+                                        <field name="user_email" readonly="1"/>
+                                    </group>
+                                </group>
+                            </page>
+                        </notebook>
+                    </sheet>
+                    <chatter/>
+                </form>
+            </field>
+        </record>
+
+        <record id="view_asset_assignment_kanban" model="ir.ui.view">
+            <field name="name">it.asset.assignment.kanban</field>
+            <field name="model">it.asset.assignment</field>
+            <field name="arch" type="xml">
+                <kanban default_group_by="state" class="o_kanban_small_column">
+                    <field name="id"/>
+                    <field name="asset_name"/>
+                    <field name="user_name"/>
+                    <field name="assignment_date"/>
+                    <field name="expected_return_date"/>
+                    <field name="is_active"/>
+                    <field name="is_overdue"/>
+                    <field name="state"/>
+                    <field name="condition_on_assignment"/>
+                    <templates>
+                        <t t-name="card">
+                            <div class="oe_kanban_card oe_kanban_global_click">
+                                <div class="o_kanban_record_top">
+                                    <div class="o_kanban_record_headings">
+                                        <strong class="o_kanban_record_title">
+                                            <field name="asset_name"/>
+                                        </strong>
+                                        <br/>
+                                        <span class="o_kanban_record_subtitle">
+                                            <i class="fa fa-user" title="User"></i> <field name="user_name"/>
+                                        </span>
+                                    </div>
+                                    <div class="o_kanban_record_top_right">
+                                        <div class="o_kanban_record_badges">
+                                            <span t-if="record.is_overdue.raw_value"
+                                                  class="badge text-bg-danger">Overdue</span>
+                                            <span t-if="record.is_active.raw_value"
+                                                  class="badge text-bg-success">Active</span>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="o_kanban_record_body">
+                                    <div class="o_kanban_record_info">
+                                        <div>
+                                            <i class="fa fa-calendar" title="Assignment Date"></i>
+                                            <field name="assignment_date" widget="date"/>
+                                        </div>
+                                        <div t-if="record.expected_return_date.raw_value">
+                                            <i class="fa fa-calendar-check-o" title="Expected Return Date"></i>
+                                            Expected: <field name="expected_return_date" widget="date"/>
+                                        </div>
+                                        <div t-if="record.condition_on_assignment.raw_value">
+                                            <i class="fa fa-check-circle" title="Condition"></i>
+                                            Condition: <field name="condition_on_assignment"/>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="o_kanban_record_bottom">
+                                    <div class="oe_kanban_bottom_right">
+                                        <button name="action_return_asset" type="object"
+                                                class="btn btn-primary btn-sm"
+                                                t-if="record.is_active.raw_value">
+                                            Return
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
+                        </t>
+                    </templates>
+                </kanban>
+            </field>
+        </record>
+
+        <record id="view_asset_assignment_search" model="ir.ui.view">
+            <field name="name">it.asset.assignment.search</field>
+            <field name="model">it.asset.assignment</field>
+            <field name="arch" type="xml">
+                <search string="Search Asset Assignments">
+                    <field name="asset_id" string="Asset"
+                           filter_domain="['|', ('asset_id', 'ilike', self), ('asset_name', 'ilike', self)]"/>
+                    <field name="user_id" string="User"/>
+                    <field name="assigned_by_id"/>
+                    <field name="location"/>
+
+                    <filter string="Active Assignments" name="active" domain="[('is_active', '=', 1)]"/>
+                    <filter string="Returned" name="returned" domain="[('is_active', '=', 0)]"/>
+                    <filter string="Overdue" name="overdue" domain="[('is_overdue', '=', 1)]"/>
+                    <filter string="Lost" name="lost" domain="[('state', '=', 'lost')]"/>
+                    <filter string="Damaged" name="damaged" domain="[('state', '=', 'damaged')]"/>
+
+                    <separator/>
+                    <filter string="My Assignments" name="my_assignments"
+                            domain="[('user_id', '=', uid)]"/>
+                    <filter string="This Week" name="this_week"
+                            domain="[('assignment_date', '>=', (context_today() - relativedelta(weeks=1)).strftime('%Y-%m-%d'))]"/>
+                    <filter string="This Month" name="this_month"
+                            domain="[('assignment_date', '>=', (context_today() - relativedelta(months=1)).strftime('%Y-%m-%d'))]"/>
+
+                    <group expand="1" string="Group By">
+                        <filter string="User" name="group_user" context="{'group_by': 'user_id'}"/>
+                        <filter string="Asset" name="group_asset" context="{'group_by': 'asset_id'}"/>
+                        <filter string="State" name="group_state" context="{'group_by': 'state'}"/>
+                        <filter string="Assignment Date" name="group_assignment_date"
+                                context="{'group_by': 'assignment_date'}"/>
+                        <filter string="Assigned By" name="group_assigned_by"
+                                context="{'group_by': 'assigned_by_id'}"/>
+                    </group>
+                </search>
+            </field>
+        </record>
+
+        <!-- Assignment Calendar View -->
+        <record id="view_asset_assignment_calendar" model="ir.ui.view">
+            <field name="name">it.asset.assignment.calendar</field>
+            <field name="model">it.asset.assignment</field>
+            <field name="arch" type="xml">
+                <calendar string="Asset Assignments" date_start="assignment_date" date_stop="return_date"
+                          color="user_id" mode="month">
+                    <field name="asset_name"/>
+                    <field name="user_name"/>
+                    <field name="state"/>
+                </calendar>
+            </field>
+        </record>
+
+        <!-- Assignment Pivot View -->
+        <record id="view_asset_assignment_pivot" model="ir.ui.view">
+            <field name="name">it.asset.assignment.pivot</field>
+            <field name="model">it.asset.assignment</field>
+            <field name="arch" type="xml">
+                <pivot string="Assignment Analysis">
+                    <field name="user_id" type="row"/>
+                    <field name="asset_category" type="row"/>
+                    <field name="assignment_date" type="col" interval="month"/>
+                    <field name="duration_days" type="measure"/>
+                </pivot>
+            </field>
+        </record>
+
+        <!-- Assignment Graph View -->
+        <record id="view_asset_assignment_graph" model="ir.ui.view">
+            <field name="name">it.asset.assignment.graph</field>
+            <field name="model">it.asset.assignment</field>
+            <field name="arch" type="xml">
+                <graph string="Assignment Statistics" type="bar">
+                    <field name="assignment_date" type="row" interval="month"/>
+                    <field name="user_id" type="col"/>
+                </graph>
+            </field>
+        </record>
+
+        <!-- Actions -->
+        <record id="action_asset_assignment" model="ir.actions.act_window">
+            <field name="name">Asset Assignments</field>
+            <field name="res_model">it.asset.assignment</field>
+            <field name="view_mode">kanban,list,form,calendar,pivot,graph</field>
+            <field name="search_view_id" ref="view_asset_assignment_search"/>
+            <field name="context">{'search_default_active': 1}</field>
+            <field name="help" type="html">
+                <p class="o_view_nocontent_smiling_face">
+                    No asset assignments found!
+                </p>
+                <p>
+                    Assign assets to users and track their usage history.
+                    You can monitor who has which assets and when they were assigned.
+                </p>
+            </field>
+        </record>
+
+        <record id="action_asset_assignment_active" model="ir.actions.act_window">
+            <field name="name">Active Assignments</field>
+            <field name="res_model">it.asset.assignment</field>
+            <field name="view_mode">kanban,list,form</field>
+            <field name="domain">[('is_active', '=', True)]</field>
+            <field name="context">{'search_default_active': 1}</field>
+        </record>
+
+        <record id="action_asset_assignment_overdue" model="ir.actions.act_window">
+            <field name="name">Overdue Assignments</field>
+            <field name="res_model">it.asset.assignment</field>
+            <field name="view_mode">list,form</field>
+            <field name="domain">[('is_overdue', '=', True)]</field>
+            <field name="context">{'search_default_overdue': 1}</field>
+        </record>
+
+        <record id="action_my_asset_assignments" model="ir.actions.act_window">
+            <field name="name">My Asset Assignments</field>
+            <field name="res_model">it.asset.assignment</field>
+            <field name="view_mode">kanban,list,form</field>
+            <field name="domain">[('user_id', '=', uid)]</field>
+            <field name="context">{'search_default_my_assignments': 1, 'search_default_active': 1}</field>
+        </record>
+
+    </data>
+</odoo>

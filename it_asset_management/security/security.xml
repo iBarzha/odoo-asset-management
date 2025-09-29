@@ -1,0 +1,286 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data noupdate="1">
+
+        <!-- Module Category -->
+        <record id="module_category_it_asset_management" model="ir.module.category">
+            <field name="name">IT Asset Management</field>
+            <field name="description">Manage IT assets, assignments, and requests</field>
+            <field name="sequence">20</field>
+        </record>
+
+        <!-- Security Groups -->
+
+        <!-- Asset User: Basic access to view and manage assets -->
+        <record id="group_asset_user" model="res.groups">
+            <field name="name">Asset User</field>
+            <field name="category_id" ref="module_category_it_asset_management"/>
+            <field name="implied_ids" eval="[(4, ref('base.group_user'))]"/>
+            <field name="comment">
+                Basic asset management access:
+                - View all assets and categories
+                - Create and edit asset requests
+                - View assignments
+                - Basic reporting access
+            </field>
+        </record>
+
+        <!-- Asset Manager: Full management access -->
+        <record id="group_asset_manager" model="res.groups">
+            <field name="name">Asset Manager</field>
+            <field name="category_id" ref="module_category_it_asset_management"/>
+            <field name="implied_ids" eval="[(4, ref('group_asset_user'))]"/>
+            <field name="comment">
+                Asset management supervisor access:
+                - Full CRUD access to assets and categories
+                - Assign/unassign assets to users
+                - Approve/reject asset requests
+                - Create and manage assignments
+                - Access to all reports and analytics
+            </field>
+        </record>
+
+        <!-- Asset Administrator: System configuration access -->
+        <record id="group_asset_admin" model="res.groups">
+            <field name="name">Asset Administrator</field>
+            <field name="category_id" ref="module_category_it_asset_management"/>
+            <field name="implied_ids" eval="[(4, ref('group_asset_manager'))]"/>
+            <field name="comment">
+                Full system administration access:
+                - All Asset Manager permissions
+                - System configuration and settings
+                - Security and access control management
+                - Data import/export capabilities
+                - Advanced reporting and analytics
+            </field>
+        </record>
+
+        <!-- Portal Group: Employee portal access -->
+        <record id="group_portal_asset_user" model="res.groups">
+            <field name="name">Portal Asset User</field>
+            <field name="category_id" ref="module_category_it_asset_management"/>
+            <field name="implied_ids" eval="[(4, ref('base.group_portal'))]"/>
+            <field name="comment">
+                Portal access for employees:
+                - View own assigned assets
+                - Create asset requests
+                - Track request status
+                - View assignment history
+            </field>
+        </record>
+
+        <!-- IT Support: Technical support role -->
+        <record id="group_it_support" model="res.groups">
+            <field name="name">IT Support</field>
+            <field name="category_id" ref="module_category_it_asset_management"/>
+            <field name="implied_ids" eval="[(4, ref('group_asset_user'))]"/>
+            <field name="comment">
+                IT support team access:
+                - Handle repair and maintenance requests
+                - Update asset technical information
+                - Process returns and replacements
+                - View technical reports
+            </field>
+        </record>
+
+        <!-- Record Rules -->
+
+        <!-- Assets: Managers can see all, users can see available/assigned -->
+        <record id="asset_rule_manager" model="ir.rule">
+            <field name="name">Asset Manager: Full Access</field>
+            <field name="model_id" ref="model_it_asset"/>
+            <field name="domain_force">[(1, '=', 1)]</field>
+            <field name="groups" eval="[(4, ref('group_asset_manager')), (4, ref('group_asset_admin'))]"/>
+            <field name="perm_read">1</field>
+            <field name="perm_write">1</field>
+            <field name="perm_create">1</field>
+            <field name="perm_unlink">1</field>
+        </record>
+
+        <record id="asset_rule_user" model="ir.rule">
+            <field name="name">Asset User: Limited Access</field>
+            <field name="model_id" ref="model_it_asset"/>
+            <field name="domain_force">[('state', 'in', ['available', 'assigned', 'maintenance', 'repair'])]</field>
+            <field name="groups" eval="[(4, ref('group_asset_user'))]"/>
+            <field name="perm_read">1</field>
+            <field name="perm_write">0</field>
+            <field name="perm_create">0</field>
+            <field name="perm_unlink">0</field>
+        </record>
+
+        <!-- Asset Categories: All internal users can read, managers can modify -->
+        <record id="asset_category_rule_all" model="ir.rule">
+            <field name="name">Asset Category: Read Access for All Users</field>
+            <field name="model_id" ref="model_it_asset_category"/>
+            <field name="domain_force">[(1, '=', 1)]</field>
+            <field name="groups" eval="[(4, ref('group_asset_user')), (4, ref('group_portal_asset_user'))]"/>
+            <field name="perm_read">1</field>
+            <field name="perm_write">0</field>
+            <field name="perm_create">0</field>
+            <field name="perm_unlink">0</field>
+        </record>
+
+        <!-- Asset Requests: Users can see their own, managers can see all -->
+        <record id="asset_request_rule_own" model="ir.rule">
+            <field name="name">Asset Request: Own Requests</field>
+            <field name="model_id" ref="model_it_asset_request"/>
+            <field name="domain_force">[('user_id', '=', user.id)]</field>
+            <field name="groups" eval="[(4, ref('group_asset_user'))]"/>
+            <field name="perm_read">1</field>
+            <field name="perm_write">1</field>
+            <field name="perm_create">1</field>
+            <field name="perm_unlink">0</field>
+        </record>
+
+        <record id="asset_request_rule_manager" model="ir.rule">
+            <field name="name">Asset Request: Manager Full Access</field>
+            <field name="model_id" ref="model_it_asset_request"/>
+            <field name="domain_force">[(1, '=', 1)]</field>
+            <field name="groups" eval="[(4, ref('group_asset_manager')), (4, ref('group_asset_admin'))]"/>
+            <field name="perm_read">1</field>
+            <field name="perm_write">1</field>
+            <field name="perm_create">1</field>
+            <field name="perm_unlink">1</field>
+        </record>
+
+        <record id="asset_request_rule_portal" model="ir.rule">
+            <field name="name">Asset Request: Portal Own Requests</field>
+            <field name="model_id" ref="model_it_asset_request"/>
+            <field name="domain_force">[('user_id', '=', user.id)]</field>
+            <field name="groups" eval="[(4, ref('group_portal_asset_user'))]"/>
+            <field name="perm_read">1</field>
+            <field name="perm_write">1</field>
+            <field name="perm_create">1</field>
+            <field name="perm_unlink">0</field>
+        </record>
+
+        <!-- Asset Assignments: Users can see their own, managers can see all -->
+        <record id="asset_assignment_rule_own" model="ir.rule">
+            <field name="name">Asset Assignment: Own Assignments</field>
+            <field name="model_id" ref="model_it_asset_assignment"/>
+            <field name="domain_force">[('user_id', '=', user.id)]</field>
+            <field name="groups" eval="[(4, ref('group_asset_user'))]"/>
+            <field name="perm_read">1</field>
+            <field name="perm_write">0</field>
+            <field name="perm_create">0</field>
+            <field name="perm_unlink">0</field>
+        </record>
+
+        <record id="asset_assignment_rule_manager" model="ir.rule">
+            <field name="name">Asset Assignment: Manager Full Access</field>
+            <field name="model_id" ref="model_it_asset_assignment"/>
+            <field name="domain_force">[(1, '=', 1)]</field>
+            <field name="groups" eval="[(4, ref('group_asset_manager')), (4, ref('group_asset_admin'))]"/>
+            <field name="perm_read">1</field>
+            <field name="perm_write">1</field>
+            <field name="perm_create">1</field>
+            <field name="perm_unlink">1</field>
+        </record>
+
+        <record id="asset_assignment_rule_portal" model="ir.rule">
+            <field name="name">Asset Assignment: Portal Own Assignments</field>
+            <field name="model_id" ref="model_it_asset_assignment"/>
+            <field name="domain_force">[('user_id', '=', user.id)]</field>
+            <field name="groups" eval="[(4, ref('group_portal_asset_user'))]"/>
+            <field name="perm_read">1</field>
+            <field name="perm_write">0</field>
+            <field name="perm_create">0</field>
+            <field name="perm_unlink">0</field>
+        </record>
+
+        <!-- Multi-company rules removed - models don't have company_id fields -->
+
+        <!-- Data Security: Prevent deletion of assigned assets -->
+        <record id="asset_deletion_rule" model="ir.rule">
+            <field name="name">Prevent Deletion of Assigned Assets</field>
+            <field name="model_id" ref="model_it_asset"/>
+            <field name="domain_force">[('state', '!=', 'assigned')]</field>
+            <field name="groups" eval="[(4, ref('group_asset_manager'))]"/>
+            <field name="perm_read">0</field>
+            <field name="perm_write">0</field>
+            <field name="perm_create">0</field>
+            <field name="perm_unlink">1</field>
+        </record>
+
+        <!-- Approval Rules: Only managers can approve requests -->
+        <record id="asset_request_approval_rule" model="ir.rule">
+            <field name="name">Asset Request: Approval Access</field>
+            <field name="model_id" ref="model_it_asset_request"/>
+            <field name="domain_force">[('state', 'in', ['submitted', 'under_review'])]</field>
+            <field name="groups" eval="[(4, ref('group_asset_manager')), (4, ref('group_asset_admin'))]"/>
+            <field name="perm_read">1</field>
+            <field name="perm_write">1</field>
+            <field name="perm_create">0</field>
+            <field name="perm_unlink">0</field>
+        </record>
+
+        <!-- IT Support Rules: Special access for support tasks -->
+        <record id="asset_rule_it_support" model="ir.rule">
+            <field name="name">Asset IT Support: Maintenance and Repair Access</field>
+            <field name="model_id" ref="model_it_asset"/>
+            <field name="domain_force">[('state', 'in', ['maintenance', 'repair', 'assigned'])]</field>
+            <field name="groups" eval="[(4, ref('group_it_support'))]"/>
+            <field name="perm_read">1</field>
+            <field name="perm_write">1</field>
+            <field name="perm_create">0</field>
+            <field name="perm_unlink">0</field>
+        </record>
+
+        <record id="asset_request_rule_it_support" model="ir.rule">
+            <field name="name">Asset Request IT Support: Repair Requests</field>
+            <field name="model_id" ref="model_it_asset_request"/>
+            <field name="domain_force">[('request_type', 'in', ['repair', 'replacement']), ('state', 'in', ['approved', 'in_progress'])]</field>
+            <field name="groups" eval="[(4, ref('group_it_support'))]"/>
+            <field name="perm_read">1</field>
+            <field name="perm_write">1</field>
+            <field name="perm_create">0</field>
+            <field name="perm_unlink">0</field>
+        </record>
+
+        <!-- Sequences -->
+        <record id="seq_asset" model="ir.sequence">
+            <field name="name">Asset Sequence</field>
+            <field name="code">it.asset</field>
+            <field name="prefix">AST</field>
+            <field name="padding">5</field>
+            <field name="number_increment">1</field>
+            <field name="implementation">standard</field>
+            <field name="company_id"></field>
+        </record>
+
+        <record id="seq_asset_request" model="ir.sequence">
+            <field name="name">Asset Request Sequence</field>
+            <field name="code">it.asset.request</field>
+            <field name="prefix">REQ</field>
+            <field name="padding">5</field>
+            <field name="number_increment">1</field>
+            <field name="implementation">standard</field>
+            <field name="company_id"></field>
+        </record>
+
+        <!-- Server Actions for Automated Workflows -->
+        <record id="action_asset_warranty_check" model="ir.actions.server">
+            <field name="name">Check Asset Warranty Status</field>
+            <field name="model_id" ref="model_it_asset"/>
+            <field name="state">code</field>
+            <field name="code"><![CDATA[
+# Check warranty status for all assets
+assets = env['it.asset'].search([('active', '=', True)])
+assets._compute_warranty_status()
+]]></field>
+        </record>
+
+        <record id="action_overdue_assignment_reminder" model="ir.actions.server">
+            <field name="name">Send Overdue Assignment Reminders</field>
+            <field name="model_id" ref="model_it_asset_assignment"/>
+            <field name="state">code</field>
+            <field name="code"><![CDATA[
+# Send reminders for overdue assignments
+env['it.asset.assignment']._cron_check_overdue_assignments()
+]]></field>
+        </record>
+
+        <!-- Cron Jobs - Temporarily removed for initial module load -->
+
+    </data>
+</odoo>

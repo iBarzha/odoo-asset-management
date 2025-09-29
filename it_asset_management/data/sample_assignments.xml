@@ -1,0 +1,95 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data noupdate="0">
+
+        <!-- Sample Asset Assignments -->
+        <record id="assignment_laptop_001_demo" model="it.asset.assignment">
+            <field name="asset_id" ref="sample_laptop_001"/>
+            <field name="user_id" ref="base.user_demo"/>
+            <field name="assigned_by_id" ref="base.user_admin"/>
+            <field name="assignment_date" eval="(DateTime.now() - timedelta(days=30))"/>
+            <field name="expected_return_date" eval="(DateTime.now() + timedelta(days=60))"/>
+            <field name="is_active" eval="True"/>
+            <field name="state">active</field>
+            <field name="location">Remote Work</field>
+            <field name="condition_on_assignment">excellent</field>
+            <field name="assignment_reason">Work from home setup</field>
+            <field name="assignment_notes">Dell Latitude laptop assigned for remote work. User has signed the asset responsibility agreement.</field>
+        </record>
+
+        <record id="assignment_desktop_001_demo" model="it.asset.assignment">
+            <field name="asset_id" ref="sample_desktop_001"/>
+            <field name="user_id" ref="base.user_demo"/>
+            <field name="assigned_by_id" ref="base.user_admin"/>
+            <field name="assignment_date" eval="(DateTime.now() - timedelta(days=45))"/>
+            <field name="expected_return_date" eval="(DateTime.now() + timedelta(days=30))"/>
+            <field name="is_active" eval="True"/>
+            <field name="state">active</field>
+            <field name="location">Office Floor 2, Desk 15</field>
+            <field name="condition_on_assignment">good</field>
+            <field name="assignment_reason">Office workstation setup</field>
+            <field name="assignment_notes">HP Desktop assigned for office use. Regular maintenance schedule applies.</field>
+        </record>
+
+        <record id="assignment_monitor_001_demo" model="it.asset.assignment">
+            <field name="asset_id" ref="sample_monitor_001"/>
+            <field name="user_id" ref="base.user_demo"/>
+            <field name="assigned_by_id" ref="base.user_admin"/>
+            <field name="assignment_date" eval="(DateTime.now() - timedelta(days=20))"/>
+            <field name="expected_return_date" eval="(DateTime.now() + timedelta(days=70))"/>
+            <field name="is_active" eval="True"/>
+            <field name="state">active</field>
+            <field name="location">Office Floor 2, Desk 15</field>
+            <field name="condition_on_assignment">excellent</field>
+            <field name="assignment_reason">Dual monitor setup</field>
+            <field name="assignment_notes">Dell 4K monitor assigned as secondary display for productivity improvement.</field>
+        </record>
+
+        <!-- Sample Asset Requests -->
+        <record id="request_new_laptop_demo" model="it.asset.request">
+            <field name="name">REQ-001</field>
+            <field name="user_id" ref="base.user_demo"/>
+            <field name="request_type">new_asset</field>
+            <field name="category_id" ref="category_laptop"/>
+            <field name="priority">medium</field>
+            <field name="urgency">medium</field>
+            <field name="state">submitted</field>
+            <field name="request_date" eval="DateTime.now() - timedelta(days=3)"/>
+            <field name="required_date" eval="DateTime.now() + timedelta(days=14)"/>
+            <field name="description">&lt;p&gt;Request for a new laptop computer for software development work. Current laptop is experiencing performance issues and cannot handle the required development environment efficiently.&lt;/p&gt;</field>
+            <field name="justification">&lt;p&gt;The current laptop has insufficient RAM and processing power for running multiple development tools simultaneously. This impacts productivity and delays project delivery. A new laptop with better specifications will improve development efficiency by 30-40%.&lt;/p&gt;</field>
+            <field name="specifications">&lt;p&gt;Required specifications:&lt;br/&gt;- Intel i7 or AMD Ryzen 7 processor&lt;br/&gt;- 32GB RAM minimum&lt;br/&gt;- 1TB NVMe SSD&lt;br/&gt;- Dedicated graphics card (GTX 1660 or better)&lt;br/&gt;- 15-16 inch display&lt;br/&gt;- Windows 11 Pro&lt;/p&gt;</field>
+            <field name="preferred_brand">Dell</field>
+            <field name="preferred_model">Precision 5570</field>
+        </record>
+
+        <record id="request_repair_phone_demo" model="it.asset.request">
+            <field name="name">REQ-002</field>
+            <field name="user_id" ref="base.user_demo"/>
+            <field name="request_type">repair</field>
+            <field name="asset_id" ref="sample_phone_001"/>
+            <field name="priority">high</field>
+            <field name="urgency">high</field>
+            <field name="state">submitted</field>
+            <field name="request_date" eval="DateTime.now() - timedelta(days=2)"/>
+            <field name="required_date" eval="DateTime.now() + timedelta(days=5)"/>
+            <field name="description">&lt;p&gt;iPhone 14 Pro screen is cracked and touchscreen is not responding properly in the upper right corner. The device was accidentally dropped.&lt;/p&gt;</field>
+            <field name="justification">&lt;p&gt;This is the primary company phone used for business calls and mobile applications. The damage affects daily business operations and client communication.&lt;/p&gt;</field>
+        </record>
+
+        <record id="request_replacement_printer_demo" model="it.asset.request">
+            <field name="name">REQ-003</field>
+            <field name="user_id" ref="base.user_demo"/>
+            <field name="request_type">replacement</field>
+            <field name="asset_id" ref="sample_printer_001"/>
+            <field name="priority">medium</field>
+            <field name="urgency">medium</field>
+            <field name="state">submitted</field>
+            <field name="request_date" eval="DateTime.now() - timedelta(days=7)"/>
+            <field name="required_date" eval="DateTime.now() + timedelta(days=10)"/>
+            <field name="description">&lt;p&gt;HP LaserJet printer is frequently jamming and print quality has deteriorated significantly. Multiple repair attempts have not resolved the issues.&lt;/p&gt;</field>
+            <field name="justification">&lt;p&gt;The printer is essential for daily operations including printing contracts, reports, and client documents. Current reliability issues are causing delays and affecting business operations.&lt;/p&gt;</field>
+        </record>
+
+    </data>
+</odoo>

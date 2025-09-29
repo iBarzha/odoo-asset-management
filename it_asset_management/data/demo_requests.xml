@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data noupdate="1">
+
+        <!-- Demo Asset Requests -->
+        <record id="request_001" model="it.asset.request">
+            <field name="name">New Laptop for Marketing Team</field>
+            <field name="user_id" ref="base.user_demo"/>
+            <field name="category_id" ref="category_laptop"/>
+            <field name="priority">medium</field>
+            <field name="state">pending</field>
+            <field name="request_date">2023-06-15</field>
+            <field name="required_date">2023-07-01</field>
+            <field name="justification">New hire in marketing team needs laptop for content creation and design work</field>
+            <field name="specifications">Intel i7 processor, 16GB RAM, 512GB SSD, dedicated graphics card for design work</field>
+        </record>
+
+        <record id="request_002" model="it.asset.request">
+            <field name="name">Additional Monitor for Development</field>
+            <field name="user_id" ref="base.user_demo"/>
+            <field name="category_id" ref="category_monitor"/>
+            <field name="priority">low</field>
+            <field name="state">approved</field>
+            <field name="request_date">2023-06-10</field>
+            <field name="required_date">2023-06-30</field>
+            <field name="approved_date">2023-06-12</field>
+            <field name="approved_by_id" ref="base.user_admin"/>
+            <field name="justification">Second monitor would improve development productivity</field>
+            <field name="specifications">24-inch or larger, Full HD minimum, HDMI/USB-C connectivity</field>
+        </record>
+
+        <record id="request_003" model="it.asset.request">
+            <field name="name">Replacement Phone - Damaged</field>
+            <field name="user_id" ref="base.user_demo"/>
+            <field name="category_id" ref="category_mobile"/>
+            <field name="priority">high</field>
+            <field name="state">fulfilled</field>
+            <field name="request_date">2023-05-01</field>
+            <field name="required_date">2023-05-05</field>
+            <field name="approved_date">2023-05-02</field>
+            <field name="approved_by_id" ref="base.user_admin"/>
+            <field name="fulfilled_date">2023-05-03</field>
+            <field name="asset_id" ref="asset_phone_001"/>
+            <field name="justification">Current phone screen is cracked and non-functional</field>
+            <field name="specifications">Business smartphone with corporate security features</field>
+        </record>
+
+        <record id="request_004" model="it.asset.request">
+            <field name="name">Server Upgrade for Database</field>
+            <field name="user_id" ref="base.user_admin"/>
+            <field name="category_id" ref="category_server"/>
+            <field name="priority">high</field>
+            <field name="state">rejected</field>
+            <field name="request_date">2023-04-20</field>
+            <field name="required_date">2023-05-15</field>
+            <field name="rejected_date">2023-04-25</field>
+            <field name="rejected_by_id" ref="base.user_admin"/>
+            <field name="justification">Current server performance is insufficient for growing database needs</field>
+            <field name="specifications">64GB RAM minimum, SSD storage, redundant power supply</field>
+            <field name="rejection_reason">Budget constraints - defer to next quarter</field>
+        </record>
+
+        <record id="request_005" model="it.asset.request">
+            <field name="name">Wireless Headset for Video Calls</field>
+            <field name="user_id" ref="base.user_demo"/>
+            <field name="category_id" ref="category_accessory"/>
+            <field name="priority">low</field>
+            <field name="state">pending</field>
+            <field name="request_date">2023-06-20</field>
+            <field name="required_date">2023-07-15</field>
+            <field name="justification">Remote work requires better audio quality for client calls</field>
+            <field name="specifications">Noise-canceling, wireless, good battery life, professional quality</field>
+        </record>
+
+    </data>
+</odoo>
